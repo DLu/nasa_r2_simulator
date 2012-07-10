@@ -1,0 +1,8 @@
+*~
+*.pyc
+msg_gen/
+srv_gen/
+ROS_NOBUILD
+bin/
+build/
+lib/

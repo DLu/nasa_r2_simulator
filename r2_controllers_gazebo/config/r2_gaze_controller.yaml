@@ -1,0 +1,5 @@
+r2_gaze_controller:
+    weight_j0: 1.0
+    weight_j1: 1.0
+    weight_j2: 1.0
+    weight_jv: 1.0

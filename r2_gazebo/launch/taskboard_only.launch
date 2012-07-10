@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- load taskboard -->
+  <param name="taskboard_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard.urdf.xacro'" />  
+ 
+  <node name="spawn_taskboard" pkg="gazebo" type="spawn_model" args="-urdf -param taskboard_description -model taskboard" respawn="false" output="screen" /> 
+ 
+  <param name="taskboard_B01_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard_B01.urdf.xacro'" />
+  <param name="taskboard_B05_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard_B05.urdf.xacro'" /> 
+
+  <node name="spawn_taskboard_B01" pkg="gazebo" type="spawn_model" args="-urdf -param taskboard_B01_description -model taskboard_B01" respawn="false" output="screen"/> 
+  <node name="spawn_taskboard_B05" pkg="gazebo" type="spawn_model" args="-urdf -param taskboard_B05_description -model taskboard_B05" respawn="false" output="screen"/> 
+
+
+</launch>
+

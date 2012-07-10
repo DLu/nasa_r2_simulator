@@ -1,0 +1,4 @@
+<library path="lib/libr2_controller_lib">
+  <class name="r2_controllers_gazebo/R2ImpedanceController" type="r2_controller_ns::R2ImpedanceController" base_class_type="pr2_controller_interface::Controller" />
+  <class name="r2_controllers_gazebo/R2JointTrajectoryActionController" type="r2_controller_ns::R2JointTrajectoryActionController" base_class_type="pr2_controller_interface::Controller" />
+</library>

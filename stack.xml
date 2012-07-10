@@ -1,0 +1,20 @@
+<stack>
+  <description brief="nasa_r2_simulator">nasa_r2_simulator</description>
+  <author>Maintained by Paul Dinh</author>
+  <license>BSD</license>  
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/nasa_r2_simulator</url>
+  <depend stack="actionlib" />
+  <depend stack="control" />
+  <depend stack="geometry" />
+  <depend stack="nasa_r2_common" />
+  <depend stack="orocos_kinematics_dynamics" />
+  <depend stack="pluginlib" />
+  <depend stack="pr2_controllers" />
+  <depend stack="pr2_mechanism" />
+  <depend stack="pr2_simulator" />
+  <depend stack="robot_model" />
+  <depend stack="ros" />
+<!--  <depend stack="std_msgs" /> -->
+
+</stack>

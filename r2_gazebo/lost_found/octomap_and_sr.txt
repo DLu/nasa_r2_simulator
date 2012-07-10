@@ -1,0 +1,8 @@
+roslaunch octomap_server octomap_mapping.launch ~base_frame_id:=/reference frame_id:=/camera filter_speckles:=1
+
+rosrun octomap_server octomap_server_node
+
+rosrun swissranger_camera swissranger_camera
+
+rosservice call /octomap_server/reset 
+
