@@ -1,6 +1,6 @@
 <stack>
-  <description brief="nasa_r2_simulator">nasa_r2_simulator</description>
-  <author>Maintained by Paul Dinh</author>
+  <description brief="nasa_r2_simulator">This is a Gazebo compatible Simulator of the NASA-GM Robonaut 2 (R2) Humanoid Platform</description>
+  <author>Paul Dinh, Stephen Hart, Darren Earl</author>
   <license>BSD</license>  
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/nasa_r2_simulator</url>
@@ -15,6 +15,5 @@
   <depend stack="pr2_simulator" />
   <depend stack="robot_model" />
   <depend stack="ros" />
-<!--  <depend stack="std_msgs" /> -->
 
 </stack>
