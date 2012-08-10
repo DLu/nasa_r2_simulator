@@ -1,7 +1,7 @@
 r2_controller:
   type: "r2_controllers_gazebo/R2ImpedanceController"
   Waist_Joint_Stiffness_High:
-    - 100.0
+    - 75.0
   Waist_Joint_Stiffness_Low:
     - 100.0
   Waist_Joint_Damping_High: 
@@ -17,13 +17,13 @@ r2_controller:
      - 1.0
      - 1.0
   LeftArm_Joint_Stiffness_High:
-     - 100.0
-     - 100.0
-     - 100.0
-     - 80.0
-     - 80.0
      - 50.0
      - 50.0
+     - 50.0
+     - 40.0
+     - 40.0
+     - 15.0
+     - 15.0
   LeftArm_Joint_Stiffness_Low:
      - 10.0
      - 10.0
@@ -33,13 +33,13 @@ r2_controller:
      - 5.0
      - 5.0
   LeftArm_Joint_Damping_High:
-     - 5.0
-     - 5.0
-     - 5.0
-     - 4.0
-     - 3.0
-     - 3.0
-     - 3.0
+     - 10.0
+     - 10.0
+     - 10.0
+     - 8.0
+     - 6.0
+     - 6.0
+     - 6.0
   LeftArm_Joint_Damping_Low:
      - 5.0
      - 5.0
@@ -49,13 +49,13 @@ r2_controller:
      - 3.0
      - 3.0
   RightArm_Joint_Stiffness_High:
-     - 100.0
-     - 100.0
-     - 100.0
-     - 80.0
-     - 80.0
      - 50.0
      - 50.0
+     - 50.0
+     - 40.0
+     - 40.0
+     - 10.0
+     - 10.0
   RightArm_Joint_Stiffness_Low:
      - 10.0
      - 10.0
@@ -65,13 +65,13 @@ r2_controller:
      - 5.0
      - 5.0
   RightArm_Joint_Damping_High:
-     - 5.0
-     - 5.0
-     - 5.0
-     - 4.0
-     - 3.0
-     - 3.0
-     - 3.0
+     - 10.0
+     - 10.0
+     - 10.0
+     - 8.0
+     - 6.0
+     - 6.0
+     - 6.0
   RightArm_Joint_Damping_Low:
      - 5.0
      - 5.0
@@ -233,23 +233,23 @@ r2_controller:
      - 0.050
      - 0.050
   Left_Cart_Stiffness:
-     - 40.0
-     - 40.0
-     - 40.0
+     - 30.0
+     - 30.0
+     - 30.0
      - 4.0
      - 4.0
      - 4.0
   Left_Cart_Damping:
-     - 10.0
-     - 10.0
-     - 10.0
-     - 1.0
-     - 1.0
-     - 1.0
+     - 15.0
+     - 15.0
+     - 15.0
+     - 2.0
+     - 2.0
+     - 2.0
   Right_Cart_Stiffness:
-     - 40.0
-     - 40.0
-     - 40.0
+     - 30.0
+     - 30.0
+     - 30.0
      - 4.0
      - 4.0
      - 4.0

@@ -567,9 +567,11 @@ bool R2ImpedanceController::set_tip_name(r2_msgs::SetTipName::Request &req,  r2_
 	if( req.arm_name == "left" ){
 		cc.left.init( cc.robot_tree, cc.root_name, req.tip_name, cc.cartK_left, cc.cartD_left );
 		cc.activate( cc.left, cc.left_cart, cc.leftCmd );
+        res.result = true;
 	} else if( req.arm_name == "right" ){
 		cc.right.init( cc.robot_tree, cc.root_name, req.tip_name, cc.cartK_right, cc.cartD_right );
 		cc.activate( cc.right, cc.right_cart, cc.rightCmd );
+        res.result = true;
 	} else {
 		res.result = false;
 	}
