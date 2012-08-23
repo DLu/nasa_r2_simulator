@@ -19,32 +19,32 @@ import time
 def send_command_data() :
 
     print "setting left arm to joint mode"
-    rospy.wait_for_service('r2_controller/set_joint_mode')
+    rospy.wait_for_service('/r2_controller/set_joint_mode')
     try:
-        set_joint_mode = rospy.ServiceProxy('r2_controller/set_joint_mode', SetJointMode)
+        set_joint_mode = rospy.ServiceProxy('/r2_controller/set_joint_mode', SetJointMode)
         resp1 = set_joint_mode('left')
         #print resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
 
     print "setting right arm to joint mode"
-    rospy.wait_for_service('r2_controller/set_joint_mode')
+    rospy.wait_for_service('/r2_controller/set_joint_mode')
     try:
-        set_joint_mode = rospy.ServiceProxy('r2_controller/set_joint_mode', SetJointMode)
+        set_joint_mode = rospy.ServiceProxy('/r2_controller/set_joint_mode', SetJointMode)
         resp1 = set_joint_mode('right')
         #print resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
 
     # joint command publishers
-    left_arm_pub = rospy.Publisher('r2_controller/left_arm/joint_command', JointState)
-    right_arm_pub = rospy.Publisher('r2_controller/right_arm/joint_command', JointState)
-    neck_pub = rospy.Publisher('r2_controller/neck/joint_command', JointState)
-    waist_pub = rospy.Publisher('r2_controller/waist/joint_command', JointState)
+    left_arm_pub = rospy.Publisher('/r2_controller/left_arm/joint_command', JointState)
+    right_arm_pub = rospy.Publisher('/r2_controller/right_arm/joint_command', JointState)
+    neck_pub = rospy.Publisher('/r2_controller/neck/joint_command', JointState)
+    waist_pub = rospy.Publisher('/r2_controller/waist/joint_command', JointState)
 
     # pose command publishers
-    left_pose_pub = rospy.Publisher('r2_controller/left/pose_command', PoseStamped)
-    right_pose_pub = rospy.Publisher('r2_controller/right/pose_command', PoseStamped)
+    left_pose_pub = rospy.Publisher('/r2_controller/left/pose_command', PoseStamped)
+    right_pose_pub = rospy.Publisher('/r2_controller/right/pose_command', PoseStamped)
 
     rospy.init_node('r2_gazebo_controller_test')
 
@@ -58,50 +58,50 @@ def send_command_data() :
     left_pose = PoseStamped()
     right_pose = PoseStamped()
 
-    left_arm_js.name = ['left/j0', 
-                        'left/j1', 
-                        'left/j2', 
-                        'left/j3', 
-                        'left/j4', 
-                        'left/j5', 
-                        'left/j6',
-			'left_thumb/j0', 
-                        'left_thumb/j2', 
-                        'left_thumb/j3', 
-                        'left_thumb/j4', 
-                        'left_index/j0', 
-                        'left_index/j1', 
-                        'left_index/j2', 
-                        'left_middle/j0', 
-                        'left_middle/j1', 
-                        'left_middle/j2', 
-                        'left_ring/j0', 
-                        'left_little/j0'] 
+    left_arm_js.name = ['/r2/left_arm/joint0', 
+                        '/r2/left_arm/joint1', 
+                        '/r2/left_arm/joint2', 
+                        '/r2/left_arm/joint3', 
+                        '/r2/left_arm/joint4', 
+                        '/r2/left_arm/joint5', 
+                        '/r2/left_arm/joint6',
+			'/r2/left_arm/hand/thumb/joint0', 
+                        '/r2/left_arm/hand/thumb/joint1', 
+                        '/r2/left_arm/hand/thumb/joint2', 
+                        '/r2/left_arm/hand/thumb/joint3', 
+                        '/r2/left_arm/hand/index/joint0', 
+                        '/r2/left_arm/hand/index/joint1', 
+                        '/r2/left_arm/hand/index/joint2', 
+                        '/r2/left_arm/hand/middle/joint0', 
+                        '/r2/left_arm/hand/middle/joint1', 
+                        '/r2/left_arm/hand/middle/joint2', 
+                        '/r2/left_arm/hand/ring/joint0', 
+                        '/r2/left_arm/hand/little/joint0'] 
 
-    right_arm_js.name = ['right/j0', 
-                         'right/j1', 
-                         'right/j2', 
-                         'right/j3',                    
-                         'right/j4', 
-                         'right/j5', 
-                         'right/j6',
-			 'right_thumb/j0', 
-                         'right_thumb/j2', 
-                         'right_thumb/j3', 
-                         'right_thumb/j4', 
-                         'right_index/j0', 
-                         'right_index/j1', 
-                         'right_index/j2', 
-                         'right_middle/j0', 
-                         'right_middle/j1', 
-                         'right_middle/j2', 
-                         'right_ring/j0', 
-                         'right_little/j0']
+    right_arm_js.name = ['/r2/right_arm/joint0', 
+                         '/r2/right_arm/joint1', 
+                         '/r2/right_arm/joint2', 
+                         '/r2/right_arm/joint3',                    
+                         '/r2/right_arm/joint4', 
+                         '/r2/right_arm/joint5', 
+                         '/r2/right_arm/joint6',
+			 '/r2/right_arm/hand/thumb/joint0', 
+                         '/r2/right_arm/hand/thumb/joint1', 
+                         '/r2/right_arm/hand/thumb/joint2', 
+                         '/r2/right_arm/hand/thumb/joint3', 
+                         '/r2/right_arm/hand/index/joint0', 
+                         '/r2/right_arm/hand/index/joint1', 
+                         '/r2/right_arm/hand/index/joint2', 
+                         '/r2/right_arm/hand/middle/joint0', 
+                         '/r2/right_arm/hand/middle/joint1', 
+                         '/r2/right_arm/hand/middle/joint2', 
+                         '/r2/right_arm/hand/ring/joint0', 
+                         '/r2/right_arm/hand/little/joint0']
 
-    neck_js.name = ['neck/j0', 
-                    'neck/j1', 
-                    'neck/j2']
-    waist_js.name = ['waist/j0']
+    neck_js.name = ['/r2/neck/joint0', 
+                    '/r2/neck/joint1', 
+                    '/r2/neck/joint2']
+    waist_js.name = ['/r2/waist/joint0']
 
 
     left_arm_js.position = [0]*(7+12)
@@ -151,19 +151,19 @@ def send_command_data() :
     rospy.sleep(7)
 
     print "setting left tip to palm"
-    rospy.wait_for_service('r2_controller/set_tip_name')
+    rospy.wait_for_service('/r2_controller/set_tip_name')
     try:
-        set_tip_name = rospy.ServiceProxy('r2_controller/set_tip_name', SetTipName)
-        resp1 = set_tip_name('left', 'left_palm')
+        set_tip_name = rospy.ServiceProxy('/r2_controller/set_tip_name', SetTipName)
+        resp1 = set_tip_name('left', '/r2/left_palm')
         print resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
 
     print "setting right tip to palm"
-    rospy.wait_for_service('r2_controller/set_tip_name')
+    rospy.wait_for_service('/r2_controller/set_tip_name')
     try:
-        set_tip_name = rospy.ServiceProxy('r2_controller/set_tip_name', SetTipName)
-        resp1 = set_tip_name('right', 'right_palm')
+        set_tip_name = rospy.ServiceProxy('/r2_controller/set_tip_name', SetTipName)
+        resp1 = set_tip_name('right', '/r2/right_palm')
         print resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
@@ -177,7 +177,7 @@ def send_command_data() :
 
     left_pose.header.seq = 0
     left_pose.header.stamp = rospy.get_rostime()
-    left_pose.header.frame_id = '/robot_reference'
+    left_pose.header.frame_id = '/r2/robot_reference'
     left_pose.pose.position.x = 0.6
     left_pose.pose.position.y = -.35
     left_pose.pose.position.z = -.5
@@ -195,7 +195,7 @@ def send_command_data() :
 
     right_pose.header.seq = 0
     right_pose.header.stamp = rospy.get_rostime()
-    right_pose.header.frame_id = '/robot_reference'
+    right_pose.header.frame_id = '/r2/robot_reference'
     right_pose.pose.position.x = 0.6
     right_pose.pose.position.y = .35
     right_pose.pose.position.z = -.5
