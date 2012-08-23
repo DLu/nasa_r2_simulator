@@ -5,39 +5,35 @@
     <scene>
       <ambient rgba="0 0 0 1"/>
       <shadows enabled="false"/>
-      <grid enabled="true"/>
+      <grid enabled="false"/>
     </scene>
 
+    <!-- cfm is 1e-5 for single precision -->
+    <!-- erp is typically .1-.8 -->
+    <!-- here's the global contact cfm/erp -->
     <physics type="ode" update_rate="1000">
-      <gravity xyz="0 0 -9.8"/>
+      <gravity xyz="0 0 0"/>
       <ode>
-<!--        <solver type="quick" dt="0.001" iters="20" sor="1.3"/>-->
-<!--        <constraints cfm="0.0000000001" erp="0.1" contact_max_correcting_vel="1.0" contact_surface_layer="0.01"/>-->
-        <solver type="quick" dt="0.001" iters="10" sor="1.3"/>
-        <constraints cfm="0.0" erp="0.1" contact_max_correcting_vel="10.0" contact_surface_layer="0.001"/>
+        <solver type="quick" dt="0.001" iters="20" sor="1.3"/>
+        <constraints cfm="0.0000000001" erp="0.1" contact_max_correcting_vel="1.0" contact_surface_layer="0.01"/>
       </ode>
     </physics>
 
-    <!-- Ground Plane -->
-    <model name="gplane" static="true">
-      <origin pose="0 0 0 0 0 0"/>
+    <model name="ISS" static="True">
+      <origin pose="-7.98 .51 4.4 3.14159 0 3.14159"/>
       <link name="body">
-        <collision name="gplane_coll" laser_retro="2000.0">
+        <inertial mass="0.1">
+          <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+        </inertial>
+        <collision name="ISS_Surface">
           <geometry>
-            <plane normal="0 0 1"/>
+            <mesh filename="ISS/US_Lab_ISS_half.dae"/>
           </geometry>
-          <surface>
-
-            <contact>
-              <ode kp="1000000.0" kd="1"/>
-            </contact>
-          </surface>
         </collision>
-        <visual name="gplane_vis" cast_shadows="false">
+        <visual name="ISS_Visual">
           <geometry>
-            <plane normal="0 0 1"/>
+            <mesh filename="ISS/US_Lab_ISS_half.dae"/>
           </geometry>
-          <material script="Gazebo/Grey"/>
         </visual>
       </link>
     </model>

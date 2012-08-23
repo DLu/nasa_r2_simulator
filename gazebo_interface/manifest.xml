@@ -1,0 +1,21 @@
+<package>
+  <description brief="gazebo_interface">
+
+     gazebo_interface
+
+  </description>
+  <author>rctaylo2</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/gazebo_interface</url>
+
+  <depend package="sensor_msgs"/>
+  <depend package="r2_msgs"/>
+  <depend package="gazebo"/>
+  <export>
+    <gazebo plugin_path="${prefix}/lib" />
+  </export> 
+
+</package>
+
+

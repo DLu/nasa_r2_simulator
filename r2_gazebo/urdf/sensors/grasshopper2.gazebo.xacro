@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<root xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+      xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+      xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+      xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <xacro:macro name="grasshopper2_cam_gazebo_v0" params="camera_name frame_name">
+      <gazebo reference="${frame_name}">
+          <sensor:camera name="${camera_name}">
+            <imageSize>1600 1200</imageSize>
+            <imageFormat>R8G8B8</imageFormat>
+            <hfov>90</hfov>
+            <nearClip>0.10</nearClip>
+            <farClip>50</farClip>
+            <updateRate>10.0</updateRate>
+            <controller:gazebo_ros_prosilica name="${camera_name}_controller" plugin="libgazebo_ros_prosilica.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>20.0</updateRate>
+                <cameraName>${camera_name}</cameraName>
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <pollServiceName>request_image</pollServiceName>
+                <frameName>${frame_name}</frameName>
+                <CxPrime>1224.5</CxPrime>
+                <Cx>802.4</Cx>
+                <Cy>603.2</Cy>
+                <focalLength>8330</focalLength> 
+                <distortionK1>0.00000001</distortionK1>
+                <distortionK2>0.00000001</distortionK2>
+                <distortionK3>0.00000001</distortionK3>
+                <distortionT1>0.00000001</distortionT1>
+                <distortionT2>0.00000001</distortionT2>
+                <interface:camera name="${camera_name}_iface"/>
+            </controller:gazebo_ros_prosilica>
+          </sensor:camera>
+          <turnGravityOff>false</turnGravityOff>
+          <material>Gazebo/White</material>
+        </gazebo>
+    </xacro:macro>
+
+</root>

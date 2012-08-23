@@ -11,7 +11,7 @@
     <!-- cfm is 1e-5 for single precision -->
     <!-- erp is typically .1-.8 -->
     <!-- here's the global contact cfm/erp -->
-    <physics type="ode">
+    <physics type="ode" update_rate="1000">
       <gravity xyz="0 0 -9.8"/>
       <ode>
         <solver type="quick" dt="0.001" iters="20" sor="1.3"/>

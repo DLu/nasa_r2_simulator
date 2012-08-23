@@ -82,7 +82,8 @@ class R2ImpedanceController: public pr2_controller_interface::Controller{
 	tf::TransformListener tfListener;
 	boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::PoseStamped> >	left_tip_pose_publisher;
 	boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::Twist> >			left_pose_error_publisher;
-	ros::Subscriber 																	left_joint_command_sub;
+    ros::Subscriber 																	joint_command_sub;
+    ros::Subscriber 																	left_joint_command_sub;
 	//ros::Subscriber																		left_pose_command_sub;
 	message_filters::Subscriber<geometry_msgs::PoseStamped> 							left_pose_command_sub;
 	boost::scoped_ptr<tf::MessageFilter<geometry_msgs::PoseStamped> >					left_pose_command_filter;

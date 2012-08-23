@@ -19,7 +19,6 @@
   <depend package="gazebo"/>
   <export>
     <gazebo gazebo_media_path="${prefix}" />
-    <gazebo plugin_path="${prefix}/lib" />
   </export> 
 </package>
 

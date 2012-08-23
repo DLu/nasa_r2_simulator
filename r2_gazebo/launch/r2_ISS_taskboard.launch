@@ -12,7 +12,7 @@
   
   
   <!-- load robot -->
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_description)/robots/r2.urdf.xacro'" /> 
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/robots/r2.sim.urdf.xacro'" /> 
   <node name="spawn_r2" pkg="gazebo" type="spawn_model" args="-urdf -param robot_description -model r2 -paused=true" respawn="false" output="screen" /> 
  
   <!-- start gui -->

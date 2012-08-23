@@ -37,9 +37,9 @@ R2GazeController::R2GazeController(const ros::NodeHandle& handle, const std::str
 	q_init(4),
 	q_cmd(4)
 {
-	jntCmdMsg.name.push_back("neck/j0");
-	jntCmdMsg.name.push_back("neck/j1");
-	jntCmdMsg.name.push_back("neck/j2");
+    jntCmdMsg.name.push_back("r2/neck/joint0");
+    jntCmdMsg.name.push_back("r2/neck/joint1");
+    jntCmdMsg.name.push_back("r2/neck/joint2");
 	jntCmdMsg.position.resize(3);
 
 	q_init.data = Eigen::VectorXd::Zero(4);

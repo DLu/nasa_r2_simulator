@@ -1,0 +1,18 @@
+<package>
+  <description brief="gazebo_gripper">
+
+     gazebo_gripper
+
+  </description>
+  <author>rctaylo2</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/gazebo_gripper</url>
+  <depend package="gazebo"/>
+  <export>
+    <gazebo plugin_path="${prefix}/lib" />
+  </export> 
+
+</package>
+
+

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot>
+
+  <!-- transmission xacro -->
+  <macro name="r2_trans" params="part joint reduction tc">
+     <transmission name="${part}_j${joint}_trans" type="pr2_mechanism_model/SimpleTransmission">
+       <actuator name="${part}_j${joint}_motor"/>
+       <joint name="${part}/joint${joint}"/>
+       <mechanicalReduction>${reduction}</mechanicalReduction>
+       <motorTorqueConstant>${tc}</motorTorqueConstant>
+     </transmission>
+  </macro>
+
+  <!-- r2_arm_transmission xacro -->
+  <macro name="r2_arm_trans" params="side">
+
+     <r2_trans part="${side}" joint="0" reduction="160" tc="0.305"/>
+     <r2_trans part="${side}" joint="1" reduction="160" tc="0.305"/>
+     <r2_trans part="${side}" joint="2" reduction="160" tc="0.159"/>
+     <r2_trans part="${side}" joint="3" reduction="160" tc="0.159"/>
+     <r2_trans part="${side}" joint="4" reduction="160" tc="0.056"/>
+     <r2_trans part="${side}" joint="5" reduction="1" tc="1"/>
+     <r2_trans part="${side}" joint="6" reduction="1" tc="1"/>
+
+     <r2_trans part="${side}/hand/thumb" joint="0" reduction="1" tc="1"/>
+     <r2_trans part="${side}/hand/thumb" joint="1" reduction="1" tc="1"/>
+     <r2_trans part="${side}/hand/thumb" joint="2" reduction="1" tc="1"/>
+     <r2_trans part="${side}/hand/thumb" joint="3" reduction="1" tc="1"/>
+
+     <r2_trans part="${side}/hand/index" joint="0" reduction="1" tc="1"/>
+     <r2_trans part="${side}/hand/index" joint="1" reduction="1" tc="1"/>
+     <r2_trans part="${side}/hand/index" joint="2" reduction="1" tc="1"/>
+     <r2_trans part="${side}/hand/index" joint="3" reduction="1" tc="1"/>
+
+     <r2_trans part="${side}/hand/middle" joint="0" reduction="1" tc="1"/>
+     <r2_trans part="${side}/hand/middle" joint="1" reduction="1" tc="1"/>
+     <r2_trans part="${side}/hand/middle" joint="2" reduction="1" tc="1"/>
+     <r2_trans part="${side}/hand/middle" joint="3" reduction="1" tc="1"/>
+
+     <r2_trans part="${side}/hand/ring" joint="0" reduction="1" tc="1"/>
+     <r2_trans part="${side}/hand/ring" joint="1" reduction="1" tc="1"/>
+     <r2_trans part="${side}/hand/ring" joint="2" reduction="1" tc="1"/>
+
+     <r2_trans part="${side}/hand/little" joint="0" reduction="1" tc="1"/>
+     <r2_trans part="${side}/hand/little" joint="1" reduction="1" tc="1"/>
+     <r2_trans part="${side}/hand/little" joint="2" reduction="1" tc="1"/>
+
+  </macro>
+
+  <r2_trans part="${robot_name}waist" joint="0" reduction="0.00625" tc="0.1"/>
+
+  <r2_arm_trans side="${robot_name}left_arm"/>
+  <r2_arm_trans side="${robot_name}right_arm"/>
+
+  <r2_trans part="${robot_name}neck" joint="0" reduction="1" tc="1"/>
+  <r2_trans part="${robot_name}neck" joint="1" reduction="1" tc="1"/>
+  <r2_trans part="${robot_name}neck" joint="2" reduction="1" tc="1"/>
+
+</robot>

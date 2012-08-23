@@ -198,12 +198,12 @@ void R2ImpedanceController::CtrlCalc::init(){
 		treeJnts[x]=0;
 		treeJntsVel[x]=0;
 	}
-	left_cart = false;
+    left_cart = false;
 	right_cart = false;
 	neck_cart = false;
 	
 	//root_name = "robot_base";
-	root_name = "robot_reference";
+    root_name = "/r2/robot_reference";
 	
 
 }
@@ -225,18 +225,11 @@ static vector<string> createNames( const string& base, int count ){
 
 static vector<string> createHandNames( const string& a ){
 	vector<string> hand;
-	{
-		vector<string> temp = createNames( a+"_thumb/j",5 );
-		hand.push_back( temp[0] );
-		// skip X_thumb/j1
-		hand.push_back( temp[2] );
-		hand.push_back( temp[3] );
-		hand.push_back( temp[4] );
-	}
-	append( hand, createNames( a+"_index/j", 4 ));
-	append( hand, createNames( a+"_middle/j", 4 ));
-	append( hand, createNames( a+"_ring/j", 3));
-	append( hand, createNames( a+"_little/j", 3 ));
+    append( hand, createNames( a+"/thumb/joint", 4 ));
+    append( hand, createNames( a+"/index/joint", 4 ));
+    append( hand, createNames( a+"/middle/joint", 4 ));
+    append( hand, createNames( a+"/ring/joint", 3));
+    append( hand, createNames( a+"/little/joint", 3 ));
 
 	return hand;
 }
@@ -244,12 +237,12 @@ static vector<string> createHandNames( const string& a ){
 void R2ImpedanceController::load_params(){
 	
 	//gains are laid out in the yaml file in these sections
-	vector<string> right = createNames( "right/j", 7 );
-	vector<string> rightHand = createHandNames( "right" );
-	vector<string> left = createNames( "left/j", 7 );
-	vector<string> leftHand = createHandNames( "left" );
-	vector<string> waist;	waist.push_back( "waist/j0" );
-	vector<string> neck = createNames( "neck/j", 3 );
+    vector<string> right = createNames( "/r2/right_arm/joint", 7 );
+    vector<string> rightHand = createHandNames( "/r2/right_arm/hand" );
+    vector<string> left = createNames( "/r2/left_arm/joint", 7 );
+    vector<string> leftHand = createHandNames( "/r2/left_arm/hand" );
+    vector<string> waist;	waist.push_back( "/r2/waist/joint0" );
+    vector<string> neck = createNames( "/r2/neck/joint", 3 );
 	vector<string> rCart = createNames( "right/x",6);
 	vector<string> lCart = createNames( "left/x",6);
 	
@@ -346,8 +339,10 @@ void R2ImpedanceController::init_ros_msgs(){
 	right_pose_error_publisher.reset(new realtime_tools::RealtimePublisher<geometry_msgs::Twist>(node, "right/twist_error", 5));
 
 	// subscribe to pose commands
-	left_joint_command_sub  = node.subscribe("left_arm/joint_command",  5, &R2ImpedanceController::joint_left_command,  this);
-	right_joint_command_sub = node.subscribe("right_arm/joint_command", 5, &R2ImpedanceController::joint_right_command, this);
+    joint_command_sub  = node.subscribe("joint_commands",  5, &R2ImpedanceController::joint_command,  this);
+    // backwards compatability
+    left_joint_command_sub  = node.subscribe("left_arm/joint_command",  5, &R2ImpedanceController::joint_left_command,  this);
+    right_joint_command_sub = node.subscribe("right_arm/joint_command", 5, &R2ImpedanceController::joint_right_command, this);
 	neck_joint_command_sub  = node.subscribe("neck/joint_command",      5, &R2ImpedanceController::joint_neck_command,  this);
 	waist_joint_command_sub = node.subscribe("waist/joint_command",     5, &R2ImpedanceController::joint_waist_command, this);
 
@@ -466,18 +461,18 @@ void R2ImpedanceController::set_gains(const r2_msgs::Gains::ConstPtr& msg ){
 void R2ImpedanceController::joint_command(const sensor_msgs::JointState::ConstPtr& msg){
 	boost::lock_guard<boost::mutex> lock(thread_mutex);
 	//need to handle non-independent joint differently
-	const static string not_independent[] = { "left_index/j3",
-											  "left_middle/j3",
-											  "left_ring/j1",
-											  "left_ring/j2",
-											  "left_little/j1",
-											  "left_little/j2",
-											  "right_index/j3",
-											  "right_middle/j3",
-											  "right_ring/j1",
-											  "right_ring/j2",
-											  "right_little/j1",
-											  "right_little/j2" };
+    const static string not_independent[] = { "/r2/left_arm/hand/index/joint3",
+                                              "/r2/left_arm/hand/middle/joint3",
+                                              "/r2/left_arm/hand/ring/joint1",
+                                              "/r2/left_arm/hand/ring/joint2",
+                                              "/r2/left_arm/hand/little/joint1",
+                                              "/r2/left_arm/hand/little/joint2",
+                                              "/r2/right_arm/hand/index/joint3",
+                                              "/r2/right_arm/hand/middle/joint3",
+                                              "/r2/right_arm/hand/ring/joint1",
+                                              "/r2/right_arm/hand/ring/joint2",
+                                              "/r2/right_arm/hand/little/joint1",
+                                              "/r2/right_arm/hand/little/joint2" };
 	const static int ni_count = 12;										  
 											  
 	
@@ -504,30 +499,30 @@ void R2ImpedanceController::joint_command(const sensor_msgs::JointState::ConstPt
 				
 			cc.desired[ i->second ] = p;
 		}
-		if( name == "left_index/j2" ){
-			cc.desired[ cc.name2idx[ "left_index/j3" ] ] = p;
-		} else if( name == "left_middle/j2" ){
-			cc.desired[ cc.name2idx[ "left_middle/j3" ] ] = p;
-		} else if( name == "left_ring/j0" ){
-			cc.desired[ cc.name2idx[ "left_ring/j0" ] ] = p*.5;
-			cc.desired[ cc.name2idx[ "left_ring/j1" ] ] = p*.5;
-			cc.desired[ cc.name2idx[ "left_ring/j2" ] ] = p*.5;
-		} else if( name == "left_little/j0" ){
-			cc.desired[ cc.name2idx[ "left_little/j0" ] ] = p*.5;
-			cc.desired[ cc.name2idx[ "left_little/j1" ] ] = p*.5;
-			cc.desired[ cc.name2idx[ "left_little/j2" ] ] = p*.5;
-		} else if( name == "right_index/j2" ){
-			cc.desired[ cc.name2idx[ "right_index/j3" ] ] = p;
-		} else if( name == "right_middle/j2" ){
-			cc.desired[ cc.name2idx[ "right_middle/j3" ] ] = p;
-		} else if( name == "right_ring/j0" ){
-			cc.desired[ cc.name2idx[ "right_ring/j0" ] ] = p*.5;
-			cc.desired[ cc.name2idx[ "right_ring/j1" ] ] = p*.5;
-			cc.desired[ cc.name2idx[ "right_ring/j2" ] ] = p*.5;
-		} else if( name == "right_little/j0" ){
-			cc.desired[ cc.name2idx[ "right_little/j0" ] ] = p*.5;
-			cc.desired[ cc.name2idx[ "right_little/j1" ] ] = p*.5;
-			cc.desired[ cc.name2idx[ "right_little/j2" ] ] = p*.5;
+        if( name == "/r2/left_arm/hand/index/joint2" ){
+            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/index/joint3" ] ] = p;
+        } else if( name == "/r2/left_arm/hand/middle/joint2" ){
+            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/middle/joint3" ] ] = p;
+        } else if( name == "/r2/left_arm/hand/ring/joint0" ){
+            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/ring/joint0" ] ] = p*.5;
+            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/ring/joint1" ] ] = p*.5;
+            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/ring/joint2" ] ] = p*.5;
+        } else if( name == "/r2/left_arm/hand/little/joint0" ){
+            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/little/joint0" ] ] = p*.5;
+            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/little/joint1" ] ] = p*.5;
+            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/little/joint2" ] ] = p*.5;
+        } else if( name == "/r2/right_arm/hand/index/joint2" ){
+            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/index/joint3" ] ] = p;
+        } else if( name == "/r2/right_arm/hand/middle/joint2" ){
+            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/middle/joint3" ] ] = p;
+        } else if( name == "/r2/right_arm/hand/ring/joint0" ){
+            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/ring/joint0" ] ] = p*.5;
+            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/ring/joint1" ] ] = p*.5;
+            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/ring/joint2" ] ] = p*.5;
+        } else if( name == "/r2/right_arm/hand/little/joint0" ){
+            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/little/joint0" ] ] = p*.5;
+            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/little/joint1" ] ] = p*.5;
+            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/little/joint2" ] ] = p*.5;
 		}
 	}
 }
