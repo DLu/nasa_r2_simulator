@@ -68,6 +68,7 @@
 #include <r2_msgs/SetJointMode.h>
 #include <r2_msgs/Power.h>
 #include <r2_msgs/Servo.h>
+#include <r2_msgs/PoseTwistStamped.h>
 
 #include "TreeChain.h"
 #include "WholeBodyCalc.h"
@@ -81,17 +82,26 @@ class R2ImpedanceController: public pr2_controller_interface::Controller{
 	ros::NodeHandle node;
 	tf::TransformListener tfListener;
 	boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::PoseStamped> >	left_tip_pose_publisher;
-	boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::Twist> >			left_pose_error_publisher;
-    ros::Subscriber 																	joint_command_sub;
-    ros::Subscriber 																	left_joint_command_sub;
-	//ros::Subscriber																		left_pose_command_sub;
-	message_filters::Subscriber<geometry_msgs::PoseStamped> 							left_pose_command_sub;
-	boost::scoped_ptr<tf::MessageFilter<geometry_msgs::PoseStamped> >					left_pose_command_filter;
+	boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::Twist> >		left_pose_error_publisher;
+	ros::Subscriber 									joint_command_sub;
+	ros::Subscriber 									left_joint_command_sub;
+	
+	message_filters::Subscriber<geometry_msgs::PoseStamped> 				left_pose_command_sub;
+	boost::scoped_ptr<tf::MessageFilter<geometry_msgs::PoseStamped> >			left_pose_command_filter;
+	message_filters::Subscriber<r2_msgs::PoseTwistStamped> 					left_pose_vel_command_sub;
+	boost::scoped_ptr<tf::MessageFilter<r2_msgs::PoseTwistStamped> >			left_pose_vel_command_filter;
+	
 	boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::PoseStamped> >	right_tip_pose_publisher;
-	boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::Twist> >			right_pose_error_publisher;
-	ros::Subscriber 																	right_joint_command_sub;
-	message_filters::Subscriber<geometry_msgs::PoseStamped> 							right_pose_command_sub;
-	boost::scoped_ptr<tf::MessageFilter<geometry_msgs::PoseStamped> >					right_pose_command_filter;
+	boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::Twist> >		right_pose_error_publisher;
+	ros::Subscriber 									right_joint_command_sub;
+	
+	message_filters::Subscriber<geometry_msgs::PoseStamped> 				right_pose_command_sub;
+	boost::scoped_ptr<tf::MessageFilter<geometry_msgs::PoseStamped> >			right_pose_command_filter;
+	message_filters::Subscriber<r2_msgs::PoseTwistStamped>	 				right_pose_vel_command_sub;
+	boost::scoped_ptr<tf::MessageFilter<r2_msgs::PoseTwistStamped> >			right_pose_vel_command_filter;
+	
+	
+	
 	ros::Subscriber neck_joint_command_sub;
 	ros::Subscriber waist_joint_command_sub;
 	
@@ -118,27 +128,36 @@ class R2ImpedanceController: public pr2_controller_interface::Controller{
 		Eigen::Matrix<double,7,1> leftCmd;
 		Eigen::Matrix<double,7,1> rightCmd;
 		Eigen::Matrix<double,7,1> neckCmd;
-	
-		bool left_cart; //< flag for left cartesian mode
-		bool right_cart;//< flag for right cartesian mode
-		bool neck_cart;//< flag for neck cartesian mode
-	
+		KDL::Twist leftVelCmd;
+		KDL::Twist rightVelCmd;
+		KDL::Twist neckVelCmd;
+		
+		bool left_cart; 	//< flag for left cartesian mode
+		bool left_cart_vel;	//< flag for using velocity in left cart mode
+		bool right_cart;	//< flag for right cartesian mode
+		bool right_cart_vel;//< flag for using velocity in right cart mode
+		bool neck_cart;		//< flag for neck cartesian mode
+		bool neck_cart_vel;	//< flag for neck velocity in neck cart mode
+		std::vector<int> joint_pos_control; //< flags for p control on joint pos
+		std::vector<int> joint_vel_control; //< flags for adjusting d control to joint vel
+		
 		WholeBodyCalc wbc; //< performs nullspace calculations
 	
 		//gains
-		std::vector<double> D_high;//< derivative gains 
-		std::vector<double> D_low;//< derivative gains in cart mode
-		std::vector<double> K_high;//< proportional gains
-		std::vector<double> K_low;//< proportional gains in cart mode
-		std::vector<double> D;//< current proportional gain value
-		std::vector<double> K;//< current proportional gain value
-		std::vector<double> desired; // desired joint positions
-		int jnt_size;	//< number of joints in tree
+		std::vector<double> D_high;		//< derivative gains 
+		std::vector<double> D_low;			//< derivative gains in cart mode
+		std::vector<double> K_high;		//< proportional gains
+		std::vector<double> K_low;			//< proportional gains in cart mode
+		std::vector<double> D;				//< current proportional gain value
+		std::vector<double> K;				//< current proportional gain value
+		std::vector<double> desired; 		//< desired joint positions
+		std::vector<double> desiredVel;	//< desired joint velocity
+		int jnt_size;						//< number of joints in tree
 	
 		std::vector<double> cartK_left;	//< cartesian gains left
-		std::vector<double> cartK_right;//< cartesian gains right
-		std::vector<double> cartD_left;//< cartesian gains left
-		std::vector<double> cartD_right;//< cartesian gains right
+		std::vector<double> cartK_right;	//< cartesian gains right
+		std::vector<double> cartD_left;	//< cartesian gains left
+		std::vector<double> cartD_right;	//< cartesian gains right
 	
 	
 		///median filter for noisy values
@@ -191,7 +210,7 @@ class R2ImpedanceController: public pr2_controller_interface::Controller{
 		/// sets gains based on which cartesian modes are active
 		void reactivate();
 		
-		void init();
+		void init(double gravity[3]);
 		void calculate();
 	};
 	private:
@@ -214,8 +233,20 @@ class R2ImpedanceController: public pr2_controller_interface::Controller{
 	void joint_neck_command(const sensor_msgs::JointState::ConstPtr& msg );
 	void joint_waist_command(const sensor_msgs::JointState::ConstPtr& msg );
 	void joint_command( const sensor_msgs::JointState::ConstPtr& msg );
+	
+	void joint_command_entry( const std::string& name, double value, std::vector<double>& desired );
+	void joint_command_entry( const std::string& name, bool value, std::vector<int>& desired );
+	
 	void pose_left_command(const geometry_msgs::PoseStamped::ConstPtr& msg);
 	void pose_right_command(const geometry_msgs::PoseStamped::ConstPtr& msg);
+
+	void pose_vel_left_command(const r2_msgs::PoseTwistStamped::ConstPtr& msg );
+	void pose_vel_right_command(const r2_msgs::PoseTwistStamped::ConstPtr& msg );
+	void pose_vel_command_inner(	const r2_msgs::PoseTwistStamped::ConstPtr& msg,
+					Eigen::Matrix<double,7,1>& cmd,
+					KDL::Twist& velCmd,
+					bool& cart_vel );
+
 	KDL::Frame transformPoseMsg(const geometry_msgs::PoseStamped::ConstPtr& msg);
 	void set_gains(const r2_msgs::Gains::ConstPtr& msg );
 

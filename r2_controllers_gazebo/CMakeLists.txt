@@ -7,7 +7,7 @@ include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 #  Release        : w/o debug symbols, w/ optimization
 #  RelWithDebInfo : w/ debug symbols, w/ optimization
 #  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
-set(ROS_BUILD_TYPE Release)
+set(ROS_BUILD_TYPE RelWithDebInfo)
 
 rosbuild_init()
 
@@ -29,6 +29,11 @@ add_definitions(${EIGEN_DEFINITIONS})
 rosbuild_add_library(kdl_treeid_solver src/treeidsolver_recursive_newton_euler.cpp)
 #rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
 #target_link_libraries(${PROJECT_NAME} another_library)
+
+
+rosbuild_add_library(kdl_treeid_solver src/treeidsolver_recursive_newton_euler.cpp)
+
+
 rosbuild_add_boost_directories()
 #rosbuild_link_boost(${PROJECT_NAME} thread)
 rosbuild_add_executable(r2_gaze_controller src/r2_gaze_controller.cpp src/r2_gaze_ik.cpp)

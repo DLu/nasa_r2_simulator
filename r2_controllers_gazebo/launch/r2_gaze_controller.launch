@@ -1,0 +1,5 @@
+<launch>
+    <rosparam file="$(find r2_controllers_gazebo)/config/r2_gaze_controller.yaml" command="load" />  
+    <node name="r2_gaze_controller" pkg="r2_controllers_gazebo" type="r2_gaze_controller" />
+</launch>
+

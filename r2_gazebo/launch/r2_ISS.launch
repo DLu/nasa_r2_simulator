@@ -3,6 +3,9 @@
   <!-- load world -->
   <node name="gazebo" pkg="gazebo" type="gazebo" args="$(find r2_gazebo)/gazebo/r2_ISS.world" output="screen" respawn="false" />
   <param name="/use_sim_time" value="true"/>
+  <param name="/gravity/x" value="0"/>
+  <param name="/gravity/y" value="0"/>
+  <param name="/gravity/z" value="0"/>
   
   <!-- load robot -->
   <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/robots/r2.sim.urdf.xacro'" /> 
@@ -17,6 +20,9 @@
   <node name="default_controllers_spawner"
         pkg="pr2_controller_manager" type="spawner" output="screen"
         args="r2_controller" />
+
+ <!-- start dynamic reconfigure nodes to make real-robot scripts not crash on sim -->
+ <include file="$(find r2_dynamic_reconfigure)/launch/fake_reconfigure_server.launch" />
 
 </launch>
 

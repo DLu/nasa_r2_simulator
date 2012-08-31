@@ -100,10 +100,18 @@ bool R2ImpedanceController::init(pr2_mechanism_model::RobotState* robot_state, r
 	int jnt_size = cc.robot_tree.getNrOfJoints();
 	robotStateJoints.resize( jnt_size );
 	
+	double grav[3];
+	bool found = 1;
+	found &= n.getParam("/gravity/x", grav[0] );
+	found &= n.getParam("/gravity/y", grav[1] );
+	found &= n.getParam("/gravity/z", grav[2] );
+	if( found ){
+		cc.init(grav);
+	} else {
+		double default_grav[] = { 0, 0, -9.8 };
+		cc.init( default_grav );
+	}
 	
-	
-	
-	cc.init();
 	{  //map RobotState joints to KDL::Tree joints
 		const SegmentMap& sm = cc.robot_tree.getSegments();
 		int x=0;
@@ -157,8 +165,8 @@ bool R2ImpedanceController::init(pr2_mechanism_model::RobotState* robot_state, r
 	
 	return true;
 }
-void R2ImpedanceController::CtrlCalc::init(){
-	rne_calc.reset(new TreeIdSolver_RNE( robot_tree, KDL::Vector(0,0,-9.8) ));
+void R2ImpedanceController::CtrlCalc::init(double gravity[3]){
+	rne_calc.reset(new TreeIdSolver_RNE( robot_tree, KDL::Vector(gravity[0], gravity[1], gravity[2]) ));
 	
 
 	wbc = WholeBodyCalc( robot_tree );
@@ -171,6 +179,9 @@ void R2ImpedanceController::CtrlCalc::init(){
 	D.resize( jnt_size );
 	K.resize( jnt_size );
 	desired.resize( jnt_size );
+	desiredVel.resize( jnt_size );
+	joint_pos_control.resize( jnt_size );
+	joint_vel_control.resize( jnt_size );
 	
 	treeJnts.resize( jnt_size );
 	treeJntsVel.resize( jnt_size );
@@ -187,16 +198,20 @@ void R2ImpedanceController::CtrlCalc::init(){
 	cartK_right.resize(6);
 	cartD_right.resize(6);
 	for( int x=0; x<jnt_size; ++x ){
-		D_high[x] = 0;
-		D_low[x]  = 0;
-		K_high[x] = 0;
-		K_low[x]  = 0;
-		D[x]      = 0;
-		K[x]      = 0;
-		desired[x]= 0;
-		torques(x)= 0;
-		treeJnts[x]=0;
-		treeJntsVel[x]=0;
+		D_high[x]     = 0;
+		D_low[x]      = 0;
+		K_high[x]     = 0;
+		K_low[x]      = 0;
+		D[x]          = 0;
+		K[x]          = 0;
+		desired[x]    = 0;
+		desiredVel[x] = 0;
+		torques(x)    = 0;
+		treeJnts[x]   = 0;
+		treeJntsVel[x]= 0;
+		
+		joint_pos_control[x] = true;
+		joint_vel_control[x] = false;
 	}
     left_cart = false;
 	right_cart = false;
@@ -339,10 +354,10 @@ void R2ImpedanceController::init_ros_msgs(){
 	right_pose_error_publisher.reset(new realtime_tools::RealtimePublisher<geometry_msgs::Twist>(node, "right/twist_error", 5));
 
 	// subscribe to pose commands
-    joint_command_sub  = node.subscribe("joint_commands",  5, &R2ImpedanceController::joint_command,  this);
-    // backwards compatability
-    left_joint_command_sub  = node.subscribe("left_arm/joint_command",  5, &R2ImpedanceController::joint_left_command,  this);
-    right_joint_command_sub = node.subscribe("right_arm/joint_command", 5, &R2ImpedanceController::joint_right_command, this);
+	joint_command_sub  = node.subscribe("joint_commands",  5, &R2ImpedanceController::joint_command,  this);
+	// backwards compatability
+	left_joint_command_sub  = node.subscribe("left_arm/joint_command",  5, &R2ImpedanceController::joint_left_command,  this);
+	right_joint_command_sub = node.subscribe("right_arm/joint_command", 5, &R2ImpedanceController::joint_right_command, this);
 	neck_joint_command_sub  = node.subscribe("neck/joint_command",      5, &R2ImpedanceController::joint_neck_command,  this);
 	waist_joint_command_sub = node.subscribe("waist/joint_command",     5, &R2ImpedanceController::joint_waist_command, this);
 
@@ -354,6 +369,15 @@ void R2ImpedanceController::init_ros_msgs(){
 	right_pose_command_sub.subscribe(node, "right/pose_command", 1);
 	right_pose_command_filter.reset(new tf::MessageFilter<geometry_msgs::PoseStamped>(right_pose_command_sub, tfListener, cc.root_name, 10, node));
 	right_pose_command_filter->registerCallback(boost::bind(&R2ImpedanceController::pose_right_command, this, _1));
+
+	left_pose_vel_command_sub.subscribe(node, "left/pose_twist_command", 1);
+	left_pose_vel_command_filter.reset(new tf::MessageFilter<r2_msgs::PoseTwistStamped>(left_pose_vel_command_sub, tfListener, cc.root_name, 10, node ));
+	left_pose_vel_command_filter->registerCallback(boost::bind(&R2ImpedanceController::pose_vel_left_command, this, _1));
+
+	right_pose_vel_command_sub.subscribe(node, "right/pose_twist_command", 1);
+	right_pose_vel_command_filter.reset(new tf::MessageFilter<r2_msgs::PoseTwistStamped>(right_pose_vel_command_sub, tfListener, cc.root_name, 10, node ));
+	right_pose_vel_command_filter->registerCallback(boost::bind(&R2ImpedanceController::pose_vel_right_command, this, _1));
+
 
 	
 	set_gains_sub = node.subscribe("set_gains", 3, &R2ImpedanceController::set_gains, this );
@@ -377,7 +401,6 @@ void R2ImpedanceController::joint_right_command(const sensor_msgs::JointState::C
 void R2ImpedanceController::joint_neck_command(const sensor_msgs::JointState::ConstPtr& msg ){joint_command(msg);}
 void R2ImpedanceController::joint_waist_command(const sensor_msgs::JointState::ConstPtr& msg ){joint_command(msg);}
 void R2ImpedanceController::pose_left_command(const geometry_msgs::PoseStamped::ConstPtr& msg){
-	
 	Frame f = transformPoseMsg(msg);
 	boost::lock_guard<boost::mutex> lock(thread_mutex);
 	cc.leftCmd[0] = f.p[0];
@@ -388,6 +411,7 @@ void R2ImpedanceController::pose_left_command(const geometry_msgs::PoseStamped::
 	double& y = cc.leftCmd[5];
 	double& z = cc.leftCmd[6];
 	f.M.GetQuaternion(x,y,z,w);
+	cc.left_cart_vel = false;
 }
 void R2ImpedanceController::pose_right_command(const geometry_msgs::PoseStamped::ConstPtr& msg){
 	Frame f = transformPoseMsg(msg);
@@ -400,6 +424,63 @@ void R2ImpedanceController::pose_right_command(const geometry_msgs::PoseStamped:
 	double& y = cc.rightCmd[5];
 	double& z = cc.rightCmd[6];
 	f.M.GetQuaternion(x,y,z,w);
+	cc.right_cart_vel = false;
+}
+void R2ImpedanceController::pose_vel_left_command(const r2_msgs::PoseTwistStamped::ConstPtr& msg ){
+	pose_vel_command_inner( msg, cc.leftCmd, cc.leftVelCmd, cc.left_cart_vel );
+}
+void R2ImpedanceController::pose_vel_right_command(const r2_msgs::PoseTwistStamped::ConstPtr& msg ){
+	pose_vel_command_inner( msg, cc.rightCmd, cc.rightVelCmd, cc.right_cart_vel );
+}
+void R2ImpedanceController::pose_vel_command_inner(	const r2_msgs::PoseTwistStamped::ConstPtr& msg,
+							Eigen::Matrix<double,7,1>& cmd,
+							KDL::Twist& velCmd,
+							bool& cart_vel)
+{
+	geometry_msgs::PoseStamped p;
+	p.header = msg->header;
+	p.pose = msg->pose;
+	
+	Frame f;
+	tf::Stamped<tf::Pose> pose_stamped;
+	tf::poseStampedMsgToTF(p, pose_stamped);
+	
+	//directly from tf.cpp::line 1448, Transformer::transformPose
+	// need transform for next steps
+	tf::StampedTransform transform;
+	tfListener.lookupTransform( cc.root_name, pose_stamped.frame_id_, pose_stamped.stamp_, transform );
+	pose_stamped.setData( transform * pose_stamped );
+	pose_stamped.stamp_ = transform.stamp_;
+	pose_stamped.frame_id_ = cc.root_name;
+	tf::PoseTFToKDL(pose_stamped, f );
+	
+	tf::Quaternion quat = transform.getRotation();
+	transform.setIdentity();
+	transform.setRotation( quat );
+	const geometry_msgs::Vector3& linear = msg->twist.linear;
+	const geometry_msgs::Vector3& angular = msg->twist.angular;
+	tf::Vector3 cartVel(linear.x, linear.y, linear.z );
+	tf::Vector3 cartAngVel( angular.x, angular.y, angular.z );
+	tf::Vector3 r_cartVel = transform * cartVel;
+	tf::Vector3 r_cartAngVel = transform * cartAngVel;
+	
+	boost::lock_guard<boost::mutex> lock(thread_mutex);
+	cmd[0] = f.p[0];
+	cmd[1] = f.p[1];
+	cmd[2] = f.p[2];
+	double& w = cmd[3];
+	double& x = cmd[4];
+	double& y = cmd[5];
+	double& z = cmd[6];
+	f.M.GetQuaternion(x,y,z,w);
+	
+	velCmd.vel[0] = r_cartVel[0];
+	velCmd.vel[1] = r_cartVel[1];
+	velCmd.vel[2] = r_cartVel[2];
+	velCmd.rot[0] = r_cartAngVel[0];
+	velCmd.rot[1] = r_cartAngVel[1];
+	velCmd.rot[2] = r_cartAngVel[2];
+	cart_vel=true;
 }
 KDL::Frame R2ImpedanceController::transformPoseMsg(const geometry_msgs::PoseStamped::ConstPtr& msg){
 	Frame frame;
@@ -409,7 +490,6 @@ KDL::Frame R2ImpedanceController::transformPoseMsg(const geometry_msgs::PoseStam
 	tf::PoseTFToKDL(pose_stamped, frame );
 	
 	return frame;
-	
 }
 void R2ImpedanceController::set_gains(const r2_msgs::Gains::ConstPtr& msg ){
 	boost::lock_guard<boost::mutex> lock(thread_mutex);
@@ -460,6 +540,55 @@ void R2ImpedanceController::set_gains(const r2_msgs::Gains::ConstPtr& msg ){
 
 void R2ImpedanceController::joint_command(const sensor_msgs::JointState::ConstPtr& msg){
 	boost::lock_guard<boost::mutex> lock(thread_mutex);
+	
+	bool set_position = !msg->position.empty();
+	bool set_velocity = !msg->velocity.empty();
+	
+	if( set_position && msg->position.size() != msg->name.size() ){
+		ROS_DEBUG("bad JointState msg: position and name field size mismatch");
+		return;
+	}
+	if( set_velocity && msg->velocity.size() != msg->name.size() ){
+		ROS_DEBUG("bad JointState msg: velocity and name field size mismatch");
+		return;
+	}
+	if( set_position ){
+		for( size_t x=0; x< msg->name.size(); ++x ){
+			const string& name = msg->name[x];
+			double p_value = msg->position[x];
+			double v_value = 0;
+			bool v_desired = false;
+			if( set_velocity ){
+				v_value = msg->velocity[x];
+				v_desired = true;
+			} 
+			
+			map<string,int>::const_iterator i = cc.name2idx.find(name);
+			if( i != cc.name2idx.end() ){
+				if( p_value > cc.jntsUpperLimit[ i->second ] )
+					p_value = cc.jntsUpperLimit[ i->second ];
+				if( p_value < cc.jntsLowerLimit[ i->second ] )
+					p_value = cc.jntsLowerLimit[ i->second ];
+			}
+			joint_command_entry( name, p_value, cc.desired );
+			joint_command_entry( name, v_value, cc.desiredVel );
+			// since vector<bool> is odd, use vector<int> instead for 
+			// vector of bools, requires our bool value to turn into an int
+			joint_command_entry( name, (true), cc.joint_pos_control );
+			joint_command_entry( name, (v_desired), cc.joint_vel_control );
+		}
+	} else {
+		for( size_t x=0; x< msg->velocity.size(); ++x ){
+			const string& name = msg->name[x];
+			const double value = msg->velocity[x];
+			
+			joint_command_entry(name, false, cc.joint_pos_control );
+			joint_command_entry(name, true, cc.joint_vel_control );
+			joint_command_entry( name, value, cc.desiredVel );
+		}
+	}
+};
+void R2ImpedanceController::joint_command_entry( const string& name, double value, vector<double>& desired ){
 	//need to handle non-independent joint differently
     const static string not_independent[] = { "/r2/left_arm/hand/index/joint3",
                                               "/r2/left_arm/hand/middle/joint3",
@@ -473,59 +602,103 @@ void R2ImpedanceController::joint_command(const sensor_msgs::JointState::ConstPt
                                               "/r2/right_arm/hand/ring/joint2",
                                               "/r2/right_arm/hand/little/joint1",
                                               "/r2/right_arm/hand/little/joint2" };
-	const static int ni_count = 12;										  
-											  
-	
-	
-	for( size_t i=0; i< msg->position.size(); ++i ){
-		const string& name = msg->name[i];
-		double p = msg->position[i];
-		bool found = false;
-		for( int x=0; x< ni_count; ++x ){
-			if( name == not_independent[x] ){
-				found = true;
-				break;
-			}
-		}
-		if( found )
-			continue;
-		
-		map<string,int>::const_iterator i = cc.name2idx.find(name);
-		if( i != cc.name2idx.end() ){
-			if( p > cc.jntsUpperLimit[ i->second ] )
-				p = cc.jntsUpperLimit[ i->second ];
-			if( p < cc.jntsLowerLimit[ i->second ] )
-				p = cc.jntsLowerLimit[ i->second ];
-				
-			cc.desired[ i->second ] = p;
-		}
-        if( name == "/r2/left_arm/hand/index/joint2" ){
-            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/index/joint3" ] ] = p;
-        } else if( name == "/r2/left_arm/hand/middle/joint2" ){
-            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/middle/joint3" ] ] = p;
-        } else if( name == "/r2/left_arm/hand/ring/joint0" ){
-            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/ring/joint0" ] ] = p*.5;
-            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/ring/joint1" ] ] = p*.5;
-            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/ring/joint2" ] ] = p*.5;
-        } else if( name == "/r2/left_arm/hand/little/joint0" ){
-            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/little/joint0" ] ] = p*.5;
-            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/little/joint1" ] ] = p*.5;
-            cc.desired[ cc.name2idx[ "/r2/left_arm/hand/little/joint2" ] ] = p*.5;
-        } else if( name == "/r2/right_arm/hand/index/joint2" ){
-            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/index/joint3" ] ] = p;
-        } else if( name == "/r2/right_arm/hand/middle/joint2" ){
-            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/middle/joint3" ] ] = p;
-        } else if( name == "/r2/right_arm/hand/ring/joint0" ){
-            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/ring/joint0" ] ] = p*.5;
-            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/ring/joint1" ] ] = p*.5;
-            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/ring/joint2" ] ] = p*.5;
-        } else if( name == "/r2/right_arm/hand/little/joint0" ){
-            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/little/joint0" ] ] = p*.5;
-            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/little/joint1" ] ] = p*.5;
-            cc.desired[ cc.name2idx[ "/r2/right_arm/hand/little/joint2" ] ] = p*.5;
+	const static int ni_count = 12;
+	bool found = false;
+	for( int x=0; x< ni_count; ++x ){
+		if( name == not_independent[x] ){
+			found = true;
+			break;
 		}
 	}
+	if( found )	/// don't set non-independent joints
+		return;
+	
+	map<string,int>::const_iterator i = cc.name2idx.find(name);
+	if( i != cc.name2idx.end() ){
+		desired[ i->second ] = value;
+	}
+	if( name == "/r2/left_arm/hand/index/joint2" ){
+		desired[ cc.name2idx[ "/r2/left_arm/hand/index/joint3" ] ] = value;
+	} else if( name == "/r2/left_arm/hand/middle/joint2" ){
+		desired[ cc.name2idx[ "/r2/left_arm/hand/middle/joint3" ] ] = value;
+	} else if( name == "/r2/left_arm/hand/ring/joint0" ){
+		desired[ cc.name2idx[ "/r2/left_arm/hand/ring/joint0" ] ] = value*.5;		//when value is bool, value*.5 == false, which is a problem
+		desired[ cc.name2idx[ "/r2/left_arm/hand/ring/joint1" ] ] = value*.5;
+		desired[ cc.name2idx[ "/r2/left_arm/hand/ring/joint2" ] ] = value*.5;
+	} else if( name == "/r2/left_arm/hand/little/joint0" ){
+		desired[ cc.name2idx[ "/r2/left_arm/hand/little/joint0" ] ] = value*.5;
+		desired[ cc.name2idx[ "/r2/left_arm/hand/little/joint1" ] ] = value*.5;
+		desired[ cc.name2idx[ "/r2/left_arm/hand/little/joint2" ] ] = value*.5;
+	} else if( name == "/r2/right_arm/hand/index/joint2" ){
+		desired[ cc.name2idx[ "/r2/right_arm/hand/index/joint3" ] ] = value;
+	} else if( name == "/r2/right_arm/hand/middle/joint2" ){
+		desired[ cc.name2idx[ "/r2/right_arm/hand/middle/joint3" ] ] = value;
+	} else if( name == "/r2/right_arm/hand/ring/joint0" ){
+		desired[ cc.name2idx[ "/r2/right_arm/hand/ring/joint0" ] ] = value*.5;
+		desired[ cc.name2idx[ "/r2/right_arm/hand/ring/joint1" ] ] = value*.5;
+		desired[ cc.name2idx[ "/r2/right_arm/hand/ring/joint2" ] ] = value*.5;
+	} else if( name == "/r2/right_arm/hand/little/joint0" ){
+		desired[ cc.name2idx[ "/r2/right_arm/hand/little/joint0" ] ] = value*.5;
+		desired[ cc.name2idx[ "/r2/right_arm/hand/little/joint1" ] ] = value*.5;
+		desired[ cc.name2idx[ "/r2/right_arm/hand/little/joint2" ] ] = value*.5;
+	}
 }
+void R2ImpedanceController::joint_command_entry( const string& name, bool value, vector<int>& desired ){
+	//need to handle non-independent joint differently
+    const static string not_independent[] = { "/r2/left_arm/hand/index/joint3",
+                                              "/r2/left_arm/hand/middle/joint3",
+                                              "/r2/left_arm/hand/ring/joint1",
+                                              "/r2/left_arm/hand/ring/joint2",
+                                              "/r2/left_arm/hand/little/joint1",
+                                              "/r2/left_arm/hand/little/joint2",
+                                              "/r2/right_arm/hand/index/joint3",
+                                              "/r2/right_arm/hand/middle/joint3",
+                                              "/r2/right_arm/hand/ring/joint1",
+                                              "/r2/right_arm/hand/ring/joint2",
+                                              "/r2/right_arm/hand/little/joint1",
+                                              "/r2/right_arm/hand/little/joint2" };
+	const static int ni_count = 12;
+	bool found = false;
+	for( int x=0; x< ni_count; ++x ){
+		if( name == not_independent[x] ){
+			found = true;
+			break;
+		}
+	}
+	if( found )	/// don't set non-independent joints
+		return;
+	
+	map<string,int>::const_iterator i = cc.name2idx.find(name);
+	if( i != cc.name2idx.end() ){
+		desired[ i->second ] = value;
+	}
+	if( name == "/r2/left_arm/hand/index/joint2" ){
+		desired[ cc.name2idx[ "/r2/left_arm/hand/index/joint3" ] ] = value;
+	} else if( name == "/r2/left_arm/hand/middle/joint2" ){
+		desired[ cc.name2idx[ "/r2/left_arm/hand/middle/joint3" ] ] = value;
+	} else if( name == "/r2/left_arm/hand/ring/joint0" ){
+		desired[ cc.name2idx[ "/r2/left_arm/hand/ring/joint0" ] ] = value;		//when value is bool, value*.5 == false, which is a problem
+		desired[ cc.name2idx[ "/r2/left_arm/hand/ring/joint1" ] ] = value;
+		desired[ cc.name2idx[ "/r2/left_arm/hand/ring/joint2" ] ] = value;
+	} else if( name == "/r2/left_arm/hand/little/joint0" ){
+		desired[ cc.name2idx[ "/r2/left_arm/hand/little/joint0" ] ] = value;
+		desired[ cc.name2idx[ "/r2/left_arm/hand/little/joint1" ] ] = value;
+		desired[ cc.name2idx[ "/r2/left_arm/hand/little/joint2" ] ] = value;
+	} else if( name == "/r2/right_arm/hand/index/joint2" ){
+		desired[ cc.name2idx[ "/r2/right_arm/hand/index/joint3" ] ] = value;
+	} else if( name == "/r2/right_arm/hand/middle/joint2" ){
+		desired[ cc.name2idx[ "/r2/right_arm/hand/middle/joint3" ] ] = value;
+	} else if( name == "/r2/right_arm/hand/ring/joint0" ){
+		desired[ cc.name2idx[ "/r2/right_arm/hand/ring/joint0" ] ] = value;
+		desired[ cc.name2idx[ "/r2/right_arm/hand/ring/joint1" ] ] = value;
+		desired[ cc.name2idx[ "/r2/right_arm/hand/ring/joint2" ] ] = value;
+	} else if( name == "/r2/right_arm/hand/little/joint0" ){
+		desired[ cc.name2idx[ "/r2/right_arm/hand/little/joint0" ] ] = value;
+		desired[ cc.name2idx[ "/r2/right_arm/hand/little/joint1" ] ] = value;
+		desired[ cc.name2idx[ "/r2/right_arm/hand/little/joint2" ] ] = value;
+	}
+}
+
 
 bool R2ImpedanceController::set_joint_mode(r2_msgs::SetJointMode::Request  &req,  r2_msgs::SetJointMode::Response &res ){ 
 	boost::lock_guard<boost::mutex> lock(thread_mutex);
@@ -605,9 +778,10 @@ KDL::JntArray R2ImpedanceController::CtrlCalc::jointKCmd(const vector<double>& q
 	
 	KDL::JntArray result( jnt_size );
 	for( int x=0; x< jnt_size; ++x ){
-		result(x) = (K[x] * (desired[x] - q[x]));
-		//result(x) = ( 0-q[x] ) - dq[x];
-		//cout << x << " \t " << q[x] << " \t " << dq[x] << endl;
+		if( joint_pos_control[x] )
+			result(x) = (K[x] * (desired[x] - q[x]));
+		else
+			result(x) = 0;
 	}
 	return result;
 }
@@ -615,9 +789,7 @@ KDL::JntArray R2ImpedanceController::CtrlCalc::jointDCmd(const vector<double>& d
 	
 	KDL::JntArray result( jnt_size );
 	for( int x=0; x< jnt_size; ++x ){
-		result(x) = -(D[x] * dq[x]);
-		//result(x) = ( 0-q[x] ) - dq[x];
-		//cout << x << " \t " << q[x] << " \t " << dq[x] << endl;
+		result(x) = (desiredVel[x]-D[x]) * dq[x];
 	}
 	return result;
 }
@@ -693,33 +865,31 @@ void R2ImpedanceController::CtrlCalc::calculate(){
 	
 	Wrenches wrenches( robot_tree.getNrOfSegments() );
 	vector<double> zeros( treeJnts.size() );
-	for( int x=0; x<treeJnts.size(); ++x )
+	for( unsigned int x=0; x<treeJnts.size(); ++x )
 		zeros[x] = 0;
 	
 	rne_calc->CartToJnt( treeJnts, treeJntsVel, zeros, wrenches, torques);
-	//for( int x=0; x<treeJnts.size(); ++x ){
-	//	cout << torques(x) << " ";
-	//}
-	//cout << endl;
-//	int CartToJnt(const JntArray &q, const JntArray &q_dot, const JntArray &q_dotdot, const Wrenches& f_ext,JntArray &torques);
-
 	
 	if( left_cart ){
-		torques.data += wbc.project( left.moveCart(leftCmd, treeJnts, treeJntsVel ), left ).data;
+		if( left_cart_vel )
+			torques.data += wbc.project( left.moveCart(leftCmd, leftVelCmd, treeJnts, treeJntsVel), left ).data;
+		else
+			torques.data += wbc.project( left.moveCart(leftCmd, treeJnts, treeJntsVel ), left ).data;
 	}
 	if( right_cart ){
-		torques.data += wbc.project( right.moveCart(rightCmd, treeJnts, treeJntsVel), right ).data;
+		if( right_cart_vel )
+			torques.data += wbc.project( right.moveCart( rightCmd, rightVelCmd, treeJnts, treeJntsVel), right ).data;
+		else
+			torques.data += wbc.project( right.moveCart(rightCmd, treeJnts, treeJntsVel), right ).data;
 	}
 	if( neck_cart )
 		torques.data += wbc.project( neck.moveCart(neckCmd, treeJnts, treeJntsVel), neck ).data;
 	
 	torques.data += wbc.project( jointKCmd( treeJnts ) ).data;
-	torques.data += wbc.project(jointDCmd( treeJntsVel ) ).data;
+	
+	torques.data += wbc.project( jointDCmd( treeJntsVel ) ).data;
 	//torques.data += jointDCmd( treeJntsVel).data; 
 
-
-
-	
 }
 
 void R2ImpedanceController::publish_msgs(){
