@@ -7,6 +7,7 @@
   <depend stack="actionlib" />
   <depend stack="control" />
   <depend stack="geometry" />
+  <depend stack="nasa_r2_common" />
   <depend stack="orocos_kinematics_dynamics" />
   <depend stack="pluginlib" />
   <depend stack="pr2_controllers" />
