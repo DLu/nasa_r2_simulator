@@ -11,7 +11,7 @@
       <jointCommandsTopic>joint_commands</jointCommandsTopic>
       <jointStatesTopic>joint_states</jointStatesTopic>
       <jointStatesRate>20.0</jointStatesRate> <!--Hz, omit for fastest possible-->
-      <advancedMode>true</advancedMode>
+      <advancedMode>false</advancedMode>
       <!-- if advancedMode=false, joint brakes, etc are not simulated and the following parameters are ignored -->
       <jointControlTopic>joint_control</jointControlTopic>
       <jointStatusTopic>joint_status</jointStatusTopic>
