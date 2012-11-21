@@ -42,6 +42,7 @@
   <!--<depend package="interactive_markers"/>-->
 
   <depend package="r2_msgs" />
+  <depend package="r2_dynamic_reconfigure" />
  
   <export>
     <pr2_controller_interface plugin="${prefix}/controller_plugins.xml" />
