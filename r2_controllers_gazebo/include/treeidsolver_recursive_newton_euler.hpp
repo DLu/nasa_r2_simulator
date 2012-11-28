@@ -78,8 +78,6 @@ namespace KDL{
     
     
         Tree tree;
-        unsigned int nj;
-        unsigned int ns;
         std::string root_name;
         //std::map<std::string, Frame> X;
         //std::map<std::string, Twist> S;

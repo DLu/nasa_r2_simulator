@@ -66,9 +66,6 @@ namespace KDL{
 
     int TreeIdSolver_RNE::CartToJnt(const std::vector<double> &q, const std::vector<double> &q_dot, const std::vector<double> &q_dotdot, const Wrenches& f_ext,JntArray &torques)
     {
-        //Check sizes when in debug mode
-        //if(q.rows()!=nj || q_dot.rows()!=nj || q_dotdot.rows()!=nj || torques.rows()!=nj || f_ext.size()!=ns)
-         //   return -1;
         
         {
 			const SegmentMap& sm = tree.getSegments();
@@ -189,9 +186,6 @@ namespace KDL{
 
     int TreeIdSolver_RNE::CartToJnt(const JntArray &q, const JntArray &q_dot, const JntArray &q_dotdot, const Wrenches& f_ext,JntArray &torques)
     {
-        //Check sizes when in debug mode
-        if(q.rows()!=nj || q_dot.rows()!=nj || q_dotdot.rows()!=nj || torques.rows()!=nj || f_ext.size()!=ns)
-            return -1;
         {
 			const SegmentMap& sm = tree.getSegments();
 			int cnt =0;
