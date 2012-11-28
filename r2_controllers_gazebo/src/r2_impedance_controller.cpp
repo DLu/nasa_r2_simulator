@@ -863,7 +863,7 @@ void R2ImpedanceController::CtrlCalc::calculate(){
 	Eigen::VectorXd right_t = Eigen::VectorXd::Zero(jnt_size);
 	
 	
-	Wrenches wrenches( robot_tree.getNrOfSegments() );
+	Wrenches wrenches( robot_tree.getNrOfSegments() + 1 ); //KDL has a discrepancy between segments in SegmentMap (has an extra ) and getNrOfSegments, for now add one
 	vector<double> zeros( treeJnts.size() );
 	for( unsigned int x=0; x<treeJnts.size(); ++x )
 		zeros[x] = 0;
