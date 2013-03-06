@@ -1,0 +1,28 @@
+<package>
+  <description brief="gazebo_taskboard">
+
+     gazebo_taskboard
+
+  </description>
+  <author>TCSASSEMBLER</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+
+  <depend package="rospy"/>
+  <depend package="roscpp" />
+
+  <depend package="pluginlib" />
+  <depend package="actionlib" />
+
+  <depend package="std_msgs" />
+  <depend package="geometry_msgs" />
+
+  <depend package="gazebo"/>
+  
+  <depend package="rostest"/>
+
+  <export>
+    <gazebo plugin_path="${prefix}/lib" />
+  </export>
+
+</package>

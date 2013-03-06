@@ -1,0 +1,4 @@
+float64 torque
+float64 duration
+---
+bool ok

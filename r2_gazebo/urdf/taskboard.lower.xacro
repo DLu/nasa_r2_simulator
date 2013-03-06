@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot>
+<robot xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller">
   <link name="world"/>
   <link name="dummy">
     <inertial>
@@ -230,11 +230,11 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
-
+  
   <link name="taskboard_slot1_switch2_pullout">
     <inertial>
       <mass value=".01"/>
@@ -256,11 +256,11 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
-       
+  
   <link name="taskboard_slot1_switch3_pullout">
     <inertial>
       <mass value=".01"/>
@@ -282,7 +282,7 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
@@ -308,7 +308,7 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
@@ -327,11 +327,11 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
-
+  
   <link name="taskboard_slot1_guard">
     <visual>
       <geometry>
@@ -365,7 +365,7 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
@@ -384,7 +384,7 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
@@ -403,7 +403,7 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
@@ -422,7 +422,7 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
@@ -441,7 +441,7 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
@@ -460,7 +460,7 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
@@ -479,7 +479,7 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
@@ -498,7 +498,7 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
@@ -517,7 +517,7 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
@@ -555,7 +555,7 @@
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5"/>
+      <mass value="0.5"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
@@ -954,9 +954,9 @@
   <joint name="taskboard_lower/taskboard_slot1_switch1" type="revolute">
     <parent link="taskboard_slot1"/>
     <child link="taskboard_slot1_switch1"/>
-    <origin rpy="-.419 0 0" xyz=".037 .111 0.005"/>
+    <origin rpy="0.419 0 0" xyz=".037 .111 0.005"/>
     <axis xyz="1 0 0"/>
-    <limit effort="10000000.0" lower="0" upper=".84" velocity="1000"/>
+    <limit effort="10000000.0" lower="-0.84" upper="0" velocity="1000"/>
   </joint>
 
   <joint name="taskboard_lower/taskboard_slot1_switch2" type="revolute">
@@ -966,13 +966,13 @@
     <axis xyz="1 0 0"/>
     <limit effort="10000000.0" lower="-.94" upper="0" velocity="1000"/>
   </joint>
-
+  
   <joint name="taskboard_lower/taskboard_slot1_switch2_pullout" type="prismatic">
     <parent link="taskboard_slot1_switch2_pullout"/>
     <child link="taskboard_slot1_switch2"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 0 1" />
-    <limit lower="-.002" upper="0" effort="100" velocity="100" />
+    <limit lower="-.002" upper="0.00" effort="100" velocity="100" />
   </joint>
 
   <joint name="taskboard_lower/taskboard_slot1_switch3" type="revolute">
@@ -982,7 +982,7 @@
     <axis xyz="1 0 0"/>
     <limit effort="10000000.0" lower="-.94" upper="0" velocity="1000"/>
   </joint>
-
+  
   <joint name="taskboard_lower/taskboard_slot1_switch3_pullout" type="prismatic">
     <parent link="taskboard_slot1_switch3_pullout"/>
     <child link="taskboard_slot1_switch3"/>
@@ -1014,7 +1014,7 @@
     <axis xyz="1 0 0"/>
     <limit effort="10000000.0" lower="-1.57" upper="0" velocity="1000"/>
   </joint>
-
+  
   <joint name="taskboard_lower/taskboard_slot1_guard" type="fixed">
     <parent link="taskboard_slot1"/>
     <child link="taskboard_slot1_guard"/>
@@ -1025,63 +1025,72 @@
     <parent link="taskboard_slot1"/>
     <child link="taskboard_slot1_A1"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <limit lower="-.002" upper="0" effort="100" velocity="100" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.0005" upper="0.001" effort="100" velocity="100" />
   </joint>
 
   <joint name="taskboard_lower/taskboard_slot1_A2" type="prismatic">
     <parent link="taskboard_slot1"/>
     <child link="taskboard_slot1_A2"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <limit lower="-.002" upper="0" effort="100" velocity="100" />
+    <axis xyz="0 0 1" />
+    <limit lower="-.0005" upper="0.001" effort="100" velocity="100" />
   </joint>
 
   <joint name="taskboard_lower/taskboard_slot1_A3" type="prismatic">
     <parent link="taskboard_slot1"/>
     <child link="taskboard_slot1_A3"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <limit lower="-.002" upper="0" effort="100" velocity="100" />
+    <axis xyz="0 0 1" />
+    <limit lower="-.0005" upper="0.001" effort="100" velocity="100" />
   </joint>
 
   <joint name="taskboard_lower/taskboard_slot1_B1" type="prismatic">
     <parent link="taskboard_slot1"/>
     <child link="taskboard_slot1_B1"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <limit lower="-.002" upper="0" effort="100" velocity="100" />
+    <axis xyz="0 0 1" />
+    <limit lower="-.0005" upper="0.001" effort="100" velocity="100" />
   </joint>
 
   <joint name="taskboard_lower/taskboard_slot1_B2" type="prismatic">
     <parent link="taskboard_slot1"/>
     <child link="taskboard_slot1_B2"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <limit lower="-.002" upper="0" effort="100" velocity="100" />
+    <axis xyz="0 0 1" />
+    <limit lower="-.0005" upper="0.001" effort="100" velocity="100" />
   </joint>
 
   <joint name="taskboard_lower/taskboard_slot1_B3" type="prismatic">
     <parent link="taskboard_slot1"/>
     <child link="taskboard_slot1_B3"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <limit lower="-.002" upper="0" effort="100" velocity="100" />
+    <axis xyz="0 0 1" />
+    <limit lower="-.0005" upper="0.001" effort="100" velocity="100" />
   </joint>
 
   <joint name="taskboard_lower/taskboard_slot1_C1" type="prismatic">
     <parent link="taskboard_slot1"/>
     <child link="taskboard_slot1_C1"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <limit lower="-.002" upper="0" effort="100" velocity="100" />
+    <axis xyz="0 0 1" />
+    <limit lower="-.0005" upper="0.001" effort="100" velocity="100" />
   </joint>
 
   <joint name="taskboard_lower/taskboard_slot1_C2" type="prismatic">
     <parent link="taskboard_slot1"/>
     <child link="taskboard_slot1_C2"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <limit lower="-.002" upper="0" effort="100" velocity="100" />
+    <axis xyz="0 0 1" />
+    <limit lower="-.0005" upper="0.001" effort="100" velocity="100" />
   </joint>
 
   <joint name="taskboard_lower/taskboard_slot1_C3" type="prismatic">
     <parent link="taskboard_slot1"/>
     <child link="taskboard_slot1_C3"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <limit lower="-.002" upper="0" effort="100" velocity="100" />
+    <axis xyz="0 0 1" />
+    <limit lower="-.0005" upper="0.001" effort="100" velocity="100" />
   </joint>
 
   <joint name="taskboard_lower/taskboard_slot1_blackplate" type="fixed">
@@ -1257,7 +1266,7 @@
   <gazebo reference="taskboard_slot1_switch1_cover">
     <material value="Gazebo/Red" />
   </gazebo>
-
+  
   <gazebo reference="taskboard_slot1_guard">
     <material value="Gazebo/Black" />
   </gazebo>
@@ -1269,8 +1278,6 @@
   <gazebo reference="taskboard_slot1_switch">
     <material value="Gazebo/Black" />
   </gazebo>
-
-
 
   <gazebo reference="taskboard_slot2_labels1">
     <material value="Gazebo/Black" />
@@ -1326,6 +1333,11 @@
 
   <gazebo reference="taskboard_slot2_B03_Strip">
     <material value="Gazebo/White" />
+  </gazebo>
+  
+  <gazebo>
+    <controller:gazebo_taskboard name="gazebo_taskboard" plugin="libgazebo_taskboard.so">
+    </controller:gazebo_taskboard>
   </gazebo>
 
 </robot>

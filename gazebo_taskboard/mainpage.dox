@@ -1,0 +1,9 @@
+/**
+\mainpage
+
+\htmlinclude manifest.html
+
+\b gazebo_taskboard is a package that implements gazebo ModelPlugin (GazeboTaskboardSlot1 class) for 
+ controlling ISS taskboard model.
+
+**/
