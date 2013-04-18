@@ -17,7 +17,7 @@
     </contributor>
     <created>2012-06-22T13:12:27</created>
     <modified>2012-06-22T13:12:27</modified>
-    <unit name="centimeter" meter="0.01"/>
+    <unit name="meter" meter="1.00"/>
     <up_axis>Y_UP</up_axis>
   </asset>
   <library_materials>
