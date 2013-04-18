@@ -19,7 +19,7 @@
         args="r2_controller" />
 
  <!-- start dynamic reconfigure nodes to make real-robot scripts not crash on sim -->
- <include file="$(find r2_dynamic_reconfigure)/launch/fake_reconfigure_server.launch" />
+<!-- <include file="$(find r2_dynamic_reconfigure)/launch/fake_reconfigure_server.launch" /> -->
 
 
 </launch>

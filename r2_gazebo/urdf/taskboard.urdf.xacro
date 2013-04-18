@@ -8,5 +8,7 @@
 
   <include filename="$(find r2_gazebo)/urdf/taskboard.lower.xacro" />
 
-
-</robot>
+  <include filename="$(find r2_gazebo)/urdf/gazebo_plugins/gazebo_interface.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/gazebo_plugins/taskboard.panel_a.controller.xacro" />
+ 
+ </robot>
