@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller">
+<robot name="taskboard" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller">
   <link name="world"/>
   <link name="dummy">
     <inertial>

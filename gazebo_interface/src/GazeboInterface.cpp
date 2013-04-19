@@ -183,7 +183,7 @@ void GazeboInterface::Init()
     // add all joints to controller
     for (unsigned int i = 0; i < modelPtr->GetJointCount(); ++i)
     {
-        physics::JointPtr jPtr = modelPtr->GetJoint(i);
+        physics::JointPtr jPtr = modelPtr->GetJoints()[i];
         robotControllerPtr->addJoint(jPtr, advancedMode);
         ROS_DEBUG("Add %s to controller", jPtr->GetName().c_str());
     }
@@ -389,7 +389,7 @@ void GazeboInterface::Init()
     {
         for (unsigned int i = 0; i < modelPtr->GetJointCount(); ++i)
         {
-            physics::JointPtr jPtr = modelPtr->GetJoint(i);
+            physics::JointPtr jPtr = modelPtr->GetJoints()[i];
             robotControllerPtr->setJointPosTarget(jPtr->GetName(), jPtr->GetAngle(0).GetAsRadian());
         }
     }
@@ -428,7 +428,7 @@ void GazeboInterface::update()
         // add all joints to jointState message
         for (unsigned int i = 0; i < modelPtr->GetJointCount(); ++i)
         {
-            physics::JointPtr jPtr = modelPtr->GetJoint(i);
+            physics::JointPtr jPtr = modelPtr->GetJoints()[i];
 
             // joint
             std::string name = jPtr->GetName();
