@@ -6,3 +6,6 @@ CMakeFiles/
 *.pyc
 *.bak
 CMakeCache.txt
+*.user
+*_gen
+_*.py
