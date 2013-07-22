@@ -5,8 +5,8 @@
 /**
  * @file GazeboTaskboard.cpp
  * @brief This module implements GazeboTaskboardSlot1 class which represents gazebo ModelPlugin.
- * @author KennyAlive
- * @version 1.0
+ * @author KennyAlive, modified by athackst to update to Gazebo 1.2 format
+ * @version 1.1
  */
 
 #include "../include/GazeboTaskboard.h"
@@ -1452,22 +1452,36 @@ GazeboTaskboardSlot1::Led::Led(int index_, bool numPadLed_, LedColor color_, mat
 void GazeboTaskboardSlot1::Led::CreateModel(physics::WorldPtr world)
 {
     const std::string sdfTemplate =
-        "<gazebo version ='1.0'>\
-            <model name ='MODELNAME' static='1'>\
-                <origin pose='%1% %2% ZPOS %3% %4% %5%'/>\
-                <link name ='LINKNAME' kinematic='1'>\
-                    <collision name='COLLISIONNAME'>\
-                        <geometry>GEOMETRY</geometry>\
-                    </collision>\
-                    <visual name='VISUALNAME'>\
-                        <geometry>GEOMETRY</geometry>\
-                        <material script='MATERIAL'/>\
-                    </visual>\
-                    <inertial mass='0.5'> \
-                        <inertia ixx='1' ixy='0.0' ixz='0.0' iyy='1' iyz='0.0' izz='1'/>\
-                    </inertial>\
-                </link>\
-            </model>\
+        "<gazebo version ='1.2'>\r\n\
+            <model name ='MODELNAME'>\r\n\
+                <static>true</static>\r\n\
+                <pose>%1% %2% ZPOS %3% %4% %5%</pose>\r\n\
+                <link name ='LINKNAME'>\r\n\
+                    <kinematic>true</kinematic>\r\n\
+                    <collision name='COLLISIONNAME'>\r\n\
+                        <geometry>GEOMETRY</geometry>\r\n\
+                    </collision>\r\n\
+                    <visual name='VISUALNAME'>\r\n\
+                        <geometry>\r\n\
+							GEOMETRY\r\n\
+						</geometry>\r\n\
+                        <material>\r\n\
+                            <script>MATERIAL</script>\r\n\
+                        </material>\r\n\
+                    </visual>\r\n\
+                    <inertial>\r\n\
+                        <mass>0.5</mass>\r\n\
+                        <inertia>\r\n\
+                            <ixx>1.0</ixx>\r\n\
+                            <ixy>0.0</ixy>\r\n\
+                            <ixz>0.0</ixz>\r\n\
+                            <iyy>1.0</iyy>\r\n\
+                            <iyz>0.0</iyz>\r\n\
+                            <izz>1.0</izz>\r\n\
+                        </inertia>\r\n\
+                    </inertial>\r\n\
+                </link>\r\n\
+            </model>\r\n\
         </gazebo>";
 
     // Figure out LED's material based on its color
@@ -1490,7 +1504,10 @@ void GazeboTaskboardSlot1::Led::CreateModel(physics::WorldPtr world)
 
     // Get LED model description depending on LED type
     std::string ledModel;
-    ledModel = boost::str(boost::format("<cylinder length='%1%' radius='%2%'/>") 
+    ledModel = boost::str(boost::format("<cylinder>\r\n\
+								<length>%1%</length>\r\n\
+								<radius>%2%</radius>\r\n\
+							</cylinder>") 
                               % (numPadLed ? NUMPAD_LED_LENGTH : SIMPLE_LED_LENGTH)
                               % (numPadLed ? NUMPAD_LED_RADIUS : SIMPLE_LED_RADIUS));
 

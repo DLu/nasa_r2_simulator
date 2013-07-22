@@ -190,17 +190,17 @@ void GazeboGripper::handleContact()
             // identify gripper links colliding with each external part
             for (unsigned int i = 0; i < contacts.size(); ++i)
             {
-                std::string name1 = contacts[i].collision1->GetScopedName();
-                std::string name2 = contacts[i].collision2->GetScopedName();
+                std::string name1 = contacts[i].collision1;
+                std::string name2 = contacts[i].collision2;
 
                 if (collisionPtrs.find(name1) == collisionPtrs.end())
                 {
-                    cc[name1] = contacts[i].collision1;
+                    cc[name1]->AddContact(contacts[i]);
                     contactCounts[name1] += 1;
                 }
                 if (collisionPtrs.find(name2) == collisionPtrs.end())
                 {
-                    cc[name2] = contacts[i].collision2;
+                    cc[name2]->AddContact(contacts[i]);
                     contactCounts[name2] += 1;
                 }
             }
