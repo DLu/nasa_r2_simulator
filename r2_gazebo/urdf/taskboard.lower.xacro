@@ -1336,8 +1336,8 @@
   </gazebo>
   
   <gazebo>
-    <controller:gazebo_taskboard name="gazebo_taskboard" plugin="libgazebo_taskboard.so">
-    </controller:gazebo_taskboard>
+    <plugin name="gazebo_taskboard" filename="libgazebo_taskboard.so">
+    </plugin>
   </gazebo>
 
 </robot>

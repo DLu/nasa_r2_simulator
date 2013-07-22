@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <launch>
   <!-- load world -->
-  <node name="gazebo" pkg="gazebo" type="gazebo" args="$(find r2_gazebo)/gazebo/r2_empty.world" output="screen" respawn="false" />
+
+  <node name="gazebo" pkg="gazebo_ros" type="gazebo" args="$(find r2_gazebo)/gazebo/r2_empty.world" output="screen" respawn="false" />
 
   <!-- load controller parameters-->
   <rosparam file="$(find r2_gazebo)/config/controllers/r2sim_torso_params.yaml" command="load" />
@@ -9,10 +10,10 @@
   <!-- load robot -->
   <param name="/use_sim_time" value="true"/>
   <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/robots/r2.sim.urdf.xacro'" /> 
-  <node name="spawn_r2" pkg="gazebo" type="spawn_model" args="-urdf -param robot_description -model r2 -paused=true" respawn="false" output="screen" /> 
+  <node name="spawn_r2" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model r2 -paused=true" respawn="false" output="screen" />
 
   <!-- start gui -->
-  <node name="gazebo_gui" pkg="gazebo" type="gui" respawn="false" output="screen" />
+  <!--<node name="gazebo_gui" pkg="gazebo" type="gui" respawn="false" output="screen" /> -->
 
   <!-- load controller -->
   <rosparam file="$(find r2_gazebo)/config/controllers/r2_impedance_controller.yaml" command="load" />  
@@ -22,7 +23,7 @@
         args="r2_controller" />
 
  <!-- start dynamic reconfigure nodes to make real-robot scripts not crash on sim -->
-<!-- <include file="$(find r2_dynamic_reconfigure)/launch/fake_reconfigure_server.launch" /> -->
+ <include file="$(find r2_dynamic_reconfigure)/launch/fake_reconfigure_server.launch" />
 
 
 </launch>
