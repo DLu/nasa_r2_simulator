@@ -185,7 +185,7 @@ private:
   int loop_count_;
   hardware_interface::EffortJointInterface *robot_;
   ros::Time last_time_;
-  std::vector<hardware_interface::JointHandle*> joints_;
+  std::vector<hardware_interface::JointHandle> joints_;
   std::vector<double> masses_;  // Rough estimate of joint mass, used for feedforward control
   std::vector<control_toolbox::Pid> pids_;
   std::vector<bool> proxies_enabled_;

@@ -178,16 +178,19 @@ bool R2JointTrajectoryActionController::init(hardware_interface::EffortJointInte
       return false;
     }
 
-    hardware_interface::JointHandle *j = robot->getHandle((std::string)name_value);
+    hardware_interface::JointHandle j = robot->getHandle((std::string)name_value);
+    /* \TODO: how do we check if getHandle failed?
     if (!j) {
       ROS_ERROR("Joint not found: %s. (namespace: %s)",
                 ((std::string)name_value).c_str(), node_.getNamespace().c_str());
       return false;
     }
+    */
     joints_.push_back(j);
   }
 
   // Ensures that all the joints are calibrated.
+  /* \TODO: where is the calibrated flag in the new joint interface?
   for (size_t i = 0; i < joints_.size(); ++i)
   {
     if (!joints_[i]->calibrated_)
@@ -197,6 +200,7 @@ bool R2JointTrajectoryActionController::init(hardware_interface::EffortJointInte
       return false;
     }
   }
+  */
 
   // Sets up pid controllers for all of the joints
   std::string gains_ns;
