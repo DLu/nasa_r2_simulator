@@ -6,7 +6,7 @@
   
   <xacro:macro name="grasshopper2_cam_gazebo_v0" params="camera_name frame_name">
       <gazebo reference="${frame_name}">
-          <sensor type="depth" name="${camera_name}">
+          <sensor type="camera" name="${camera_name}">
             <update_rate>10.0</update_rate>
             <camera>
               <image>
