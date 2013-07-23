@@ -55,6 +55,7 @@
 
 #include <message_filters/subscriber.h>
 #include <controller_interface/controller.h>
+#include <hardware_interface/joint_command_interface.h>
 #include <realtime_tools/realtime_publisher.h>
 #include <algorithm>
 
@@ -218,7 +219,7 @@ class R2ImpedanceController: public controller_interface::Controller<hardware_in
 	
 	
 	//joints have a unique index value which is preserved across these arrays
-	std::vector<hardware_interface::JointHandle*> robotStateJoints; //< queries robot state and commands joints
+	std::vector<hardware_interface::JointHandle> robotStateJoints; //< queries robot state and commands joints
 
 	
 	hardware_interface::EffortJointInterface* robot_state; //< 
@@ -274,10 +275,9 @@ public:
 	bool init(hardware_interface::EffortJointInterface* robot_state, ros::NodeHandle& n );
 	
 	/// occurs before first update() call
-	virtual void starting(){
-		time = robot_state->getTime();
-	}
+	virtual void starting(const ros::Time& time){};
+
 	/// performs one iteration of control, main function 
-	virtual void update();
+	virtual void update(const ros::Time& time, const ros::Duration& duration);
 	};
 }

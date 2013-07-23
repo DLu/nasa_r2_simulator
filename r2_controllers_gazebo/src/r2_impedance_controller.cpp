@@ -31,7 +31,7 @@
  * Author: Darren Earl, Stephen Hart
  */
 
-
+#include <urdf/model.h>
 #include "r2_controllers_gazebo/r2_impedance_controller.h"
 #include <kdl_parser/kdl_parser.hpp>
 #include <pluginlib/class_list_macros.h>
@@ -111,7 +111,15 @@ bool R2ImpedanceController::init(hardware_interface::EffortJointInterface* robot
 		double default_grav[] = { 0, 0, -9.8 };
 		cc.init( default_grav );
 	}
-	
+
+  // Get URDF info about joint
+  urdf::Model urdf;
+  if (!urdf.initParam("robot_description"))
+  {
+    ROS_ERROR("Failed to parse urdf file");
+    return false;
+  }
+
 	{  //map RobotState joints to KDL::Tree joints
 		const SegmentMap& sm = cc.robot_tree.getSegments();
 		int x=0;
@@ -122,10 +130,20 @@ bool R2ImpedanceController::init(hardware_interface::EffortJointInterface* robot
 				continue;
 			cc.name2idx[ joint.getName() ] = x;
 			cc.idx2name[x] = joint.getName();
-			hardware_interface::JointHandle* js = robot_state->getHandle( joint.getName() );
+			hardware_interface::JointHandle js = robot_state->getHandle( joint.getName() );
+
+      // get joint limits from urdf
+      boost::shared_ptr<const urdf::Joint> joint_urdf;
+      joint_urdf = urdf.getJoint(joint.getName());
+      if (!joint_urdf)
+      {
+        ROS_ERROR("Could not find joint '%s' in urdf", joint.getName().c_str());
+        return false;
+      }
+
 			robotStateJoints[x] = js;
-			cc.jntsUpperLimit[x] = js->joint_->limits->upper;
-			cc.jntsLowerLimit[x] = js->joint_->limits->lower;
+			cc.jntsUpperLimit[x] = joint_urdf->limits->upper;
+			cc.jntsLowerLimit[x] = joint_urdf->limits->lower;
 			cc.jntsCenterPoint[x] = (cc.jntsUpperLimit[x] + cc.jntsLowerLimit[x])*.5;
 			cc.jntsUpperLimit[x] -= .01;
 			cc.jntsLowerLimit[x] += .01;
@@ -795,7 +813,7 @@ KDL::JntArray R2ImpedanceController::CtrlCalc::jointDCmd(const vector<double>& d
 }
 
 
-void R2ImpedanceController::update(const ros::Time& time){
+void R2ImpedanceController::update(const ros::Time& time, const ros::Duration& duration){
 	boost::lock_guard<boost::mutex> lock(thread_mutex);
 	
 	///update section
@@ -811,8 +829,8 @@ void R2ImpedanceController::update(const ros::Time& time){
 	{
 		///read current joint values
 		for( int x=0; x<cc.jnt_size; ++x ){
-			double p = robotStateJoints[x]->position_;
-			double v = robotStateJoints[x]->velocity_;
+			double p = robotStateJoints[x].getPosition();
+			double v = robotStateJoints[x].getVelocity();
 			//double v2 = (p-treeJnts[x])/deltaT;
 			//if( fabs(v-v2) < .01 )
 			//	cout << ".";
@@ -845,9 +863,10 @@ void R2ImpedanceController::update(const ros::Time& time){
 		///send commands to joints
 	{
 		for( int x=0; x<cc.jnt_size; ++x ){
-			robotStateJoints[x]->commanded_effort_ = cc.torques(x);
+			robotStateJoints[x].setCommand(cc.torques(x));
 		}
-		robot_state->enforceSafety();
+		// \TODO: not implemented in ros_control
+		// robot_state->enforceSafety();
 	}
 	static int loopCnt = 0;
 	if( loopCnt++ > 50 ){

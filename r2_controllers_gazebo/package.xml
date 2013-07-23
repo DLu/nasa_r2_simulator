@@ -25,6 +25,7 @@
   <build_depend>angles</build_depend>
   <build_depend>filters</build_depend>
   <build_depend>tf</build_depend>
+  <build_depend>tf2_kdl</build_depend>
 
   <build_depend>tf_conversions</build_depend>
   <build_depend>orocos_kdl</build_depend>
@@ -44,6 +45,8 @@
 
   <build_depend>r2_msgs</build_depend>
 
+  <build_depend>effort_controllers</build_depend>
+
   <run_depend>controller_interface</run_depend> 
   <run_depend>control_msgs</run_depend> 
   <run_depend>control_toolbox</run_depend> 
@@ -55,6 +58,7 @@
   <run_depend>angles</run_depend>
   <run_depend>filters</run_depend>
   <run_depend>tf</run_depend>
+  <run_depend>tf2_kdl</run_depend>
 
   <run_depend>tf_conversions</run_depend>
   <run_depend>orocos_kdl</run_depend>
@@ -73,6 +77,8 @@
   <run_depend>control_msgs</run_depend>
 
   <run_depend>r2_msgs</run_depend>
+
+  <run_depend>effort_controllers</run_depend>
 
   <export>
     <controller_interface plugin="${prefix}/r2_controllers_gazebo_plugins.xml" />
