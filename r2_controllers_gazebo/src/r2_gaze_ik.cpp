@@ -1,4 +1,4 @@
-#include "r2_gaze_ik.hpp"
+#include "r2_controllers_gazebo/r2_gaze_ik.hpp"
 
 // KDL stuff
 #include <kdl/frames.hpp>

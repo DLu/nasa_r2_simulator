@@ -30,7 +30,7 @@
 /*!
   \author Stuart Glaser
 
-  \class pr2_controller_interface::R2JointTrajectoryActionController
+  \class controller_interface::R2JointTrajectoryActionController
 
 */
 
@@ -48,16 +48,17 @@
 #include <control_toolbox/limited_proxy.h>
 #include <control_toolbox/pid.h>
 #include <filters/filter_chain.h>
-#include <pr2_controller_interface/controller.h>
+#include <hardware_interface/joint_command_interface.h>
+#include <controller_interface/controller.h>
 #include <realtime_tools/realtime_publisher.h>
 #include <realtime_tools/realtime_box.h>
 
 
 #include <control_msgs/FollowJointTrajectoryAction.h>
 #include <trajectory_msgs/JointTrajectory.h>
-#include <pr2_controllers_msgs/QueryTrajectoryState.h>
-#include <pr2_controllers_msgs/JointTrajectoryControllerState.h>
-#include <pr2_controllers_msgs/JointTrajectoryAction.h>
+#include <control_msgs/QueryTrajectoryState.h>
+#include <control_msgs/JointTrajectoryControllerState.h>
+#include <control_msgs/JointTrajectoryAction.h>
 
 
 namespace r2_controller_ns {
@@ -158,12 +159,12 @@ public:
 };
 
 
-class R2JointTrajectoryActionController : public pr2_controller_interface::Controller
+class R2JointTrajectoryActionController : public controller_interface::Controller<hardware_interface::EffortJointInterface>
 {
-  // Action typedefs for the original PR2 specific joint trajectory action
-  typedef actionlib::ActionServer<pr2_controllers_msgs::JointTrajectoryAction> JTAS;
+  // Action typedefs for the original joint trajectory action
+  typedef actionlib::ActionServer<control_msgs::JointTrajectoryAction> JTAS;
   typedef JTAS::GoalHandle GoalHandle;
-  typedef RTServerGoalHandle<pr2_controllers_msgs::JointTrajectoryAction> RTGoalHandle;
+  typedef RTServerGoalHandle<control_msgs::JointTrajectoryAction> RTGoalHandle;
 
   // Action typedefs for the new follow joint trajectory action
   typedef actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction> FJTAS;
@@ -175,16 +176,16 @@ public:
   R2JointTrajectoryActionController();
   ~R2JointTrajectoryActionController();
 
-  bool init(pr2_mechanism_model::RobotState *robot, ros::NodeHandle &n);
+  bool init(hardware_interface::EffortJointInterface *robot, ros::NodeHandle &n);
 
   void starting();
   void update();
 
 private:
   int loop_count_;
-  pr2_mechanism_model::RobotState *robot_;
+  hardware_interface::EffortJointInterface *robot_;
   ros::Time last_time_;
-  std::vector<pr2_mechanism_model::JointState*> joints_;
+  std::vector<hardware_interface::JointHandle*> joints_;
   std::vector<double> masses_;  // Rough estimate of joint mass, used for feedforward control
   std::vector<control_toolbox::Pid> pids_;
   std::vector<bool> proxies_enabled_;
@@ -207,13 +208,13 @@ private:
   void commandCB(const trajectory_msgs::JointTrajectory::ConstPtr &msg);
   ros::Subscriber sub_command_;
 
-  bool queryStateService(pr2_controllers_msgs::QueryTrajectoryState::Request &req,
-                         pr2_controllers_msgs::QueryTrajectoryState::Response &resp);
+  bool queryStateService(control_msgs::QueryTrajectoryState::Request &req,
+                         control_msgs::QueryTrajectoryState::Response &resp);
   ros::ServiceServer serve_query_state_;
 
   boost::scoped_ptr<
     realtime_tools::RealtimePublisher<
-      pr2_controllers_msgs::JointTrajectoryControllerState> > controller_state_publisher_;
+      control_msgs::JointTrajectoryControllerState> > controller_state_publisher_;
 
   boost::scoped_ptr<JTAS> action_server_;
   boost::scoped_ptr<FJTAS> action_server_follow_;

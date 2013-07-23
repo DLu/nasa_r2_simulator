@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "treeidsolver.hpp"
+#include "r2_controller_gazebo/treeidsolver.hpp"
 
 namespace KDL{
     /**

@@ -32,11 +32,11 @@
  */
 
 
-#include "r2_impedance_controller.h"
+#include "r2_controllers_gazebo/r2_impedance_controller.h"
 #include <kdl_parser/kdl_parser.hpp>
-#include "pluginlib/class_list_macros.h"
-#include "tf_conversions/tf_kdl.h"
-#include "tf/transform_datatypes.h"
+#include <pluginlib/class_list_macros.h>
+#include <tf_conversions/tf_kdl.h>
+#include <tf/transform_datatypes.h>
 
 using namespace std;
 using namespace KDL;
@@ -90,7 +90,7 @@ using namespace Eigen;
 
 
 
-bool R2ImpedanceController::init(pr2_mechanism_model::RobotState* robot_state, ros::NodeHandle& n )
+bool R2ImpedanceController::init(hardware_interface::EffortJointInterface* robot_state, ros::NodeHandle& n )
 {
 	boost::lock_guard<boost::mutex> lock(thread_mutex);
 	node = n;
@@ -122,7 +122,7 @@ bool R2ImpedanceController::init(pr2_mechanism_model::RobotState* robot_state, r
 				continue;
 			cc.name2idx[ joint.getName() ] = x;
 			cc.idx2name[x] = joint.getName();
-			pr2_mechanism_model::JointState* js = robot_state->getJointState( joint.getName() );
+			hardware_interface::JointHandle* js = robot_state->getHandle( joint.getName() );
 			robotStateJoints[x] = js;
 			cc.jntsUpperLimit[x] = js->joint_->limits->upper;
 			cc.jntsLowerLimit[x] = js->joint_->limits->lower;
@@ -795,13 +795,12 @@ KDL::JntArray R2ImpedanceController::CtrlCalc::jointDCmd(const vector<double>& d
 }
 
 
-void R2ImpedanceController::update(){
+void R2ImpedanceController::update(const ros::Time& time){
 	boost::lock_guard<boost::mutex> lock(thread_mutex);
 	
 	///update section
-	ros::Time last_time = time;
-	time = robot_state->getTime();
 	double deltaT = (time-last_time).toSec();
+	last_time = time;
 	if( deltaT < .000001 )
 		deltaT = .000001;
 	//const double qd_scale_factor = 1;
@@ -971,7 +970,5 @@ void R2ImpedanceController::publish_msgs(){
 
 
 
-PLUGINLIB_DECLARE_CLASS(r2_controllers_gazebo, R2ImpedanceController, r2_controller_ns::R2ImpedanceController, pr2_controller_interface::Controller)
-
-
+PLUGINLIB_EXPORT_CLASS( r2_controller_ns::R2ImpedanceController, controller_interface::ControllerBase)
 

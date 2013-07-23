@@ -2,7 +2,7 @@
 #define _R2_GAZE_CONTROLLER_HPP_
 
 // My neck inverse_kinematics
-#include "r2_gaze_ik.hpp"
+#include "r2_controllers_gazebo/r2_gaze_ik.hpp"
 
 // Boost
 #include <boost/scoped_ptr.hpp>

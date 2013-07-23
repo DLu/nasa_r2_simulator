@@ -1,4 +1,4 @@
-#include "r2_gaze_controller.hpp"
+#include "r2_controllers_gazebo/r2_gaze_controller.hpp"
 
 // Boost
 #include <boost/thread/mutex.hpp>

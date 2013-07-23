@@ -33,7 +33,7 @@
 
 #pragma once
 
-#include "ros/ros.h"
+#include <ros/ros.h>
 #include <realtime_tools/realtime_publisher.h>
 #include <tf/message_filter.h>
 #include <tf/transform_datatypes.h>
@@ -47,15 +47,14 @@
 #include "kdl/chainfksolverpos_recursive.hpp"
 #include "kdl/chainfksolvervel_recursive.hpp"
 #include "kdl/chainidsolver_recursive_newton_euler.hpp"
-#include "treeidsolver_recursive_newton_euler.hpp"
+#include "r2_controllers_gazebo/treeidsolver_recursive_newton_euler.hpp"
 #include <vector>
 
 #include <Eigen/Geometry>
 #include <boost/thread/mutex.hpp>
 
 #include <message_filters/subscriber.h>
-#include <pr2_controller_interface/controller.h>
-#include <pr2_mechanism_model/chain.h>
+#include <controller_interface/controller.h>
 #include <realtime_tools/realtime_publisher.h>
 #include <algorithm>
 
@@ -70,13 +69,13 @@
 #include <r2_msgs/Servo.h>
 #include <r2_msgs/PoseTwistStamped.h>
 
-#include "TreeChain.h"
-#include "WholeBodyCalc.h"
+#include "r2_controllers_gazebo/TreeChain.h"
+#include "r2_controllers_gazebo/WholeBodyCalc.h"
 
 
 
 namespace r2_controller_ns {
-class R2ImpedanceController: public pr2_controller_interface::Controller{
+class R2ImpedanceController: public controller_interface::Controller<hardware_interface::EffortJointInterface> {
 	
 	//ros messaging
 	ros::NodeHandle node;
@@ -219,11 +218,11 @@ class R2ImpedanceController: public pr2_controller_interface::Controller{
 	
 	
 	//joints have a unique index value which is preserved across these arrays
-	std::vector<pr2_mechanism_model::JointState*> robotStateJoints; //< queries robot state and commands joints
+	std::vector<hardware_interface::JointHandle*> robotStateJoints; //< queries robot state and commands joints
 
 	
-	pr2_mechanism_model::RobotState* robot_state; //< 
-	ros::Time time;
+	hardware_interface::EffortJointInterface* robot_state; //< 
+	ros::Time last_time;
 	
 	// ros message functions
 	void init_ros_msgs();
@@ -272,7 +271,7 @@ public:
 	
 	
 	
-	bool init(pr2_mechanism_model::RobotState* robot_state, ros::NodeHandle& n );
+	bool init(hardware_interface::EffortJointInterface* robot_state, ros::NodeHandle& n );
 	
 	/// occurs before first update() call
 	virtual void starting(){

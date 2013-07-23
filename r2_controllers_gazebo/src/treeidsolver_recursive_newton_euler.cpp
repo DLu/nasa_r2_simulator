@@ -25,8 +25,8 @@
 
 
 
-#include "treeidsolver_recursive_newton_euler.hpp"
-#include "kdl/frames_io.hpp"
+#include "r2_controllers_gazebo/treeidsolver_recursive_newton_euler.hpp"
+#include <kdl/frames_io.hpp>
 
 #include <deque>
 using namespace std;

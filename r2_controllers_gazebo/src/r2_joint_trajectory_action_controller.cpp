@@ -31,12 +31,10 @@
  * Author: Stuart Glaser
  */
 
-#include "../include/r2_joint_trajectory_action_controller.h"
+#include "r2_controllers_gazebo/r2_joint_trajectory_action_controller.h"
 #include <sstream>
-#include "angles/angles.h"
-#include "pluginlib/class_list_macros.h"
-
-PLUGINLIB_DECLARE_CLASS(r2_controllers_gazebo, R2JointTrajectoryActionController, r2_controller_ns::R2JointTrajectoryActionController, pr2_controller_interface::Controller)
+#include <angles/angles.h>
+#include <pluginlib/class_list_macros.h>
 
 namespace r2_controller_ns {
 
@@ -152,7 +150,7 @@ R2JointTrajectoryActionController::~R2JointTrajectoryActionController()
   action_server_follow_.reset();
 }
 
-bool R2JointTrajectoryActionController::init(pr2_mechanism_model::RobotState *robot, ros::NodeHandle &n)
+bool R2JointTrajectoryActionController::init(hardware_interface::EffortJointInterface *robot, ros::NodeHandle &n)
 {
   using namespace XmlRpc;
   node_ = n;
@@ -180,7 +178,7 @@ bool R2JointTrajectoryActionController::init(pr2_mechanism_model::RobotState *ro
       return false;
     }
 
-    pr2_mechanism_model::JointState *j = robot->getJointState((std::string)name_value);
+    hardware_interface::JointHandle *j = robot->getHandle((std::string)name_value);
     if (!j) {
       ROS_ERROR("Joint not found: %s. (namespace: %s)",
                 ((std::string)name_value).c_str(), node_.getNamespace().c_str());
@@ -266,7 +264,7 @@ bool R2JointTrajectoryActionController::init(pr2_mechanism_model::RobotState *ro
   // Creates a dummy trajectory
   boost::shared_ptr<SpecifiedTrajectory> traj_ptr(new SpecifiedTrajectory(1));
   SpecifiedTrajectory &traj = *traj_ptr;
-  traj[0].start_time = robot_->getTime().toSec();
+  traj[0].start_time = ros::Time::now().toSec();
   traj[0].duration = 0.0;
   traj[0].splines.resize(joints_.size());
   for (size_t j = 0; j < joints_.size(); ++j)
@@ -282,7 +280,7 @@ bool R2JointTrajectoryActionController::init(pr2_mechanism_model::RobotState *ro
   qdd.resize(joints_.size());
 
   controller_state_publisher_.reset(
-    new realtime_tools::RealtimePublisher<pr2_controllers_msgs::JointTrajectoryControllerState>
+    new realtime_tools::RealtimePublisher<control_msgs::JointTrajectoryControllerState>
     (node_, "state", 1));
   controller_state_publisher_->lock();
   for (size_t j = 0; j < joints_.size(); ++j)
@@ -306,9 +304,9 @@ bool R2JointTrajectoryActionController::init(pr2_mechanism_model::RobotState *ro
   return true;
 }
 
-void R2JointTrajectoryActionController::starting()
+void R2JointTrajectoryActionController::starting(const ros::Time& time)
 {
-  last_time_ = robot_->getTime();
+  last_time_ = time;
 
   for (size_t i = 0; i < pids_.size(); ++i) {
     pids_[i].reset();
@@ -327,9 +325,8 @@ void R2JointTrajectoryActionController::starting()
   current_trajectory_box_.set(hold_ptr);
 }
 
-void R2JointTrajectoryActionController::update()
+void R2JointTrajectoryActionController::update(const ros::Time& time)
 {
-  ros::Time time = robot_->getTime();
   ros::Duration dt = time - last_time_;
   last_time_ = time;
 
@@ -847,8 +844,8 @@ void R2JointTrajectoryActionController::commandTrajectory(const trajectory_msgs:
 }
 
 bool R2JointTrajectoryActionController::queryStateService(
-  pr2_controllers_msgs::QueryTrajectoryState::Request &req,
-  pr2_controllers_msgs::QueryTrajectoryState::Response &resp)
+  control_msgs::QueryTrajectoryState::Request &req,
+  control_msgs::QueryTrajectoryState::Response &resp)
 {
   boost::shared_ptr<const SpecifiedTrajectory> traj_ptr;
   current_trajectory_box_.get(traj_ptr);
@@ -1053,3 +1050,5 @@ void R2JointTrajectoryActionController::cancelCBFollow(GoalHandleFollow gh)
   }
 }
 }
+
+PLUGINLIB_EXPORT_CLASS( r2_controller_ns::R2JointTrajectoryActionController, controller_interface::ControllerBase)
