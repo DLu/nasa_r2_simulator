@@ -1,21 +1,20 @@
+<?xml version="1.0"?>
 <package>
-  <description brief="gazebo_interface">
-
-     gazebo_interface
-
-  </description>
-  <author>rctaylo2</author>
+  <name>gazebo_interface</name>
+  <version>0.0.0</version>
+  <description>The gazebo_interface package</description>
+  <maintainer email="todo@todo.todo">TCASSEMBLER</maintainer>
   <license>BSD</license>
-  <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/gazebo_interface</url>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>r2_msgs</build_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>r2_msgs</run_depend>
 
-  <depend package="sensor_msgs"/>
-  <depend package="r2_msgs"/>
-  <depend package="gazebo"/>
   <export>
     <gazebo plugin_path="${prefix}/lib" />
   </export> 
-
 </package>
 
 

@@ -1,18 +1,15 @@
+<?xml version="1.0"?>
 <package>
-  <description brief="gazebo_gripper">
-
-     gazebo_gripper
-
-  </description>
-  <author>rctaylo2</author>
+  <name>gazebo_gripper</name>
+  <version>0.0.0</version>
+  <description>The gazebo_gripper package</description>
+  <maintainer email="todo@todo.todo">TCSASSEMBLER</maintainer>
   <license>BSD</license>
-  <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/gazebo_gripper</url>
-  <depend package="gazebo"/>
+  <author>rctaylo2</author>
+  <buildtool_depend>catkin</buildtool_depend>
+
   <export>
     <gazebo plugin_path="${prefix}/lib" />
-  </export> 
-
+  </export>
 </package>
-
-
