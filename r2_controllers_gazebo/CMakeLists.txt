@@ -7,7 +7,7 @@ include_directories(${EIGEN_INCLUDE_DIRS})
 add_definitions(${EIGEN_DEFINITIONS})
 
 # Load catkin and all dependencies required for this package
-find_package(catkin REQUIRED COMPONENTS controller_interface control_msgs forward_command_controller control_toolbox realtime_tools urdf)
+find_package(catkin REQUIRED COMPONENTS r2_msgs controller_interface control_msgs control_toolbox realtime_tools urdf)
 
 include_directories(include ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
 
@@ -24,7 +24,7 @@ target_link_libraries(r2_controller_lib kdl_treeid_solver)
 
 # Declare catkin package
 catkin_package(
-  CATKIN_DEPENDS controller_interface control_msgs control_toolbox realtime_tools urdf forward_command_controller 
+  CATKIN_DEPENDS r2_msgs controller_interface control_msgs control_toolbox realtime_tools urdf
   INCLUDE_DIRS include
   LIBRARIES kdl_treeid_solver r2_controller_lib
   )
@@ -33,7 +33,19 @@ catkin_package(
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
 
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS r2_gaze_controller
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+  )
+
+install(TARGETS kdl_treeid_solver
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+  )
+
+install(TARGETS r2_controller_lib
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
