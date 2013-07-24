@@ -3,11 +3,16 @@
 
   <!-- transmission xacro -->
   <macro name="r2_trans" params="part joint reduction tc">
-     <transmission name="${part}_j${joint}_trans" type="pr2_mechanism_model/SimpleTransmission">
-       <actuator name="${part}_j${joint}_motor"/>
+     <transmission name="${part}_j${joint}_trans">
+       <type>transmission_interface/SimpleTransmission</type>
        <joint name="${part}/joint${joint}"/>
-       <mechanicalReduction>${reduction}</mechanicalReduction>
+       <actuator name="${part}_j${joint}_motor">
+         <hardwareInterface>EffortJointInterface</hardwareInterface>
+         <mechanicalReduction>${reduction}</mechanicalReduction>
+       </actuator>
+       <!-- todo: is motorTorqueConstant used?
        <motorTorqueConstant>${tc}</motorTorqueConstant>
+       -->
      </transmission>
   </macro>
 
