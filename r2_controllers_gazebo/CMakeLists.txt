@@ -18,8 +18,9 @@ add_library(kdl_treeid_solver src/treeidsolver_recursive_newton_euler.cpp includ
 target_link_libraries(kdl_treeid_solver ${catkin_LIBRARIES})
 
 add_library(r2_controller_lib
+  src/r2_joint_trajectory_action_controller.cpp include/r2_controllers_gazebo/r2_joint_trajectory_action_controller.h
   src/r2_impedance_controller.cpp include/r2_controllers_gazebo/r2_impedance_controller.h
-  src/r2_joint_trajectory_action_controller.cpp include/r2_controllers_gazebo/r2_joint_trajectory_action_controller.h)
+)
 target_link_libraries(r2_controller_lib kdl_treeid_solver)
 
 # Declare catkin package

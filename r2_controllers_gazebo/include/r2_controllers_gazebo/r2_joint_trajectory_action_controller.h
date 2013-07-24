@@ -42,8 +42,10 @@
 #include <boost/scoped_ptr.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 #include <boost/thread/condition.hpp>
+#include <ros/ros.h>
 #include <ros/node_handle.h>
 
+#include <urdf/model.h>
 #include <actionlib/server/action_server.h>
 #include <control_toolbox/limited_proxy.h>
 #include <control_toolbox/pid.h>
@@ -178,8 +180,8 @@ public:
 
   bool init(hardware_interface::EffortJointInterface *robot, ros::NodeHandle &n);
 
-  void starting();
-  void update();
+  void starting(const ros::Time& time);
+  void update(const ros::Time& time, const ros::Duration& duration);
 
 private:
   int loop_count_;
@@ -194,6 +196,8 @@ private:
   std::vector<JointTolerance> default_trajectory_tolerance_;
   std::vector<JointTolerance> default_goal_tolerance_;
   double default_goal_time_constraint_;
+
+  urdf::Model model_urdf_;
 
   /*
   double goal_time_constraint_;

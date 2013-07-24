@@ -168,6 +168,14 @@ bool R2JointTrajectoryActionController::init(hardware_interface::EffortJointInte
     ROS_ERROR("Malformed joint specification.  (namespace: %s)", node_.getNamespace().c_str());
     return false;
   }
+
+  // Get URDF info about joint
+  if (!model_urdf_.initParam("robot_description"))
+  {
+    ROS_ERROR("Failed to parse urdf file");
+    return false;
+  }
+
   for (int i = 0; i < joint_names.size(); ++i)
   {
     XmlRpcValue &name_value = joint_names[i];
@@ -196,7 +204,7 @@ bool R2JointTrajectoryActionController::init(hardware_interface::EffortJointInte
     if (!joints_[i]->calibrated_)
     {
       ROS_ERROR("Joint %s was not calibrated (namespace: %s)",
-                joints_[i]->joint_->name.c_str(), node_.getNamespace().c_str());
+                joints_[i].getName()c_str(), node_.getNamespace().c_str());
       return false;
     }
   }
@@ -210,7 +218,7 @@ bool R2JointTrajectoryActionController::init(hardware_interface::EffortJointInte
   pids_.resize(joints_.size());
   for (size_t i = 0; i < joints_.size(); ++i)
   {
-    ros::NodeHandle joint_nh(gains_ns + "/" + joints_[i]->joint_->name);
+    ros::NodeHandle joint_nh(gains_ns + "/" + joints_[i].getName());
     joint_nh.param("mass", masses_[i], 0.0);
     if (!pids_[i].init(joint_nh))
       return false;
@@ -221,7 +229,7 @@ bool R2JointTrajectoryActionController::init(hardware_interface::EffortJointInte
   proxies_.resize(joints_.size());
   for (size_t i = 0; i < joints_.size(); ++i)
   {
-    ros::NodeHandle joint_nh(gains_ns + "/" + joints_[i]->joint_->name);
+    ros::NodeHandle joint_nh(gains_ns + "/" + joints_[i].getName());
     if (joint_nh.hasParam("proxy")) {
       proxies_enabled_[i] = true;
       joint_nh.param("proxy/lambda", proxies_[i].lambda_proxy_, 1.0);
@@ -247,7 +255,7 @@ bool R2JointTrajectoryActionController::init(hardware_interface::EffortJointInte
     default_goal_tolerance_[i].velocity = stopped_velocity_tolerance;
   for (size_t i = 0; i < joints_.size(); ++i)
   {
-    std::string ns = std::string("joint_trajectory_action_node/constraints") + joints_[i]->joint_->name;
+    std::string ns = std::string("joint_trajectory_action_node/constraints") + joints_[i].getName();
     node_.param(ns + "/goal", default_goal_tolerance_[i].position, 0.0);
     node_.param(ns + "/trajectory", default_trajectory_tolerance_[i].position, 0.0);
   }
@@ -256,7 +264,7 @@ bool R2JointTrajectoryActionController::init(hardware_interface::EffortJointInte
   output_filters_.resize(joints_.size());
   for (size_t i = 0; i < joints_.size(); ++i)
   {
-    std::string p = "output_filters/" + joints_[i]->joint_->name;
+    std::string p = "output_filters/" + joints_[i].getName();
     if (node_.hasParam(p))
     {
       output_filters_[i].reset(new filters::FilterChain<double>("double"));
@@ -288,7 +296,7 @@ bool R2JointTrajectoryActionController::init(hardware_interface::EffortJointInte
     (node_, "state", 1));
   controller_state_publisher_->lock();
   for (size_t j = 0; j < joints_.size(); ++j)
-    controller_state_publisher_->msg_.joint_names.push_back(joints_[j]->joint_->name);
+    controller_state_publisher_->msg_.joint_names.push_back(joints_[j].getName());
   controller_state_publisher_->msg_.desired.positions.resize(joints_.size());
   controller_state_publisher_->msg_.desired.velocities.resize(joints_.size());
   controller_state_publisher_->msg_.desired.accelerations.resize(joints_.size());
@@ -314,7 +322,7 @@ void R2JointTrajectoryActionController::starting(const ros::Time& time)
 
   for (size_t i = 0; i < pids_.size(); ++i) {
     pids_[i].reset();
-    proxies_[i].reset(joints_[i]->position_, joints_[i]->velocity_);
+    proxies_[i].reset(joints_[i].getPosition(), joints_[i].getVelocity());
   }
 
   // Creates a "hold current position" trajectory.
@@ -324,12 +332,12 @@ void R2JointTrajectoryActionController::starting(const ros::Time& time)
   hold[0].duration = 0.0;
   hold[0].splines.resize(joints_.size());
   for (size_t j = 0; j < joints_.size(); ++j)
-    hold[0].splines[j].coef[0] = joints_[j]->position_;
+    hold[0].splines[j].coef[0] = joints_[j].getPosition();
 
   current_trajectory_box_.set(hold_ptr);
 }
 
-void R2JointTrajectoryActionController::update(const ros::Time& time)
+void R2JointTrajectoryActionController::update(const ros::Time& time, const ros::Duration& duration)
 {
   ros::Duration dt = time - last_time_;
   last_time_ = time;
@@ -384,13 +392,13 @@ void R2JointTrajectoryActionController::update(const ros::Time& time)
     // Compute the errors with respect to the desired trajectory
     // (whether or not using the proxy controller).  They are also
     // used later to determine reaching the goal.
-    error[i] = joints_[i]->position_ - q[i];
-    v_error[i] = joints_[i]->velocity_ - qd[i];
+    error[i] = joints_[i].getPosition() - q[i];
+    v_error[i] = joints_[i].getVelocity() - qd[i];
 
     // Use the proxy controller (if enabled)
     if (proxies_enabled_[i]) {
       effort = proxies_[i].update(q[i], qd[i], qdd[i],
-				  joints_[i]->position_, joints_[i]->velocity_,
+				  joints_[i].getPosition(), joints_[i].getVelocity(),
 				  dt.toSec());
     }
     else {
@@ -402,7 +410,7 @@ void R2JointTrajectoryActionController::update(const ros::Time& time)
     }
 
     // Apply the effort.  WHY IS THIS ADDITIVE?
-    joints_[i]->commanded_effort_ = effort;
+    joints_[i].setCommand(effort);
   }
 
   // ------ Determines if the goal has failed or succeeded
@@ -482,10 +490,10 @@ void R2JointTrajectoryActionController::update(const ros::Time& time)
         controller_state_publisher_->msg_.desired.positions[j] = q[j];
         controller_state_publisher_->msg_.desired.velocities[j] = qd[j];
         controller_state_publisher_->msg_.desired.accelerations[j] = qdd[j];
-        controller_state_publisher_->msg_.actual.positions[j] = joints_[j]->position_;
-        controller_state_publisher_->msg_.actual.velocities[j] = joints_[j]->velocity_;
+        controller_state_publisher_->msg_.actual.positions[j] = joints_[j].getPosition();
+        controller_state_publisher_->msg_.actual.velocities[j] = joints_[j].getVelocity();
         controller_state_publisher_->msg_.error.positions[j] = error[j];
-        controller_state_publisher_->msg_.error.velocities[j] = joints_[j]->velocity_ - qd[j];
+        controller_state_publisher_->msg_.error.velocities[j] = joints_[j].getVelocity() - qd[j];
       }
       controller_state_publisher_->unlockAndPublish();
     }
@@ -516,7 +524,7 @@ void R2JointTrajectoryActionController::commandTrajectory(const trajectory_msgs:
 
   if (msg->points.empty())
   {
-    starting();
+    starting(time);
     return;
   }
 
@@ -534,7 +542,7 @@ void R2JointTrajectoryActionController::commandTrajectory(const trajectory_msgs:
       for (size_t k = 0; k < gh_follow->gh_.getGoal()->path_tolerance.size(); ++k)
       {
         const control_msgs::JointTolerance &tol = gh_follow->gh_.getGoal()->path_tolerance[k];
-        if (joints_[j]->joint_->name == tol.name)
+        if (joints_[j].getName() == tol.name)
         {
           // If the commanded tolerances are positive, overwrite the
           // existing tolerances.  If they are -1, remove any existing
@@ -564,7 +572,7 @@ void R2JointTrajectoryActionController::commandTrajectory(const trajectory_msgs:
       for (size_t k = 0; k < gh_follow->gh_.getGoal()->goal_tolerance.size(); ++k)
       {
         const control_msgs::JointTolerance &tol = gh_follow->gh_.getGoal()->goal_tolerance[k];
-        if (joints_[j]->joint_->name == tol.name)
+        if (joints_[j].getName() == tol.name)
         {
           // If the commanded tolerances are positive, overwrite the
           // existing tolerances.  If they are -1, remove any existing
@@ -605,7 +613,7 @@ void R2JointTrajectoryActionController::commandTrajectory(const trajectory_msgs:
   {
     for (size_t k = 0; k < msg->joint_names.size(); ++k)
     {
-      if (msg->joint_names[k] == joints_[j]->joint_->name)
+      if (msg->joint_names[k] == joints_[j].getName())
       {
         lookup[j] = k;
         break;
@@ -614,7 +622,7 @@ void R2JointTrajectoryActionController::commandTrajectory(const trajectory_msgs:
 
     if (lookup[j] == -1)
     {
-      ROS_ERROR("Unable to locate joint %s in the commanded trajectory.", joints_[j]->joint_->name.c_str());
+      ROS_ERROR("Unable to locate joint %s in the commanded trajectory.", joints_[j].getName().c_str());
       if (gh)
         gh->setAborted();
       else if (gh_follow) {
@@ -695,7 +703,7 @@ void R2JointTrajectoryActionController::commandTrajectory(const trajectory_msgs:
                                t,
                                prev_positions[i], prev_velocities[i], prev_accelerations[i]);
     ROS_DEBUG("    %.2lf, %.2lf, %.2lf  (%s)", prev_positions[i], prev_velocities[i],
-              prev_accelerations[i], joints_[i]->joint_->name.c_str());
+              prev_accelerations[i], joints_[i].getName().c_str());
   }
 
   // ------ Tacks on the new segments
@@ -715,7 +723,15 @@ void R2JointTrajectoryActionController::commandTrajectory(const trajectory_msgs:
   assert(!msg->points[0].positions.empty());
   for (size_t j = 0; j < joints_.size(); ++j)
   {
-    if (joints_[j]->joint_->type == urdf::Joint::CONTINUOUS)
+    // get joint limits from urdf
+    boost::shared_ptr<const urdf::Joint> joint_urdf;
+    joint_urdf = model_urdf_.getJoint(joints_[j].getName());
+    if (!joint_urdf)
+    {
+      ROS_ERROR("Could not find joint '%s' in urdf", joints_[j].getName().c_str());
+      return;
+    }
+    if (joint_urdf->type == urdf::Joint::CONTINUOUS)
     {
       double dist = angles::shortest_angular_distance(prev_positions[j], msg->points[0].positions[j]);
       wrap[j] = (prev_positions[j] + dist) - msg->points[0].positions[j];
@@ -841,7 +857,7 @@ void R2JointTrajectoryActionController::commandTrajectory(const trajectory_msgs:
                 new_traj[i].splines[j].coef[3],
                 new_traj[i].splines[j].coef[4],
                 new_traj[i].splines[j].coef[5],
-                joints_[j]->joint_->name_.c_str());
+                joints_[j].getName().c_str());
     }
   }
 #endif
@@ -881,7 +897,7 @@ bool R2JointTrajectoryActionController::queryStateService(
   resp.acceleration.resize(joints_.size());
   for (size_t j = 0; j < joints_.size(); ++j)
   {
-    resp.name[j] = joints_[j]->joint_->name;
+    resp.name[j] = joints_[j].getName();
     sampleSplineWithTimeBounds(traj[seg].splines[j].coef, traj[seg].duration,
                                req.time.toSec() - traj[seg].start_time,
                                resp.position[j], resp.velocity[j], resp.acceleration[j]);
@@ -966,7 +982,7 @@ void R2JointTrajectoryActionController::goalCB(GoalHandle gh)
 {
   std::vector<std::string> joint_names(joints_.size());
   for (size_t j = 0; j < joints_.size(); ++j)
-    joint_names[j] = joints_[j]->joint_->name;
+    joint_names[j] = joints_[j].getName();
 
   // Ensures that the joints in the goal match the joints we are commanding.
   if (!setsEqual(joint_names, gh.getGoal()->trajectory.joint_names))
@@ -992,7 +1008,7 @@ void R2JointTrajectoryActionController::goalCBFollow(GoalHandleFollow gh)
 {
   std::vector<std::string> joint_names(joints_.size());
   for (size_t j = 0; j < joints_.size(); ++j)
-    joint_names[j] = joints_[j]->joint_->name;
+    joint_names[j] = joints_[j].getName();
 
   // Ensures that the joints in the goal match the joints we are commanding.
   if (!setsEqual(joint_names, gh.getGoal()->trajectory.joint_names))
@@ -1028,7 +1044,7 @@ void R2JointTrajectoryActionController::cancelCB(GoalHandle gh)
     trajectory_msgs::JointTrajectory::Ptr empty(new trajectory_msgs::JointTrajectory);
     empty->joint_names.resize(joints_.size());
     for (size_t j = 0; j < joints_.size(); ++j)
-      empty->joint_names[j] = joints_[j]->joint_->name;
+      empty->joint_names[j] = joints_[j].getName();
     commandTrajectory(empty);
 
     // Marks the current goal as canceled.
@@ -1046,7 +1062,7 @@ void R2JointTrajectoryActionController::cancelCBFollow(GoalHandleFollow gh)
     trajectory_msgs::JointTrajectory::Ptr empty(new trajectory_msgs::JointTrajectory);
     empty->joint_names.resize(joints_.size());
     for (size_t j = 0; j < joints_.size(); ++j)
-      empty->joint_names[j] = joints_[j]->joint_->name;
+      empty->joint_names[j] = joints_[j].getName();
     commandTrajectory(empty);
 
     // Marks the current goal as canceled.
