@@ -54,3 +54,7 @@ install(TARGETS r2_controller_lib
 
 install(FILES r2_controllers_gazebo_plugins.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+install(DIRECTORY launch config
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/{PROJECT_NAME}
+)
