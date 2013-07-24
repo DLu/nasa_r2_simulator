@@ -1,9 +1,9 @@
-#include "GazeboInterface.h"
-#include "physics/Model.hh"
-#include "physics/Joint.hh"
-#include "physics/World.hh"
+#include "gazebo_interface/GazeboInterface.h"
+#include <gazebo/physics/Model.hh>
+#include <gazebo/physics/Joint.hh>
+#include <gazebo/physics/World.hh>
 
-#include "r2_msgs/JointStatusArray.h"
+#include <r2_msgs/JointStatusArray.h>
 
 using namespace gazebo;
 

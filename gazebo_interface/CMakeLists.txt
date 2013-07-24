@@ -49,15 +49,18 @@ include_directories(include
 )
 
 ## Declare a cpp library
+add_library(robot_controller
+  src/RobotController.cpp include/${PROJECT_NAME}/RobotController.h
+)
+
 add_library(gazebo_interface
-  src/${PROJECT_NAME}/gazeboInterface.cpp
-  include/${PROJECT_NAME}/GazeboInterface.h
-  src/${PROJECT_NAME}/JointController.cpp
-  include/${PROJECT_NAME}/JointController.h
+  src/GazeboInterface.cpp include/${PROJECT_NAME}/GazeboInterface.h
+  src/JointController.cpp include/${PROJECT_NAME}/JointController.h
 )
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(gazebo_interface
+  robot_controller
   ${SDFormat_LIBRARIES}
   ${GAZEBO_LIBRARIES}
   ${catkin_LIBRARIES}
