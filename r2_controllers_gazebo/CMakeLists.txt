@@ -7,7 +7,8 @@ include_directories(${EIGEN_INCLUDE_DIRS})
 add_definitions(${EIGEN_DEFINITIONS})
 
 # Load catkin and all dependencies required for this package
-find_package(catkin REQUIRED COMPONENTS filters tf_conversions effort_controllers tf tf2_kdl orocos_kdl kdl_parser r2_msgs controller_interface control_msgs control_toolbox realtime_tools urdf)
+find_package(catkin REQUIRED COMPONENTS filters tf_conversions effort_controllers tf tf2_kdl kdl_parser r2_msgs controller_interface control_msgs control_toolbox realtime_tools urdf)
+find_package(orocos_kdl REQUIRED)
 
 include_directories(include ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
 
@@ -25,7 +26,8 @@ target_link_libraries(r2_controller_lib kdl_treeid_solver)
 
 # Declare catkin package
 catkin_package(
-  CATKIN_DEPENDS filters tf_conversions effort_controllers tf tf2_kdl orocos_kdl kdl_parser r2_msgs controller_interface control_msgs control_toolbox realtime_tools urdf
+  CATKIN_DEPENDS filters tf_conversions effort_controllers tf tf2_kdl kdl_parser r2_msgs controller_interface control_msgs control_toolbox realtime_tools urdf
+  DEPENDS orocos_kdl
   INCLUDE_DIRS include
   LIBRARIES kdl_treeid_solver r2_controller_lib
   )
