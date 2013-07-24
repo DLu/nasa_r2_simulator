@@ -52,11 +52,13 @@ include_directories(include
 add_library(robot_controller
   src/RobotController.cpp include/${PROJECT_NAME}/RobotController.h
 )
+add_dependencies(robot_controller r2_msgs_gencpp)
 
 add_library(gazebo_interface
   src/GazeboInterface.cpp include/${PROJECT_NAME}/GazeboInterface.h
   src/JointController.cpp include/${PROJECT_NAME}/JointController.h
 )
+add_dependencies(gazebo_interface r2_msgs_gencpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(gazebo_interface

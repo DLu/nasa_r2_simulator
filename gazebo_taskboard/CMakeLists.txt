@@ -4,7 +4,7 @@ project(gazebo_taskboard)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS actionlib geometry_msgs pluginlib roscpp rospy rostest std_msgs)
+find_package(catkin REQUIRED COMPONENTS message_runtime message_generation actionlib geometry_msgs pluginlib roscpp rospy rostest std_msgs)
 
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS system)
@@ -27,18 +27,20 @@ endforeach ()
 
 ## Generate messages in the 'msg' folder
 add_message_files(
+  DIRECTORY msg
   FILES
   TaskboardPanelA.msg
 )
 
 ## Generate services in the 'srv' folder
 add_service_files(
+  DIRECTORY srv
   FILES
-ManipulateNumPad.srv
-ManipulatePowerCover.srv
-ManipulatePowerSwitch.srv
-ManipulateRockerSwitch.srv
-ManipulateSafeToggle.srv
+  ManipulateNumPad.srv
+  ManipulatePowerCover.srv
+  ManipulatePowerSwitch.srv
+  ManipulateRockerSwitch.srv
+  ManipulateSafeToggle.srv
 )
 
 ## Generate added messages and services with any dependencies listed here
@@ -79,6 +81,7 @@ add_library(gazebo_taskboard src/GazeboTaskboard.cpp include/gazebo_taskboard/Ga
 target_link_libraries(gazebo_taskboard ${SDFormat_LIBRARIES} ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 set_target_properties(gazebo_taskboard PROPERTIES LINK_FLAGS "${ld_flags}")
 set_target_properties(gazebo_taskboard PROPERTIES COMPILE_FLAGS "${cxx_flags}")
+add_dependencies(gazebo_taskboard ${PROJECT_NAME}_gencpp)
 
 #############
 ## Install ##
