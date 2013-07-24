@@ -5,14 +5,16 @@
 #include <string>
 #include <vector>
 
-#include "common/PID.hh"
-#include "common/Time.hh"
-#include "physics/PhysicsTypes.hh"
+#include <ros/ros.h>
+
+#include <gazebo/common/PID.hh>
+#include <gazebo/common/Time.hh>
+#include <gazebo/physics/PhysicsTypes.hh>
 
 #include <boost/thread.hpp>
 
-#include "r2_msgs/JointStatus.h"
-#include "r2_msgs/JointControl.h"
+#include <r2_msgs/JointStatus.h>
+#include <r2_msgs/JointControl.h>
 
 namespace gazebo
 {

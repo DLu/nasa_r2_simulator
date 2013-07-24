@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS)
 
 ## System dependencies are found with CMake's conventions
 find_package(gazebo REQUIRED)
+find_package(SDF REQUIRED)
 
 # parse gazebo flags
 set(cxx_flags)
@@ -34,6 +35,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(include
   ${GAZEBO_INCLUDE_DIRS}
+  ${SDFormat_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS} 
 )
 
@@ -41,7 +43,7 @@ include_directories(include
 add_library(gazebo_gripper src/GazeboGripper.cpp include/gazebo_gripper/GazeboGripper.h)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(gazebo_gripper ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
+target_link_libraries(gazebo_gripper ${SDFormat_LIBRARIES} ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 set_target_properties(gazebo_gripper PROPERTIES LINK_FLAGS "${ld_flags}")
 set_target_properties(gazebo_gripper PROPERTIES COMPILE_FLAGS "${cxx_flags}")
 

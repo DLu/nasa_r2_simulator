@@ -1,11 +1,11 @@
-#include "../include/GazeboGripper.h"
-#include "physics/Model.hh"
-#include "physics/Joint.hh"
-#include "physics/World.hh"
-#include "physics/Link.hh"
-#include "physics/PhysicsEngine.hh"
-#include "physics/Collision.hh"
-#include "physics/Contact.hh"
+#include "gazebo_gripper/GazeboGripper.h"
+#include <gazebo/physics/Model.hh>
+#include <gazebo/physics/Joint.hh>
+#include <gazebo/physics/World.hh>
+#include <gazebo/physics/Link.hh>
+#include <gazebo/physics/PhysicsEngine.hh>
+#include <gazebo/physics/Collision.hh>
+#include <gazebo/physics/Contact.hh>
 
 using namespace gazebo;
 
@@ -37,7 +37,7 @@ void GazeboGripper::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     }
     else
     {
-        updateTime = 1/(_sdf->GetElement("updateRate")->GetValueDouble());
+        updateTime = 1/(_sdf->Get<double>("updateRate"));
     }
 
     if (!_sdf->HasElement("attachWait"))
@@ -47,7 +47,7 @@ void GazeboGripper::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     }
     else
     {
-        attachWait = _sdf->GetElement("attachWait")->GetValueDouble();
+        attachWait = _sdf->Get<double>("attachWait");
     }
 
     if (!_sdf->HasElement("detachWait"))
@@ -57,7 +57,7 @@ void GazeboGripper::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     }
     else
     {
-        detachWait = _sdf->GetElement("detachWait")->GetValueDouble();
+        detachWait = _sdf->Get<double>("detachWait");
     }
 
     if (!_sdf->HasElement("maxRelativeMotionRate"))
@@ -67,7 +67,7 @@ void GazeboGripper::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     }
     else
     {
-        maxRelativeMotionRate = _sdf->GetElement("maxRelativeMotionRate")->GetValueDouble();
+        maxRelativeMotionRate = _sdf->Get<double>("maxRelativeMotionRate");
     }
 
     if (!_sdf->HasElement("gripperAttachLink"))
@@ -77,7 +77,7 @@ void GazeboGripper::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     }
     else
     {
-        gripperAttachLink = _sdf->GetElement("gripperAttachLink")->GetValueString();
+        gripperAttachLink = _sdf->Get<std::string>("gripperAttachLink");
         if (!modelPtr->GetLink(gripperAttachLink))
         {
             ROS_FATAL((std::string("GazeboGripper plugin couldn't find gripperAttachLink (%s) in model, cannot proceed.\n")
@@ -99,16 +99,16 @@ void GazeboGripper::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     while (linkElem)
     {
         physics::LinkPtr link;
-        if (link = modelPtr->GetLink(linkElem->GetValueString()))
+        if (link = modelPtr->GetLink(linkElem->Get<std::string>()))
         {
             links.push_back(link);
-            ROS_DEBUG("GazeboGripper plugin added gripperLink: %s", linkElem->GetValueString().c_str());
+            ROS_DEBUG("GazeboGripper plugin added gripperLink: %s", linkElem->Get<std::string>().c_str());
         }
         else
         {
             ROS_FATAL((std::string("GazeboGripper plugin couldn't find gripperLink (%s) in model, cannot proceed.\n")
                                    + "\tLinks connected with static joints may be combined into one by the URDF parser.").c_str(),
-                       linkElem->GetValueString().c_str());
+                       linkElem->Get<std::string>().c_str());
             return;
         }
 
@@ -190,8 +190,8 @@ void GazeboGripper::handleContact()
             // identify gripper links colliding with each external part
             for (unsigned int i = 0; i < contacts.size(); ++i)
             {
-                std::string name1 = contacts[i].collision1;
-                std::string name2 = contacts[i].collision2;
+                std::string name1 = contacts[i].collision1->GetName();
+                std::string name2 = contacts[i].collision2->GetName();
 
                 if (collisionPtrs.find(name1) == collisionPtrs.end())
                 {

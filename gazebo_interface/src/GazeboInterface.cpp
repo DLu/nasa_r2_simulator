@@ -390,7 +390,7 @@ void GazeboInterface::Init()
         for (unsigned int i = 0; i < modelPtr->GetJointCount(); ++i)
         {
             physics::JointPtr jPtr = modelPtr->GetJoints()[i];
-            robotControllerPtr->setJointPosTarget(jPtr->GetName(), jPtr->GetAngle(0).GetAsRadian());
+            robotControllerPtr->setJointPosTarget(jPtr->GetName(), jPtr->GetAngle(0).Radian());
         }
     }
 
@@ -433,7 +433,7 @@ void GazeboInterface::update()
             // joint
             std::string name = jPtr->GetName();
             msgPtr->name.push_back(name);
-            msgPtr->position.push_back(jPtr->GetAngle(0).GetAsRadian());
+            msgPtr->position.push_back(jPtr->GetAngle(0).Radian());
             msgPtr->velocity.push_back(jPtr->GetVelocity(0));
             msgPtr->effort.push_back(jPtr->GetForce(0));
 
@@ -442,13 +442,13 @@ void GazeboInterface::update()
             if (index != std::string::npos)
             {
                 msgPtr->name.push_back(name.replace(index, 6, "/motor"));
-                msgPtr->position.push_back(jPtr->GetAngle(0).GetAsRadian());
+                msgPtr->position.push_back(jPtr->GetAngle(0).Radian());
                 msgPtr->velocity.push_back(jPtr->GetVelocity(0));
                 msgPtr->effort.push_back(jPtr->GetForce(0));
 
                 // encoder
                 msgPtr->name.push_back(name.replace(index, 6, "/encoder"));
-                msgPtr->position.push_back(jPtr->GetAngle(0).GetAsRadian());
+                msgPtr->position.push_back(jPtr->GetAngle(0).Radian());
                 msgPtr->velocity.push_back(jPtr->GetVelocity(0));
                 msgPtr->effort.push_back(jPtr->GetForce(0));
             }
