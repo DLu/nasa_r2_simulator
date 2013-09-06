@@ -10,6 +10,6 @@ catkin_package(
 #  DEPENDS system_lib
 )
 
-install(DIRECTORY Media config urdf robots launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/{PROJECT_NAME}
+install(DIRECTORY Media config urdf robots launch gazebo
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
