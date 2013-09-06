@@ -7,8 +7,10 @@ include_directories(${EIGEN_INCLUDE_DIRS})
 add_definitions(${EIGEN_DEFINITIONS})
 
 # Load catkin and all dependencies required for this package
-find_package(catkin REQUIRED COMPONENTS filters tf_conversions effort_controllers tf tf2_kdl kdl_parser r2_msgs controller_interface control_msgs control_toolbox realtime_tools urdf)
+find_package(catkin REQUIRED COMPONENTS orocos_kdl filters tf_conversions effort_controllers tf tf2_kdl kdl_parser r2_msgs controller_interface control_msgs control_toolbox realtime_tools urdf)
 find_package(orocos_kdl REQUIRED)
+
+link_directories(${catkin_LIBRARY_DIRS} ${orocos_kdl_LIBRARY_DIRS})
 
 include_directories(include ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
 
@@ -58,5 +60,5 @@ install(FILES r2_controllers_gazebo_plugins.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 install(DIRECTORY launch config
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/{PROJECT_NAME}
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
