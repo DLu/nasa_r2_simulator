@@ -1,10 +1,10 @@
 #ifndef GAZEBOGRIPPER_H
 #define GAZEBOGRIPPER_H
 
-#include "common/Plugin.hh"
-#include "common/Events.hh"
+#include <gazebo/common/Plugin.hh>
+#include <gazebo/common/Events.hh>
 
-#include "physics/Gripper.hh"
+#include <gazebo/physics/Gripper.hh>
 
 #include <ros/ros.h>
 #include <sensor_msgs/JointState.h>

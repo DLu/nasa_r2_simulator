@@ -5,8 +5,8 @@
 #include "r2_msgs/JointControl.h"
 #include "r2_msgs/JointStatus.h"
 
-#include "common/Plugin.hh"
-#include "common/Events.hh"
+#include <gazebo/common/Plugin.hh>
+#include <gazebo/common/Events.hh>
 
 #include <ros/ros.h>
 #include <sensor_msgs/JointState.h>

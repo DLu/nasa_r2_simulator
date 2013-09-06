@@ -14,8 +14,8 @@
 
 #include <boost/scoped_ptr.hpp>
 
-#include <common/Plugin.hh>
-#include <physics/physics.hh>
+#include <gazebo/common/Plugin.hh>
+#include <gazebo/physics/physics.hh>
 #include <ros/ros.h>
 
 #include <gazebo_taskboard/ManipulatePowerCover.h>
