@@ -8,7 +8,7 @@ find_package(catkin REQUIRED COMPONENTS)
 
 ## System dependencies are found with CMake's conventions
 find_package(gazebo REQUIRED)
-find_package(SDF REQUIRED)
+find_package(SDFormat REQUIRED)
 
 # parse gazebo flags
 set(cxx_flags)

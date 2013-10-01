@@ -119,7 +119,7 @@ void GazeboInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 
     // Listen to the update event. This event is broadcast every
     // simulation iteration.
-    updateConnectionPtr = event::Events::ConnectWorldUpdateStart(boost::bind(&GazeboInterface::update, this));
+    updateConnectionPtr = event::Events::ConnectWorldUpdateBegin(boost::bind(&GazeboInterface::update, this));
 
     ROS_INFO("Gazebo Interface plugin loaded");
 }

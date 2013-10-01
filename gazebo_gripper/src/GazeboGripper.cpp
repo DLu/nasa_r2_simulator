@@ -138,7 +138,7 @@ void GazeboGripper::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
             }
 
             collision->SetContactsEnabled(true);
-            connectionPtrs.push_back(collision->ConnectContact(boost::bind(&GazeboGripper::onContact, this, _1, _2)));
+            // connectionPtrs.push_back(collision->ConnectContact(boost::bind(&GazeboGripper::onContact, this, _1, _2)));
             collisionPtrs[collision->GetScopedName()] = collision;
             ROS_DEBUG("GazeboGripper plugin added collision: %s", collision->GetScopedName().c_str());
         }

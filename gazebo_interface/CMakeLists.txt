@@ -8,7 +8,7 @@ find_package(catkin REQUIRED COMPONENTS r2_msgs sensor_msgs)
 
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS system)
-find_package(SDF REQUIRED)
+find_package(SDFormat REQUIRED)
 find_package(gazebo REQUIRED)
 
 # parse gazebo flags

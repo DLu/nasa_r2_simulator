@@ -321,7 +321,7 @@ GazeboTaskboardSlot1::~GazeboTaskboardSlot1()
 {
     if (updateConnection)
     {
-        event::Events::DisconnectWorldUpdateStart(updateConnection);
+        event::Events::DisconnectWorldUpdateBegin(updateConnection);
         updateConnection.reset();
     }
 }
@@ -347,7 +347,7 @@ void GazeboTaskboardSlot1::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     }
 
     // Listen to the update event.This event is broadcasted every simulation iteration.
-    updateConnection = event::Events::ConnectWorldUpdateStart(
+    updateConnection = event::Events::ConnectWorldUpdateBegin(
         boost::bind(&GazeboTaskboardSlot1::OnUpdate, this));
 
     // Init services
