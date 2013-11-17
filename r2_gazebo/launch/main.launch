@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot"     default="true" />
+  <arg name="gui"       default="true" />
+  <arg name="taskboard" default="false" />
+  <arg name="world"     default="r2_empty" /> <!-- r2_ISS,  r2_ISS_simple, r2_empty_no_gravity-->
+  <arg name="gravity"   default="true" />
+  <arg name="legs"      default="false" />
+  
+  <param name="/use_sim_time" value="true"/>
+
+  <!-- load world -->
+  <node name="gazebo" pkg="gazebo_ros" type="gazebo" args="$(find r2_gazebo)/gazebo/$(arg world).world" output="screen" respawn="false" />
+  
+  <group if="$(arg gravity)">
+    <param name="/gravity/x" value="0"/>
+    <param name="/gravity/y" value="0"/>
+    <param name="/gravity/z" value="0"/>
+  </group>
+  
+  <!-- load controller parameters-->
+  <rosparam file="$(find r2_gazebo)/config/controllers/r2sim_legs_params.yaml"  command="load" if="$(arg legs)"/>
+  <rosparam file="$(find r2_gazebo)/config/controllers/r2sim_torso_params.yaml" command="load" />
+  
+  <!-- load robot -->
+  <group if="$(arg robot)">
+    <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/robots/r2.sim.urdf.xacro'" /> 
+    <node name="spawn_r2" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model r2 -paused=true" respawn="false" output="screen" /> 
+    
+    <!-- load controller -->
+    <rosparam file="$(find r2_gazebo)/config/controllers/r2_impedance_controller.yaml" command="load" />  
+    <include file="$(find pr2_controller_manager)/controller_manager.launch" />
+    <node name="default_controllers_spawner"
+        pkg="pr2_controller_manager" type="spawner" output="screen"
+        args="r2_controller" />
+  </group>
+  
+  <!-- load taskboard -->
+  <group if="$(arg taskboard)">
+    <param name="taskboard_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard.urdf.xacro'" />  
+    <node name="spawn_taskboard" pkg="gazebo_ros" type="spawn_model" args="-urdf -param taskboard_description -model taskboard" respawn="false" output="screen" /> 
+    
+    <!-- load taskboard connectors -->  <!-- ANNOYING!! THESE NEED TO BE DEFINED AFTER A BIT OF A DELAY OR NOT ALL THE MODELS SHOW UP.  FIXME! -->
+    <param name="taskboard_B01_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard_B01.urdf.xacro'" />
+    <param name="taskboard_B05_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard_B05.urdf.xacro'" /> 
+    <node name="spawn_taskboard_B01" pkg="gazebo_ros" type="spawn_model" args="-urdf -param taskboard_B01_description -model taskboard_B01" respawn="false" output="screen"/> 
+    <node name="spawn_taskboard_B05" pkg="gazebo_ros" type="spawn_model" args="-urdf -param taskboard_B05_description -model taskboard_B05" respawn="false" output="screen"/>
+
+    <node pkg="robot_state_publisher" type="state_publisher" name="rob_st_pub" >
+      <remap from="robot_description" to="taskboard_description" />
+    </node>
+  </group>
+
+
+  <!-- start gui -->
+  <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen" if="$(arg gui)"/>
+
+
+</launch>
+
