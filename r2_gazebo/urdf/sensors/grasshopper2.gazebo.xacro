@@ -6,14 +6,21 @@
   
   <xacro:macro name="grasshopper2_cam_gazebo_v0" params="camera_name frame_name">
       <gazebo reference="${frame_name}">
-          <sensor:camera name="${camera_name}">
-            <imageSize>1600 1200</imageSize>
-            <imageFormat>R8G8B8</imageFormat>
-            <hfov>90</hfov>
-            <nearClip>0.10</nearClip>
-            <farClip>50</farClip>
-            <updateRate>10.0</updateRate>
-            <controller:gazebo_ros_prosilica name="${camera_name}_controller" plugin="libgazebo_ros_prosilica.so">
+          <sensor type="camera" name="${camera_name}">
+            <update_rate>10.0</update_rate>
+            <camera>
+              <image>
+                <width>1600</width>
+                <height>1200</height>
+                <format>R8G8B8</format>
+              </image>
+              <horizontal_fov>1.5707</horizontal_fov>
+              <clip>
+                <near>0.10</near>
+                <far>50</far>
+              </clip>
+            </camera>
+            <plugin name="${camera_name}_controller" filename="libgazebo_ros_prosilica.so">
                 <alwaysOn>true</alwaysOn>
                 <updateRate>20.0</updateRate>
                 <cameraName>${camera_name}</cameraName>
@@ -30,9 +37,8 @@
                 <distortionK3>0.00000001</distortionK3>
                 <distortionT1>0.00000001</distortionT1>
                 <distortionT2>0.00000001</distortionT2>
-                <interface:camera name="${camera_name}_iface"/>
-            </controller:gazebo_ros_prosilica>
-          </sensor:camera>
+            </plugin>
+          </sensor>
           <turnGravityOff>false</turnGravityOff>
           <material>Gazebo/White</material>
         </gazebo>

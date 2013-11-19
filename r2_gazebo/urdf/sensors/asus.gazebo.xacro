@@ -6,22 +6,29 @@
   
     <xacro:macro name="asus_ir_gazebo_v0" params="link_name frame_name camera_name">
       <gazebo reference="${link_name}">
-        <sensor:camera name="${name}/ir">
-          <imageFormat>L8</imageFormat>
-          <imageSize>640 480</imageSize>
-          <hfov>57</hfov>
-          <nearClip>0.01</nearClip>
-          <farClip>5</farClip>
-          <updateRate>1.0</updateRate>
-          <baseline>0.2</baseline>
-          <controller:gazebo_ros_openni_kinect name="${link_name}_controller" plugin="libgazebo_ros_openni_kinect.so">
+        <sensor type="depth" name="${name}/ir">
+          <update_rate>1.0</update_rate>
+          <camera>
+            <image>
+              <format>L8</format>
+              <width>640</width>
+              <height>480</height>
+            </image>
+            <horizontal_fov>0.9948</horizontal_fov>
+            <clip>
+              <near>0.01</near>
+              <far>5</far>
+            </clip>
+          </camera>
+          <plugin name="${link_name}_controller" filename="libgazebo_ros_openni_kinect.so">
             <alwaysOn>true</alwaysOn>
             <updateRate>1.0</updateRate>
+            <hackBaseline>0.2</hackBaseline>
             <cameraName>${camera_name}/ir</cameraName>
             <imageTopicName>/${camera_name}/depth/image_raw</imageTopicName>
             <cameraInfoTopicName>/${camera_name}/depth/camera_info</cameraInfoTopicName>
             <depthImageTopicName>/${camera_name}/depth/image_raw</depthImageTopicName>
-            <depthImageInfoTopicName>/${camera_name}/depth/camera_info</depthImageInfoTopicName>
+            <depthImageCameraInfoTopicName>/${camera_name}/depth/camera_info</depthImageCameraInfoTopicName>
             <pointCloudTopicName>/${camera_name}/depth/points</pointCloudTopicName>
             <frameName>${frame_name}</frameName>
             <pointCloudCutoff>0.5</pointCloudCutoff>
@@ -30,28 +37,36 @@
             <distortionK3>0.00000001</distortionK3>
             <distortionT1>0.00000001</distortionT1>
             <distortionT2>0.00000001</distortionT2>
-          </controller:gazebo_ros_openni_kinect>
-        </sensor:camera>
+          </plugin>
+        </sensor>
         <material value="Gazebo/Red" />
       </gazebo>
     </xacro:macro>
 
     <xacro:macro name="asus_rgb_gazebo_v0" params="link_name frame_name camera_name">
       <gazebo reference="${link_name}">
-        <sensor:camera name="${name}/rgb">
-          <imageFormat>R8G8B8</imageFormat>
-          <imageSize>640 480</imageSize>
-          <hfov>57</hfov>
-          <nearClip>0.01</nearClip>
-          <farClip>5</farClip>
-          <updateRate>1.0</updateRate>
-          <baseline>0.2</baseline>
-          <controller:gazebo_ros_openni_kinect name="${link_name}_controller" plugin="libgazebo_ros_openni_kinect.so">
+        <sensor type="depth" name="${name}/rgb">
+          <update_rate>1.0</update_rate>
+          <camera>
+            <image>
+              <format>R8G8B8</format>
+              <width>640</width>
+              <height>480</height>
+            </image>
+            <horizontal_fov>0.9948</horizontal_fov>
+            <clip>
+              <near>0.01</near>
+              <far>5</far>
+            </clip>
+          </camera>
+          <plugin name="${link_name}_controller" filename="libgazebo_ros_openni_kinect.so">
             <alwaysOn>true</alwaysOn>
             <updateRate>1.0</updateRate>
             <cameraName>${camera_name}/rgb</cameraName>
             <imageTopicName>/${camera_name}/rgb/image_raw</imageTopicName>
             <cameraInfoTopicName>/${camera_name}/rgb/camera_info</cameraInfoTopicName>
+            <depthImageTopicName>/${camera_name}/depth/image_raw</depthImageTopicName>
+            <depthImageCameraInfoTopicName>/${camera_name}/depth/camera_info</depthImageCameraInfoTopicName>
             <pointCloudTopicName>/${camera_name}/depth_registered/points</pointCloudTopicName>
             <frameName>${frame_name}</frameName>
             <pointCloudCutoff>0.5</pointCloudCutoff>
@@ -60,8 +75,8 @@
             <distortionK3>0.00000001</distortionK3>
             <distortionT1>0.00000001</distortionT1>
             <distortionT2>0.00000001</distortionT2>
-          </controller:gazebo_ros_openni_kinect>
-        </sensor:camera>
+          </plugin>
+        </sensor>
         <material value="Gazebo/Red" />
       </gazebo>
     </xacro:macro>
