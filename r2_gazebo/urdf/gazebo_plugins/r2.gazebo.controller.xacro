@@ -2,10 +2,9 @@
 <robot>
 
   <gazebo>
-
     <!-- plugin name="gazebo_ros_controller_manager" filename="libgazebo_ros_controller_manager.so"> -->
-    <plugin name="ros_control" filename="libgazebo_ros_control.so">
-      <namespace>/r2</namespace>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/r2</robotNamespace>
     </plugin>
   </gazebo>
 
