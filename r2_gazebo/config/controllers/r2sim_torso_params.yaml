@@ -1,4 +1,9 @@
-r2_sim_params:
+r2:
+
+    # Publish all joint states -----------------------------------
+    joint_state_controller:
+        type: joint_state_controller/JointStateController
+        publish_rate: 50  
     # list of initial joint positions
     # omitted joints default to 0.0
     initial_position: # start the robot in this position
