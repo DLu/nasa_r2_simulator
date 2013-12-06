@@ -30,11 +30,11 @@
     <node name="spawn_r2" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model r2 -paused=true" respawn="false" output="screen" /> 
     
     <!-- load controller -->
-    <rosparam file="$(find r2_gazebo)/config/controllers/r2_impedance_controller.yaml" command="load" ns="/r2"/>  
+    <rosparam file="$(find r2_gazebo)/config/controllers/r2_joint_trajectory_controller.yaml" command="load" ns="/r2"/>  
 
   <!-- spawn controller -->
     <node name="default_controllers_spawner" pkg="controller_manager" type="spawner" output="screen" ns="/r2"
-          args="joint_state_controller r2_controller" /> <!-- r2_controller -->
+          args="joint_state_controller r_arm_controller l_arm_controller" /> <!-- r2_controller -->
 
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
       respawn="false" output="screen">
