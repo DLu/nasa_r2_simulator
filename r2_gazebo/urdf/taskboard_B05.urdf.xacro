@@ -6,7 +6,7 @@
 			xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
 
 
-  <include filename="$(find r2_gazebo)/urdf/taskboard.B05.xacro" />
+  <xacro:include filename="$(find r2_gazebo)/urdf/taskboard.B05.xacro" />
 
 
 </robot>
