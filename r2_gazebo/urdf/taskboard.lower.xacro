@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="taskboard" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller">
+<robot name="taskboard" xmlns:xacro="http://wiki.ros.org/xacro">
   <link name="world"/>
   <link name="dummy">
     <inertial>
