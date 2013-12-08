@@ -16,16 +16,16 @@ class R2GazeIK
 {
     typedef Eigen::DiagonalMatrix<double,Eigen::Dynamic> DiagMatrix;
     typedef Eigen::MatrixXd Jacobian;
-    
+
 public:
     R2GazeIK(const KDL::Chain& chain);
     ~R2GazeIK();
-    
+
     void setWeightMatrix(const Eigen::VectorXd& w);
     void setWeightMatrix(const Eigen::MatrixXd& W);
     int computeSolution(const Eigen::VectorXd& q_act, const KDL::Frame& desired_frame, Eigen::VectorXd& q);
     int computeSolution(const KDL::JntArray& q_act, const KDL::Frame& desired_frame, KDL::JntArray& q);
-    
+
 private:
 
     double computeDelta(const Eigen::VectorXd& q, const KDL::Frame& desired_frame, Eigen::VectorXd& del_q);
@@ -34,10 +34,10 @@ private:
     KDL::Chain chain;
     KDL::ChainFkSolverPos_recursive fk;
     KDL::ChainJntToJacSolver jacobian_solver;
-    
+
     // Stores the number of degrees of freedom in chain
     int N;
-    
+
     // Weight matrix and its inverse
     DiagMatrix Q;
     DiagMatrix Qinv;
@@ -45,7 +45,7 @@ private:
     // Parameters which control the ik solver
     int maxSolverAttempts;
     double dt;
-    
+
     // Temporaries
     Eigen::Vector3d p_d, p, e;
     Jacobian J_partial, Jw, Jwt, Jwt_inv;

@@ -34,48 +34,48 @@
 #pragma once
 
 /// performs the successive nullspace calculations for the whole body framework
-class WholeBodyCalc{
-	Eigen::MatrixXd Jsum;
-	Eigen::MatrixXd I;
-	Eigen::MatrixXd N;
-	KDL::JntArray result;
-	
-	int tree_size;
-	
-	public:
-	WholeBodyCalc():tree_size(0){}
-	WholeBodyCalc(const KDL::Tree& tree){
-		tree_size = tree.getNrOfJoints();
-		Jsum.resize( tree_size, tree_size );
-		Jsum = Eigen::MatrixXd::Zero(tree_size, tree_size );
-		I.resize( tree_size, tree_size );
-		I.setIdentity();
-		N.resize( tree_size, tree_size );
-		N.setIdentity();
-		result.resize( tree_size );
-	}
-	
-	void reset(){
-		N.setIdentity();
-		Jsum = Eigen::MatrixXd::Zero(tree_size, tree_size );
-	}
-	
-	/// project torques through the current nullspace, add the nullspace of tc for the next call
-	const KDL::JntArray& project( const KDL::JntArray& torques, const TreeChain& tc ){
-		result.data = N * torques.data;
-		Eigen::MatrixXd JN = tc.getJ().data*N;
-		Eigen::MatrixXd JNinv = calcPinv(JN);
-		Jsum += JNinv * JN;
-		N = I - Jsum.transpose();  // Jsum.transpose()?...Jsum should be symmetrical, maybe
-		
-		return result;
-	}
-	/// project torques through the current nullspace but leave the nullspace the same
-	const KDL::JntArray& project( const KDL::JntArray& torques ){
-		result.data = N * torques.data;
-		return result;
-	}
-	Eigen::MatrixXd calcPinv( const Eigen::MatrixXd& in );
-	
+class WholeBodyCalc {
+    Eigen::MatrixXd Jsum;
+    Eigen::MatrixXd I;
+    Eigen::MatrixXd N;
+    KDL::JntArray result;
+
+    int tree_size;
+
+public:
+    WholeBodyCalc():tree_size(0) {}
+    WholeBodyCalc(const KDL::Tree& tree) {
+        tree_size = tree.getNrOfJoints();
+        Jsum.resize( tree_size, tree_size );
+        Jsum = Eigen::MatrixXd::Zero(tree_size, tree_size );
+        I.resize( tree_size, tree_size );
+        I.setIdentity();
+        N.resize( tree_size, tree_size );
+        N.setIdentity();
+        result.resize( tree_size );
+    }
+
+    void reset() {
+        N.setIdentity();
+        Jsum = Eigen::MatrixXd::Zero(tree_size, tree_size );
+    }
+
+    /// project torques through the current nullspace, add the nullspace of tc for the next call
+    const KDL::JntArray& project( const KDL::JntArray& torques, const TreeChain& tc ) {
+        result.data = N * torques.data;
+        Eigen::MatrixXd JN = tc.getJ().data*N;
+        Eigen::MatrixXd JNinv = calcPinv(JN);
+        Jsum += JNinv * JN;
+        N = I - Jsum.transpose();  // Jsum.transpose()?...Jsum should be symmetrical, maybe
+
+        return result;
+    }
+    /// project torques through the current nullspace but leave the nullspace the same
+    const KDL::JntArray& project( const KDL::JntArray& torques ) {
+        result.data = N * torques.data;
+        return result;
+    }
+    Eigen::MatrixXd calcPinv( const Eigen::MatrixXd& in );
+
 };
 

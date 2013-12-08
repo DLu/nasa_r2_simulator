@@ -29,33 +29,33 @@
 namespace KDL
 {
 
-    typedef std::vector<Wrench> Wrenches;
+typedef std::vector<Wrench> Wrenches;
 
-	/**
-	 * \brief This <strong>abstract</strong> class encapsulates the inverse
-	 * dynamics solver for a KDL::Chain.
-	 *
-	 */
-	class TreeIdSolver
-	{
-		public:
-			/** 
-			 * Calculate inverse dynamics, from joint positions, velocity, acceleration, external forces
-			 * to joint torques/forces.
-			 * 
-			 * @param q input joint positions
-			 * @param q_dot input joint velocities
-			 * @param q_dotdot input joint accelerations
-			 *
-			 * @param torque output joint torques
-			 * 
-			 * @return if < 0 something went wrong
-			 */
-        virtual int CartToJnt(const JntArray &q, const JntArray &q_dot, const JntArray &q_dotdot, const Wrenches& f_ext,JntArray &torques)=0;
-        virtual int CartToJnt(const std::vector<double> &q, const std::vector<double> &q_dot, const std::vector<double> &q_dotdot, const Wrenches& f_ext,JntArray &torques) =0;
+/**
+ * \brief This <strong>abstract</strong> class encapsulates the inverse
+ * dynamics solver for a KDL::Chain.
+ *
+ */
+class TreeIdSolver
+{
+public:
+    /**
+     * Calculate inverse dynamics, from joint positions, velocity, acceleration, external forces
+     * to joint torques/forces.
+     *
+     * @param q input joint positions
+     * @param q_dot input joint velocities
+     * @param q_dotdot input joint accelerations
+     *
+     * @param torque output joint torques
+     *
+     * @return if < 0 something went wrong
+     */
+    virtual int CartToJnt(const JntArray &q, const JntArray &q_dot, const JntArray &q_dotdot, const Wrenches& f_ext,JntArray &torques)=0;
+    virtual int CartToJnt(const std::vector<double> &q, const std::vector<double> &q_dot, const std::vector<double> &q_dotdot, const Wrenches& f_ext,JntArray &torques) =0;
 
 
-        // Need functions to return the manipulator mass, coriolis and gravity matrices - Lagrangian Formulation.
-	};
+    // Need functions to return the manipulator mass, coriolis and gravity matrices - Lagrangian Formulation.
+};
 
 }

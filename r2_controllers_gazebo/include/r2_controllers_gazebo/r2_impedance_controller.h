@@ -77,207 +77,207 @@
 
 namespace r2_controller_ns {
 class R2ImpedanceController: public controller_interface::Controller<hardware_interface::EffortJointInterface> {
-	
-	//ros messaging
-	ros::NodeHandle node;
-	tf::TransformListener tfListener;
-	boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::PoseStamped> >	left_tip_pose_publisher;
-	boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::Twist> >		left_pose_error_publisher;
-	ros::Subscriber 									joint_command_sub;
-	ros::Subscriber 									left_joint_command_sub;
-	
-	message_filters::Subscriber<geometry_msgs::PoseStamped> 				left_pose_command_sub;
-	boost::scoped_ptr<tf::MessageFilter<geometry_msgs::PoseStamped> >			left_pose_command_filter;
-	message_filters::Subscriber<r2_msgs::PoseTwistStamped> 					left_pose_vel_command_sub;
-	boost::scoped_ptr<tf::MessageFilter<r2_msgs::PoseTwistStamped> >			left_pose_vel_command_filter;
-	
-	boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::PoseStamped> >	right_tip_pose_publisher;
-	boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::Twist> >		right_pose_error_publisher;
-	ros::Subscriber 									right_joint_command_sub;
-	
-	message_filters::Subscriber<geometry_msgs::PoseStamped> 				right_pose_command_sub;
-	boost::scoped_ptr<tf::MessageFilter<geometry_msgs::PoseStamped> >			right_pose_command_filter;
-	message_filters::Subscriber<r2_msgs::PoseTwistStamped>	 				right_pose_vel_command_sub;
-	boost::scoped_ptr<tf::MessageFilter<r2_msgs::PoseTwistStamped> >			right_pose_vel_command_filter;
-	
-	
-	
-	ros::Subscriber neck_joint_command_sub;
-	ros::Subscriber waist_joint_command_sub;
-	
-	ros::Subscriber set_gains_sub;
-	boost::scoped_ptr<realtime_tools::RealtimePublisher<r2_msgs::Gains> > gains_publisher;
-	
-	ros::ServiceServer srv_set_joint_mode;
-	ros::ServiceServer srv_set_tip_name;
-	ros::ServiceServer srv_set_power;
-	ros::ServiceServer srv_set_servo;
-	public:
-	class CtrlCalc{	///non-ros subclass which performs the torque calculations
-	public:
-		///base of chains, currently both the same
-		std::string root_name;
-	
-		//guess neck isn't used yet
-		KDL::Tree robot_tree;
-		TreeChain left;
-		TreeChain right;
-		TreeChain neck;
-	
-		///desired pose [cartPos(x,y,z), quaternion(w,x,y,z) ]
-		Eigen::Matrix<double,7,1> leftCmd;
-		Eigen::Matrix<double,7,1> rightCmd;
-		Eigen::Matrix<double,7,1> neckCmd;
-		KDL::Twist leftVelCmd;
-		KDL::Twist rightVelCmd;
-		KDL::Twist neckVelCmd;
-		
-		bool left_cart; 	//< flag for left cartesian mode
-		bool left_cart_vel;	//< flag for using velocity in left cart mode
-		bool right_cart;	//< flag for right cartesian mode
-		bool right_cart_vel;//< flag for using velocity in right cart mode
-		bool neck_cart;		//< flag for neck cartesian mode
-		bool neck_cart_vel;	//< flag for neck velocity in neck cart mode
-		std::vector<int> joint_pos_control; //< flags for p control on joint pos
-		std::vector<int> joint_vel_control; //< flags for adjusting d control to joint vel
-		
-		WholeBodyCalc wbc; //< performs nullspace calculations
-	
-		//gains
-		std::vector<double> D_high;		//< derivative gains 
-		std::vector<double> D_low;			//< derivative gains in cart mode
-		std::vector<double> K_high;		//< proportional gains
-		std::vector<double> K_low;			//< proportional gains in cart mode
-		std::vector<double> D;				//< current proportional gain value
-		std::vector<double> K;				//< current proportional gain value
-		std::vector<double> desired; 		//< desired joint positions
-		std::vector<double> desiredVel;	//< desired joint velocity
-		int jnt_size;						//< number of joints in tree
-	
-		std::vector<double> cartK_left;	//< cartesian gains left
-		std::vector<double> cartK_right;	//< cartesian gains right
-		std::vector<double> cartD_left;	//< cartesian gains left
-		std::vector<double> cartD_right;	//< cartesian gains right
-	
-	
-		///median filter for noisy values
-		template<int _N>
-		class AvgV{
-			double data[_N];
-			mutable double sorted[_N];
-			mutable bool update;
-			static const int N = _N;
-			//static const bool EVEN = ((N+1)/2 == (N/2));
-			int idx;
-		public:
-			AvgV():update(false),idx(0){}
-			operator double()const{
-				if( update ){
-					update = false;
-					for(int x=0; x<N; ++x)
-						sorted[x] = data[x];
-					std::sort(sorted,sorted+N);
-				}
-				return sorted[N/2]; // if N==3, N/2 == 1; if N==4, N/2 == 2; both are fine
-			}
-			void operator=(double in){
-				data[idx++] = in;
-				if( idx >= N )
-					idx =0;
-				update = true;
-			}
-		};
-		std::vector< AvgV<3> >treeJntsAvg;
-		std::vector< AvgV<3> >treeJntsVelAvg;
-	
-		std::vector<double> treeJnts;	//<conveniance variable, joint positions
-		std::vector<double> treeJntsVel;//<conveniance variable, joint velocity
-		std::vector<double> jntsUpperLimit;//< upper limit
-		std::vector<double> jntsLowerLimit;//< lower limit
-		std::vector<double> jntsCenterPoint;//< middle point
-		std::map< std::string, int> name2idx;	//< name to index lookup map
-		std::vector<std::string> idx2name;
-	
-		KDL::JntArray torques;
-		
-		boost::scoped_ptr<KDL::TreeIdSolver> rne_calc;
-		
-		KDL::JntArray jointKCmd(const std::vector<double>& q);
-		KDL::JntArray jointDCmd(const std::vector<double>& qd);
-		
-		///sets cartesian mode for TreeChain, pose_cmd is filled with current position
-		void activate( TreeChain& tc, bool& flag, Eigen::Matrix<double,7,1>& pose_cmd );
-		/// sets gains based on which cartesian modes are active
-		void reactivate();
-		
-		void init(double gravity[3]);
-		void calculate();
-	};
-	private:
-	CtrlCalc cc;
-	
-	
-	
-	//joints have a unique index value which is preserved across these arrays
-	std::vector<hardware_interface::JointHandle> robotStateJoints; //< queries robot state and commands joints
 
-	
-	hardware_interface::EffortJointInterface* robot_state; //< 
-	ros::Time last_time;
-	
-	// ros message functions
-	void init_ros_msgs();
-	void publish_msgs();
-	void joint_left_command(const sensor_msgs::JointState::ConstPtr& msg );
-	void joint_right_command(const sensor_msgs::JointState::ConstPtr& msg );
-	void joint_neck_command(const sensor_msgs::JointState::ConstPtr& msg );
-	void joint_waist_command(const sensor_msgs::JointState::ConstPtr& msg );
-	void joint_command( const sensor_msgs::JointState::ConstPtr& msg );
-	
-	void joint_command_entry( const std::string& name, double value, std::vector<double>& desired );
-	void joint_command_entry( const std::string& name, bool value, std::vector<int>& desired );
-	
-	void pose_left_command(const geometry_msgs::PoseStamped::ConstPtr& msg);
-	void pose_right_command(const geometry_msgs::PoseStamped::ConstPtr& msg);
+    //ros messaging
+    ros::NodeHandle node;
+    tf::TransformListener tfListener;
+    boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::PoseStamped> >	left_tip_pose_publisher;
+    boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::Twist> >		left_pose_error_publisher;
+    ros::Subscriber 									joint_command_sub;
+    ros::Subscriber 									left_joint_command_sub;
 
-	void pose_vel_left_command(const r2_msgs::PoseTwistStamped::ConstPtr& msg );
-	void pose_vel_right_command(const r2_msgs::PoseTwistStamped::ConstPtr& msg );
-	void pose_vel_command_inner(	const r2_msgs::PoseTwistStamped::ConstPtr& msg,
-					Eigen::Matrix<double,7,1>& cmd,
-					KDL::Twist& velCmd,
-					bool& cart_vel );
+    message_filters::Subscriber<geometry_msgs::PoseStamped> 				left_pose_command_sub;
+    boost::scoped_ptr<tf::MessageFilter<geometry_msgs::PoseStamped> >			left_pose_command_filter;
+    message_filters::Subscriber<r2_msgs::PoseTwistStamped> 					left_pose_vel_command_sub;
+    boost::scoped_ptr<tf::MessageFilter<r2_msgs::PoseTwistStamped> >			left_pose_vel_command_filter;
 
-	KDL::Frame transformPoseMsg(const geometry_msgs::PoseStamped::ConstPtr& msg);
-	void set_gains(const r2_msgs::Gains::ConstPtr& msg );
+    boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::PoseStamped> >	right_tip_pose_publisher;
+    boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::Twist> >		right_pose_error_publisher;
+    ros::Subscriber 									right_joint_command_sub;
 
-	// service functions
-	bool set_joint_mode(r2_msgs::SetJointMode::Request  &req,  r2_msgs::SetJointMode::Response &res );
-	bool set_tip_name(r2_msgs::SetTipName::Request &req,  r2_msgs::SetTipName::Response &res );
-	bool set_power(r2_msgs::Power::Request &req,  r2_msgs::Power::Response &res );
-	bool set_servo(r2_msgs::Servo::Request &req,  r2_msgs::Servo::Response &res );
-	
-	
-	
-	///loads gains
-	void load_params();
-	
-	///load gains from yaml file, used in load_params
-	std::vector<double> getGainParams(const std::vector<std::string>& param_names, const std::string& param_name);
-	
+    message_filters::Subscriber<geometry_msgs::PoseStamped> 				right_pose_command_sub;
+    boost::scoped_ptr<tf::MessageFilter<geometry_msgs::PoseStamped> >			right_pose_command_filter;
+    message_filters::Subscriber<r2_msgs::PoseTwistStamped>	 				right_pose_vel_command_sub;
+    boost::scoped_ptr<tf::MessageFilter<r2_msgs::PoseTwistStamped> >			right_pose_vel_command_filter;
 
-	
-	boost::mutex thread_mutex;
-	
+
+
+    ros::Subscriber neck_joint_command_sub;
+    ros::Subscriber waist_joint_command_sub;
+
+    ros::Subscriber set_gains_sub;
+    boost::scoped_ptr<realtime_tools::RealtimePublisher<r2_msgs::Gains> > gains_publisher;
+
+    ros::ServiceServer srv_set_joint_mode;
+    ros::ServiceServer srv_set_tip_name;
+    ros::ServiceServer srv_set_power;
+    ros::ServiceServer srv_set_servo;
 public:
-	
-	
-	
-	bool init(hardware_interface::EffortJointInterface* robot_state, ros::NodeHandle& n );
-	
-	/// occurs before first update() call
-	virtual void starting(const ros::Time& time){};
+    class CtrlCalc {	///non-ros subclass which performs the torque calculations
+    public:
+        ///base of chains, currently both the same
+        std::string root_name;
 
-	/// performs one iteration of control, main function 
-	virtual void update(const ros::Time& time, const ros::Duration& duration);
-	};
+        //guess neck isn't used yet
+        KDL::Tree robot_tree;
+        TreeChain left;
+        TreeChain right;
+        TreeChain neck;
+
+        ///desired pose [cartPos(x,y,z), quaternion(w,x,y,z) ]
+        Eigen::Matrix<double,7,1> leftCmd;
+        Eigen::Matrix<double,7,1> rightCmd;
+        Eigen::Matrix<double,7,1> neckCmd;
+        KDL::Twist leftVelCmd;
+        KDL::Twist rightVelCmd;
+        KDL::Twist neckVelCmd;
+
+        bool left_cart; 	//< flag for left cartesian mode
+        bool left_cart_vel;	//< flag for using velocity in left cart mode
+        bool right_cart;	//< flag for right cartesian mode
+        bool right_cart_vel;//< flag for using velocity in right cart mode
+        bool neck_cart;		//< flag for neck cartesian mode
+        bool neck_cart_vel;	//< flag for neck velocity in neck cart mode
+        std::vector<int> joint_pos_control; //< flags for p control on joint pos
+        std::vector<int> joint_vel_control; //< flags for adjusting d control to joint vel
+
+        WholeBodyCalc wbc; //< performs nullspace calculations
+
+        //gains
+        std::vector<double> D_high;		//< derivative gains
+        std::vector<double> D_low;			//< derivative gains in cart mode
+        std::vector<double> K_high;		//< proportional gains
+        std::vector<double> K_low;			//< proportional gains in cart mode
+        std::vector<double> D;				//< current proportional gain value
+        std::vector<double> K;				//< current proportional gain value
+        std::vector<double> desired; 		//< desired joint positions
+        std::vector<double> desiredVel;	//< desired joint velocity
+        int jnt_size;						//< number of joints in tree
+
+        std::vector<double> cartK_left;	//< cartesian gains left
+        std::vector<double> cartK_right;	//< cartesian gains right
+        std::vector<double> cartD_left;	//< cartesian gains left
+        std::vector<double> cartD_right;	//< cartesian gains right
+
+
+        ///median filter for noisy values
+        template<int _N>
+        class AvgV {
+            double data[_N];
+            mutable double sorted[_N];
+            mutable bool update;
+            static const int N = _N;
+            //static const bool EVEN = ((N+1)/2 == (N/2));
+            int idx;
+        public:
+            AvgV():update(false),idx(0) {}
+            operator double()const {
+                if( update ) {
+                    update = false;
+                    for(int x=0; x<N; ++x)
+                        sorted[x] = data[x];
+                    std::sort(sorted,sorted+N);
+                }
+                return sorted[N/2]; // if N==3, N/2 == 1; if N==4, N/2 == 2; both are fine
+            }
+            void operator=(double in) {
+                data[idx++] = in;
+                if( idx >= N )
+                    idx =0;
+                update = true;
+            }
+        };
+        std::vector< AvgV<3> >treeJntsAvg;
+        std::vector< AvgV<3> >treeJntsVelAvg;
+
+        std::vector<double> treeJnts;	//<conveniance variable, joint positions
+        std::vector<double> treeJntsVel;//<conveniance variable, joint velocity
+        std::vector<double> jntsUpperLimit;//< upper limit
+        std::vector<double> jntsLowerLimit;//< lower limit
+        std::vector<double> jntsCenterPoint;//< middle point
+        std::map< std::string, int> name2idx;	//< name to index lookup map
+        std::vector<std::string> idx2name;
+
+        KDL::JntArray torques;
+
+        boost::scoped_ptr<KDL::TreeIdSolver> rne_calc;
+
+        KDL::JntArray jointKCmd(const std::vector<double>& q);
+        KDL::JntArray jointDCmd(const std::vector<double>& qd);
+
+        ///sets cartesian mode for TreeChain, pose_cmd is filled with current position
+        void activate( TreeChain& tc, bool& flag, Eigen::Matrix<double,7,1>& pose_cmd );
+        /// sets gains based on which cartesian modes are active
+        void reactivate();
+
+        void init(double gravity[3]);
+        void calculate();
+    };
+private:
+    CtrlCalc cc;
+
+
+
+    //joints have a unique index value which is preserved across these arrays
+    std::vector<hardware_interface::JointHandle> robotStateJoints; //< queries robot state and commands joints
+
+
+    hardware_interface::EffortJointInterface* robot_state; //<
+    ros::Time last_time;
+
+    // ros message functions
+    void init_ros_msgs();
+    void publish_msgs();
+    void joint_left_command(const sensor_msgs::JointState::ConstPtr& msg );
+    void joint_right_command(const sensor_msgs::JointState::ConstPtr& msg );
+    void joint_neck_command(const sensor_msgs::JointState::ConstPtr& msg );
+    void joint_waist_command(const sensor_msgs::JointState::ConstPtr& msg );
+    void joint_command( const sensor_msgs::JointState::ConstPtr& msg );
+
+    void joint_command_entry( const std::string& name, double value, std::vector<double>& desired );
+    void joint_command_entry( const std::string& name, bool value, std::vector<int>& desired );
+
+    void pose_left_command(const geometry_msgs::PoseStamped::ConstPtr& msg);
+    void pose_right_command(const geometry_msgs::PoseStamped::ConstPtr& msg);
+
+    void pose_vel_left_command(const r2_msgs::PoseTwistStamped::ConstPtr& msg );
+    void pose_vel_right_command(const r2_msgs::PoseTwistStamped::ConstPtr& msg );
+    void pose_vel_command_inner(	const r2_msgs::PoseTwistStamped::ConstPtr& msg,
+                                    Eigen::Matrix<double,7,1>& cmd,
+                                    KDL::Twist& velCmd,
+                                    bool& cart_vel );
+
+    KDL::Frame transformPoseMsg(const geometry_msgs::PoseStamped::ConstPtr& msg);
+    void set_gains(const r2_msgs::Gains::ConstPtr& msg );
+
+    // service functions
+    bool set_joint_mode(r2_msgs::SetJointMode::Request  &req,  r2_msgs::SetJointMode::Response &res );
+    bool set_tip_name(r2_msgs::SetTipName::Request &req,  r2_msgs::SetTipName::Response &res );
+    bool set_power(r2_msgs::Power::Request &req,  r2_msgs::Power::Response &res );
+    bool set_servo(r2_msgs::Servo::Request &req,  r2_msgs::Servo::Response &res );
+
+
+
+    ///loads gains
+    void load_params();
+
+    ///load gains from yaml file, used in load_params
+    std::vector<double> getGainParams(const std::vector<std::string>& param_names, const std::string& param_name);
+
+
+
+    boost::mutex thread_mutex;
+
+public:
+
+
+
+    bool init(hardware_interface::EffortJointInterface* robot_state, ros::NodeHandle& n );
+
+    /// occurs before first update() call
+    virtual void starting(const ros::Time& time) {};
+
+    /// performs one iteration of control, main function
+    virtual void update(const ros::Time& time, const ros::Duration& duration);
+};
 }

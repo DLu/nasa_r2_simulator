@@ -33,7 +33,7 @@ public:
     ~R2GazeController();
 
     bool initialize();
-        
+
 private:
     KDL::Segment createVirtualSegment();
     double getWeight(const std::string& paramName);
@@ -43,7 +43,7 @@ private:
     void transformToRootFrame(const geometry_msgs::PoseStamped::ConstPtr& pose_msg, KDL::Frame& frame);
     void publishNeckCmd(const KDL::JntArray& q_cmd);
     void look_at_cb(const geometry_msgs::PoseStamped::ConstPtr& pose_msg);
-    
+
     // ROS comm
     ros::NodeHandle nodeHandle;
     ros::Subscriber jointStateSubscriber;
@@ -51,10 +51,10 @@ private:
     message_filters::Subscriber<geometry_msgs::PoseStamped> lookAtSubscriber;
     boost::scoped_ptr<tf::MessageFilter<geometry_msgs::PoseStamped> > lookAtFilter;
     tf::TransformListener transformListener;
-    
+
     // Inverse kinematics solver
     boost::scoped_ptr<r2_gaze_controller::R2GazeIK> ikPtr;
-    
+
     // Tip and root names of the chain to create
     std::string rootName, tipName;
 
