@@ -480,7 +480,7 @@ void R2ImpedanceController::pose_vel_command_inner(	const r2_msgs::PoseTwistStam
     pose_stamped.setData( transform * pose_stamped );
     pose_stamped.stamp_ = transform.stamp_;
     pose_stamped.frame_id_ = cc.root_name;
-    tf::PoseTFToKDL(pose_stamped, f );
+    tf::poseTFToKDL(pose_stamped, f );
 
     tf::Quaternion quat = transform.getRotation();
     transform.setIdentity();
@@ -515,7 +515,7 @@ KDL::Frame R2ImpedanceController::transformPoseMsg(const geometry_msgs::PoseStam
     tf::Stamped<tf::Pose> pose_stamped;
     tf::poseStampedMsgToTF(*msg, pose_stamped);
     tfListener.transformPose( cc.root_name, pose_stamped, pose_stamped );
-    tf::PoseTFToKDL(pose_stamped, frame );
+    tf::poseTFToKDL(pose_stamped, frame );
 
     return frame;
 }
@@ -975,7 +975,7 @@ void R2ImpedanceController::publish_msgs() {
         }
         if( left_tip_pose_publisher && left_tip_pose_publisher->trylock() ) {
             tf::Pose tmp;
-            tf::PoseKDLToTF( f1, tmp );
+            tf::poseKDLToTF( f1, tmp );
             poseStampedTFToMsg( tf::Stamped<tf::Pose>( tmp, ros::Time::now(), cc.root_name), left_tip_pose_publisher->msg_ );
             left_tip_pose_publisher->unlockAndPublish();
         }
@@ -999,7 +999,7 @@ void R2ImpedanceController::publish_msgs() {
 
         if( right_tip_pose_publisher && right_tip_pose_publisher->trylock() ) {
             tf::Pose tmp;
-            tf::PoseKDLToTF( f1, tmp );
+            tf::poseKDLToTF( f1, tmp );
             poseStampedTFToMsg( tf::Stamped<tf::Pose>( tmp, ros::Time::now(), cc.root_name), right_tip_pose_publisher->msg_ );
             right_tip_pose_publisher->unlockAndPublish();
         }
