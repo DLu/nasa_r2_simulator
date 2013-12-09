@@ -34,13 +34,13 @@ void GazeboInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     std::string robotNamespace = "";
     if (_sdf->HasElement("robotNamespace"))
     {
-        robotNamespace = _sdf->GetElement("robotNamespace")->GetValueString() + "/";
+        robotNamespace = _sdf->GetElement("robotNamespace")->Get<std::string>() + "/";
     }
 
     std::string paramsNamespace = "";
     if (_sdf->HasElement("paramsNamespace"))
     {
-        paramsNamespace = _sdf->GetElement("paramsNamespace")->GetValueString() + "/";
+        paramsNamespace = _sdf->GetElement("paramsNamespace")->Get<std::string>() + "/";
     }
 
     if (!_sdf->HasElement("jointCommandsTopic"))
@@ -49,7 +49,7 @@ void GazeboInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
         return;
     }
     else
-        jointCommandsTopic = _sdf->GetElement("jointCommandsTopic")->GetValueString();
+        jointCommandsTopic = _sdf->GetElement("jointCommandsTopic")->Get<std::string>();
 
     if (!_sdf->HasElement("jointStatesTopic"))
     {
@@ -57,14 +57,14 @@ void GazeboInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
         return;
     }
     else
-        jointStatesTopic = _sdf->GetElement("jointStatesTopic")->GetValueString();
+        jointStatesTopic = _sdf->GetElement("jointStatesTopic")->Get<std::string>();
 
     if (!_sdf->HasElement("jointStatesRate"))
     {
         jointStatesStepTime = 0.;
     }
     else
-        jointStatesStepTime = 1./_sdf->GetElement("jointStatesRate")->GetValueDouble();
+        jointStatesStepTime = 1./_sdf->GetElement("jointStatesRate")->Get<double>();
 
     if (!_sdf->HasElement("advancedMode"))
     {
@@ -73,7 +73,7 @@ void GazeboInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     }
     else
     {
-        std::string strVal = _sdf->GetElement("advancedMode")->GetValueString();
+        std::string strVal = _sdf->GetElement("advancedMode")->Get<std::string>();
         if (strVal == "1")
             advancedMode = true;
         else if (strVal == "0")
@@ -95,7 +95,7 @@ void GazeboInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
             return;
         }
         else
-            jointControlTopic = _sdf->GetElement("jointControlTopic")->GetValueString();
+            jointControlTopic = _sdf->GetElement("jointControlTopic")->Get<std::string>();
 
         if (!_sdf->HasElement("jointStatusTopic"))
         {
@@ -103,14 +103,14 @@ void GazeboInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
             return;
         }
         else
-            jointStatusTopic = _sdf->GetElement("jointStatusTopic")->GetValueString();
+            jointStatusTopic = _sdf->GetElement("jointStatusTopic")->Get<std::string>();
 
         if (!_sdf->HasElement("jointStatusRate"))
         {
             jointStatusStepTime = 0.;
         }
         else
-            jointStatusStepTime = 1./_sdf->GetElement("jointStatusRate")->GetValueDouble();
+            jointStatusStepTime = 1./_sdf->GetElement("jointStatusRate")->Get<double>();
     }
 
     // create ros nodes

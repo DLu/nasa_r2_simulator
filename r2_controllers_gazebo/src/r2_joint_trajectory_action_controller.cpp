@@ -308,10 +308,10 @@ bool R2JointTrajectoryActionController::init(hardware_interface::EffortJointInte
 
     action_server_.reset(new JTAS(node_, "joint_trajectory_action",
                                   boost::bind(&R2JointTrajectoryActionController::goalCB, this, _1),
-                                  boost::bind(&R2JointTrajectoryActionController::cancelCB, this, _1)));
+                                  boost::bind(&R2JointTrajectoryActionController::cancelCB, this, _1), true));
     action_server_follow_.reset(new FJTAS(node_, "follow_joint_trajectory",
                                           boost::bind(&R2JointTrajectoryActionController::goalCBFollow, this, _1),
-                                          boost::bind(&R2JointTrajectoryActionController::cancelCBFollow, this, _1)));
+                                          boost::bind(&R2JointTrajectoryActionController::cancelCBFollow, this, _1), true));
 
     return true;
 }
@@ -402,7 +402,7 @@ void R2JointTrajectoryActionController::update(const ros::Time& time, const ros:
                                         dt.toSec());
         }
         else {
-            effort = pids_[i].updatePid(error[i], v_error[i], dt);
+            effort = pids_[i].computeCommand(error[i], v_error[i], dt);
 
             double effort_unfiltered = effort;
             if (output_filters_[i])

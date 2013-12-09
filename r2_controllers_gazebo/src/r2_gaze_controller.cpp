@@ -140,7 +140,7 @@ void R2GazeController::transformToRootFrame(const geometry_msgs::PoseStamped::Co
     // Convert to reference frame of root link of the controller chain
     //transformListener.waitForTransform(rootName, tipName, ros::Time::now(), ros::Duration(1.0));
     transformListener.transformPose(rootName, pose_stamped, pose_stamped);
-    tf::PoseTFToKDL(pose_stamped, frame);
+    tf::poseTFToKDL(pose_stamped, frame);
 }
 
 void R2GazeController::publishNeckCmd(const KDL::JntArray& q_cmd)
