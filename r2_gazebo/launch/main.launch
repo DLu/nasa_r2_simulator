@@ -7,6 +7,7 @@
   <arg name="gravity"   default="true" />
   <arg name="legs"      default="false" />
   <arg name="debug"     default="false" />
+  <arg name="i_control" default="false" />
   
   <param name="/use_sim_time" value="true"/>
 
@@ -30,11 +31,15 @@
     <node name="spawn_r2" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model r2 -paused=true" respawn="false" output="screen" /> 
     
     <!-- load controller -->
-    <rosparam file="$(find r2_gazebo)/config/controllers/r2_joint_trajectory_controller.yaml" command="load" ns="/r2"/>  
+    <rosparam file="$(find r2_gazebo)/config/controllers/r2_impedance_controller.yaml"        command="load" ns="/r2"     if="$(arg i_control)"/>
+    <rosparam file="$(find r2_gazebo)/config/controllers/r2_joint_trajectory_controller.yaml" command="load" ns="/r2" unless="$(arg i_control)"/>
+
+    <arg name="cparams" value="r2_controller"                         if="$(arg i_control)"/>
+    <arg name="cparams" value="r_arm_controller l_arm_controller" unless="$(arg i_control)"/>
 
   <!-- spawn controller -->
     <node name="default_controllers_spawner" pkg="controller_manager" type="spawner" output="screen" ns="/r2"
-          args="joint_state_controller r_arm_controller l_arm_controller" /> <!-- r2_controller -->
+          args="joint_state_controller $(arg cparams)" />
 
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
       respawn="false" output="screen">
