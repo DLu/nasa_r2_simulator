@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <package>
   <name>r2_gazebo</name>
-  <version>0.0.0</version>
+  <version>0.5.0</version>
   <description>The r2_gazebo package</description>
-  <maintainer email="todo@todo.todo">Stephen Hart</maintainer>
+  <author>Stephen Hart</author>
+  <maintainer email="davidvlu@gmail.com">David Lu!!</maintainer>
   <license>BSD</license>
   <url type="website">http://ros.org/wiki/r2_gazebo</url>
   <buildtool_depend>catkin</buildtool_depend>

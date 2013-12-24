@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package>
   <name>gazebo_gripper</name>
-  <version>0.0.0</version>
+  <version>0.5.0</version>
   <description>The gazebo_gripper package</description>
-  <maintainer email="todo@todo.todo">TCSASSEMBLER</maintainer>
+  <maintainer email="davidvlu@gmail.com">David Lu!!</maintainer>
   <license>BSD</license>
   <url>http://ros.org/wiki/gazebo_gripper</url>
   <author>rctaylo2</author>
