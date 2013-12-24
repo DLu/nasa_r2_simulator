@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>gazebo_gripper</name>
-  <version>0.5.0</version>
+  <version>0.5.1</version>
   <description>The gazebo_gripper package</description>
   <maintainer email="davidvlu@gmail.com">David Lu!!</maintainer>
   <license>BSD</license>
