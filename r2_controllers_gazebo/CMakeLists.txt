@@ -15,7 +15,7 @@ link_directories(${catkin_LIBRARY_DIRS} ${orocos_kdl_LIBRARY_DIRS})
 include_directories(include ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
 
 add_executable(r2_gaze_controller src/r2_gaze_controller.cpp src/r2_gaze_ik.cpp)
-target_link_libraries(r2_gaze_controller ${Boost_LIBRARIES} ${catkin_LIBRARIES})
+target_link_libraries(r2_gaze_controller ${Boost_LIBRARIES} ${catkin_LIBRARIES}  ${orocos_kdl_LIBRARY_DIRS})
 
 add_library(kdl_treeid_solver src/treeidsolver_recursive_newton_euler.cpp include/r2_controllers_gazebo/treeidsolver_recursive_newton_euler.hpp)
 target_link_libraries(kdl_treeid_solver ${catkin_LIBRARIES})
