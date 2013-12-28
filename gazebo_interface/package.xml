@@ -9,10 +9,8 @@
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>sensor_msgs</build_depend>
   <build_depend>r2_msgs</build_depend>
-  <build_depend>SDFormat</build_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>r2_msgs</run_depend>
-  <run_depend>SDFormat</run_depend>
 
   <export>
     <gazebo plugin_path="${prefix}/lib" />
