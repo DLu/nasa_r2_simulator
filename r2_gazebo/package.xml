@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>r2_gazebo</name>
-  <version>0.5.1</version>
+  <version>0.5.2</version>
   <description>The r2_gazebo package</description>
   <author>Stephen Hart</author>
   <maintainer email="davidvlu@gmail.com">David Lu!!</maintainer>

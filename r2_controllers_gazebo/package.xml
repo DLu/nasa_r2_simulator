@@ -1,6 +1,6 @@
 <package>
   <name>r2_controllers_gazebo</name>
-  <version>0.5.1</version>
+  <version>0.5.2</version>
   <description>r2_controllers_gazebo</description>
 
   <maintainer email="davidvlu@gmail.com">David Lu!!</maintainer>

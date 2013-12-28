@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>gazebo_taskboard</name>
-  <version>0.5.1</version>
+  <version>0.5.2</version>
   <description>The gazebo_taskboard package</description>
   <maintainer email="davidvlu@gmail.com">David Lu!!</maintainer>
   <license>BSD</license>
