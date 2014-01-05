@@ -37,9 +37,9 @@ R2GazeController::R2GazeController(const ros::NodeHandle& handle, const std::str
     q_init(4),
     q_cmd(4)
 {
-    jntCmdMsg.name.push_back("r2/neck/joint0");
-    jntCmdMsg.name.push_back("r2/neck/joint1");
-    jntCmdMsg.name.push_back("r2/neck/joint2");
+    jntCmdMsg.name.push_back("/r2/neck/joint0");
+    jntCmdMsg.name.push_back("/r2/neck/joint1");
+    jntCmdMsg.name.push_back("/r2/neck/joint2");
     jntCmdMsg.position.resize(3);
 
     q_init.data = Eigen::VectorXd::Zero(4);
@@ -61,18 +61,21 @@ bool R2GazeController::initialize()
         ROS_ERROR("Failed to construct kdl tree from the robot_description");
         return false;
     }
-
+        
     // Extract the 'neck' chain from the tree and then add our virtual segment
     KDL::Chain chain;
-    tree.getChain(rootName, tipName, chain);
+    if(!tree.getChain(rootName, tipName, chain)){
+       ROS_INFO("Could not get chain from %s to %s", rootName.c_str(), tipName.c_str());
+       return false;
+    }
     chain.addSegment(createVirtualSegment());
-
+     
     // With a augmented chain created, lets create a kinematics solver
     ikPtr.reset(new R2GazeIK(chain));
     ikPtr->setWeightMatrix(getWeightMatrix());
 
     // And then setup our ROS topics
-    setupRosTopics("/r2_controller/gaze/pose_command", "/r2_controller/neck/joint_command");
+    setupRosTopics("/r2/r2_controller/gaze/pose_command", "/r2/r2_controller/neck/joint_command");
 
     return true;
 }
@@ -105,10 +108,10 @@ Eigen::MatrixXd R2GazeController::getWeightMatrix()
      * the robot 'chicken head' syndrome.
      */
     Eigen::VectorXd w(4);
-    w(0) = getWeight("/r2_gaze_controller/weight_j0");
-    w(1) = getWeight("/r2_gaze_controller/weight_j1");
-    w(2) = getWeight("/r2_gaze_controller/weight_j2");
-    w(3) = getWeight("/r2_gaze_controller/weight_jv");
+    w(0) = getWeight("/r2/r2_gaze_controller/weight_j0");
+    w(1) = getWeight("/r2/r2_gaze_controller/weight_j1");
+    w(2) = getWeight("/r2/r2_gaze_controller/weight_j2");
+    w(3) = getWeight("/r2/r2_gaze_controller/weight_jv");
     return w.asDiagonal();
 }
 
@@ -175,7 +178,7 @@ int main( int argc, char **argv)
     ros::NodeHandle nodeHandle;
 
     // TODO: Take root and tip names as parameters
-    r2_gaze_controller::R2GazeController gazeController(nodeHandle, "waist_center", "vision_center_link");
+    r2_gaze_controller::R2GazeController gazeController(nodeHandle, "/r2/waist_center", "/r2/vision_center_frame");
     if (!gazeController.initialize())
     {
         ROS_ERROR_NAMED("r2_gaze_controller", "could not initialize");
