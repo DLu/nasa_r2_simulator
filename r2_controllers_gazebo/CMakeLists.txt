@@ -14,7 +14,6 @@ link_directories(${catkin_LIBRARY_DIRS} ${orocos_kdl_LIBRARY_DIRS})
 
 include_directories(include ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
 
-
 add_library(kdl_treeid_solver src/treeidsolver_recursive_newton_euler.cpp include/r2_controllers_gazebo/treeidsolver_recursive_newton_euler.hpp)
 target_link_libraries(kdl_treeid_solver ${catkin_LIBRARIES})
 

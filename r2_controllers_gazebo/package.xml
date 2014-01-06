@@ -1,8 +1,9 @@
 <package>
   <name>r2_controllers_gazebo</name>
-  <version>0.5.0</version>
+  <version>0.5.3</version>
   <description>r2_controllers_gazebo</description>
-  <maintainer email="update_me_stephen_hart@stephen_hart_email_address.com">Stephen Hart</maintainer>
+
+  <maintainer email="davidvlu@gmail.com">David Lu!!</maintainer>
   <license>BSD</license>
 
   <url></url>
@@ -46,6 +47,7 @@
   <build_depend>r2_msgs</build_depend>
 
   <build_depend>effort_controllers</build_depend>
+  <build_depend>joint_state_controller</build_depend>
 
   <run_depend>controller_interface</run_depend> 
   <run_depend>control_msgs</run_depend> 
@@ -79,6 +81,10 @@
   <run_depend>r2_msgs</run_depend>
 
   <run_depend>effort_controllers</run_depend>
+  <run_depend>joint_state_controller</run_depend>
+  <run_depend>gazebo_ros</run_depend>
+  <run_depend>gazebo_ros_control</run_depend>
+  <run_depend>gazebo_ros_pkgs</run_depend>
 
   <export>
     <controller_interface plugin="${prefix}/r2_controllers_gazebo_plugins.xml" />
