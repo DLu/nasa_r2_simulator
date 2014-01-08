@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <package>
   <name>r2_gazebo</name>
   <version>0.5.4</version>
@@ -24,8 +24,16 @@
   <run_depend>std_msgs</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>urdf</run_depend>
+  <run_depend>controller_manager</run_depend>
+  <run_depend>gazebo</run_depend>
+  <run_depend>gazebo_ros</run_depend>
+  <run_depend>gazebo_ros_control</run_depend>
+  <run_depend>joint_state_publisher</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>rviz</run_depend>
+  <run_depend>r2_description</run_depend>
 
   <export>
-    <gazebo gazebo_media_path="${prefix}" />
+    <gazebo gazebo_media_path="${prefix}"/>
   </export> 
 </package>
