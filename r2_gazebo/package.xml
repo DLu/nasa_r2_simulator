@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<package>
+  <name>r2_gazebo</name>
+  <version>0.5.4</version>
+  <description>The r2_gazebo package</description>
+  <author>Stephen Hart</author>
+  <maintainer email="davidvlu@gmail.com">David Lu!!</maintainer>
+  <license>BSD</license>
+  <url type="website">http://ros.org/wiki/r2_gazebo</url>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>kdl_parser</build_depend>
+  <build_depend>gazebo_msgs</build_depend>
+  <build_depend>r2_msgs</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>urdf</build_depend>
+  <run_depend>kdl_parser</run_depend>
+  <run_depend>gazebo_msgs</run_depend>
+  <run_depend>r2_msgs</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>urdf</run_depend>
+  <run_depend>xacro</run_depend>
+  <run_depend>controller_manager</run_depend>
+  <run_depend>gazebo</run_depend>
+  <run_depend>gazebo_ros</run_depend>
+  <run_depend>gazebo_ros_control</run_depend>
+  <run_depend>joint_state_publisher</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>rviz</run_depend>
+  <run_depend>r2_description</run_depend>
+
+  <export>
+    <gazebo gazebo_media_path="${prefix}"/>
+  </export> 
+</package>

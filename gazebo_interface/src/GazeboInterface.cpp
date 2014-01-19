@@ -1,9 +1,9 @@
-#include "GazeboInterface.h"
-#include "physics/Model.hh"
-#include "physics/Joint.hh"
-#include "physics/World.hh"
+#include "gazebo_interface/GazeboInterface.h"
+#include <gazebo/physics/Model.hh>
+#include <gazebo/physics/Joint.hh>
+#include <gazebo/physics/World.hh>
 
-#include "r2_msgs/JointStatusArray.h"
+#include <r2_msgs/JointStatusArray.h>
 
 using namespace gazebo;
 
@@ -34,13 +34,13 @@ void GazeboInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     std::string robotNamespace = "";
     if (_sdf->HasElement("robotNamespace"))
     {
-        robotNamespace = _sdf->GetElement("robotNamespace")->GetValueString() + "/";
+        robotNamespace = _sdf->GetElement("robotNamespace")->Get<std::string>() + "/";
     }
 
     std::string paramsNamespace = "";
     if (_sdf->HasElement("paramsNamespace"))
     {
-        paramsNamespace = _sdf->GetElement("paramsNamespace")->GetValueString() + "/";
+        paramsNamespace = _sdf->GetElement("paramsNamespace")->Get<std::string>() + "/";
     }
 
     if (!_sdf->HasElement("jointCommandsTopic"))
@@ -49,7 +49,7 @@ void GazeboInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
         return;
     }
     else
-        jointCommandsTopic = _sdf->GetElement("jointCommandsTopic")->GetValueString();
+        jointCommandsTopic = _sdf->GetElement("jointCommandsTopic")->Get<std::string>();
 
     if (!_sdf->HasElement("jointStatesTopic"))
     {
@@ -57,14 +57,14 @@ void GazeboInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
         return;
     }
     else
-        jointStatesTopic = _sdf->GetElement("jointStatesTopic")->GetValueString();
+        jointStatesTopic = _sdf->GetElement("jointStatesTopic")->Get<std::string>();
 
     if (!_sdf->HasElement("jointStatesRate"))
     {
         jointStatesStepTime = 0.;
     }
     else
-        jointStatesStepTime = 1./_sdf->GetElement("jointStatesRate")->GetValueDouble();
+        jointStatesStepTime = 1./_sdf->GetElement("jointStatesRate")->Get<double>();
 
     if (!_sdf->HasElement("advancedMode"))
     {
@@ -73,7 +73,7 @@ void GazeboInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     }
     else
     {
-        std::string strVal = _sdf->GetElement("advancedMode")->GetValueString();
+        std::string strVal = _sdf->GetElement("advancedMode")->Get<std::string>();
         if (strVal == "1")
             advancedMode = true;
         else if (strVal == "0")
@@ -95,7 +95,7 @@ void GazeboInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
             return;
         }
         else
-            jointControlTopic = _sdf->GetElement("jointControlTopic")->GetValueString();
+            jointControlTopic = _sdf->GetElement("jointControlTopic")->Get<std::string>();
 
         if (!_sdf->HasElement("jointStatusTopic"))
         {
@@ -103,14 +103,14 @@ void GazeboInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
             return;
         }
         else
-            jointStatusTopic = _sdf->GetElement("jointStatusTopic")->GetValueString();
+            jointStatusTopic = _sdf->GetElement("jointStatusTopic")->Get<std::string>();
 
         if (!_sdf->HasElement("jointStatusRate"))
         {
             jointStatusStepTime = 0.;
         }
         else
-            jointStatusStepTime = 1./_sdf->GetElement("jointStatusRate")->GetValueDouble();
+            jointStatusStepTime = 1./_sdf->GetElement("jointStatusRate")->Get<double>();
     }
 
     // create ros nodes
@@ -119,7 +119,7 @@ void GazeboInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 
     // Listen to the update event. This event is broadcast every
     // simulation iteration.
-    updateConnectionPtr = event::Events::ConnectWorldUpdateStart(boost::bind(&GazeboInterface::update, this));
+    updateConnectionPtr = event::Events::ConnectWorldUpdateBegin(boost::bind(&GazeboInterface::update, this));
 
     ROS_INFO("Gazebo Interface plugin loaded");
 }
@@ -390,7 +390,7 @@ void GazeboInterface::Init()
         for (unsigned int i = 0; i < modelPtr->GetJointCount(); ++i)
         {
             physics::JointPtr jPtr = modelPtr->GetJoints()[i];
-            robotControllerPtr->setJointPosTarget(jPtr->GetName(), jPtr->GetAngle(0).GetAsRadian());
+            robotControllerPtr->setJointPosTarget(jPtr->GetName(), jPtr->GetAngle(0).Radian());
         }
     }
 
@@ -433,7 +433,7 @@ void GazeboInterface::update()
             // joint
             std::string name = jPtr->GetName();
             msgPtr->name.push_back(name);
-            msgPtr->position.push_back(jPtr->GetAngle(0).GetAsRadian());
+            msgPtr->position.push_back(jPtr->GetAngle(0).Radian());
             msgPtr->velocity.push_back(jPtr->GetVelocity(0));
             msgPtr->effort.push_back(jPtr->GetForce(0));
 
@@ -442,13 +442,13 @@ void GazeboInterface::update()
             if (index != std::string::npos)
             {
                 msgPtr->name.push_back(name.replace(index, 6, "/motor"));
-                msgPtr->position.push_back(jPtr->GetAngle(0).GetAsRadian());
+                msgPtr->position.push_back(jPtr->GetAngle(0).Radian());
                 msgPtr->velocity.push_back(jPtr->GetVelocity(0));
                 msgPtr->effort.push_back(jPtr->GetForce(0));
 
                 // encoder
                 msgPtr->name.push_back(name.replace(index, 6, "/encoder"));
-                msgPtr->position.push_back(jPtr->GetAngle(0).GetAsRadian());
+                msgPtr->position.push_back(jPtr->GetAngle(0).Radian());
                 msgPtr->velocity.push_back(jPtr->GetVelocity(0));
                 msgPtr->effort.push_back(jPtr->GetForce(0));
             }

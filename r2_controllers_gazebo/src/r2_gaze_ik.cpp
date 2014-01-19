@@ -1,4 +1,4 @@
-#include "r2_gaze_ik.hpp"
+#include "r2_controllers_gazebo/r2_gaze_ik.hpp"
 
 // KDL stuff
 #include <kdl/frames.hpp>
@@ -10,7 +10,7 @@
 #include <cmath>
 #include <iostream>
 
-namespace r2_gaze_controller 
+namespace r2_gaze_controller
 {
 
 /*template <typename Derived>
@@ -49,7 +49,7 @@ bool pinv(const Eigen::MatrixBase<Derived>& a, Eigen::MatrixBase<Derived> const 
         }
     }
 
-    // A little optimization here 
+    // A little optimization here
     //MatrixUType mAdjointU = svd.matrixU().adjoint().block(0,0,vSingular.rows(),svd.matrixU().adjoint().cols());
     // Pseudo-Inversion : V * S * U'
     //m_pinv = (svd.matrixV() *  vPseudoInvertedSingular.asDiagonal()) * mAdjointU;
@@ -68,17 +68,17 @@ bool pinv(const Eigen::MatrixBase<Derived>& a, Eigen::MatrixBase<Derived> const 
 
 template<typename _Matrix_Type_>
 bool pseudoInverse(const _Matrix_Type_ &a, _Matrix_Type_ &result, double
-		epsilon = std::numeric_limits<typename _Matrix_Type_::Scalar>::epsilon())
+                   epsilon = std::numeric_limits<typename _Matrix_Type_::Scalar>::epsilon())
 {
-	if(a.rows()<a.cols())
-		return false;
+    if(a.rows()<a.cols())
+        return false;
 
-	Eigen::JacobiSVD< _Matrix_Type_ > svd = a.jacobiSvd(Eigen::ComputeFullU | Eigen::ComputeFullV);
+    Eigen::JacobiSVD< _Matrix_Type_ > svd = a.jacobiSvd(Eigen::ComputeFullU | Eigen::ComputeFullV);
 
-	typename _Matrix_Type_::Scalar tolerance = epsilon * std::max(a.cols(), a.rows()) * svd.singularValues().array().abs().maxCoeff();
+    typename _Matrix_Type_::Scalar tolerance = epsilon * std::max(a.cols(), a.rows()) * svd.singularValues().array().abs().maxCoeff();
 
-	result = svd.matrixV() * _Matrix_Type_( (svd.singularValues().array().abs() > tolerance).select(svd.singularValues().array().inverse(), 0) ).asDiagonal() * svd.matrixU().adjoint();
-	return true;
+    result = svd.matrixV() * _Matrix_Type_( (svd.singularValues().array().abs() > tolerance).select(svd.singularValues().array().inverse(), 0) ).asDiagonal() * svd.matrixU().adjoint();
+    return true;
 }
 
 struct Convert
@@ -87,7 +87,7 @@ struct Convert
     {
         for (int r=0; r < 3; r++) out(r) = in.p.data[r];
     }
-    
+
     static void toJntArray(const Eigen::VectorXd& in, KDL::JntArray& out)
     {
         out.data = in;
@@ -127,8 +127,8 @@ void R2GazeIK::setWeightMatrix(const Eigen::VectorXd& w)
 
 void R2GazeIK::setWeightMatrix(const Eigen::MatrixXd& W)
 {
-	Eigen::VectorXd w(W.diagonal());
-	this->setWeightMatrix(w);
+    Eigen::VectorXd w(W.diagonal());
+    this->setWeightMatrix(w);
 }
 
 double R2GazeIK::computeDelta(const Eigen::VectorXd& q, const KDL::Frame& desired_frame, Eigen::VectorXd& del_q)
@@ -146,7 +146,7 @@ double R2GazeIK::computeDelta(const Eigen::VectorXd& q, const KDL::Frame& desire
         return -1;
     }
     Convert::toEigenVector(frame_actual, p);
-                    
+
     // Determine error - where we are currently and where we want to be
     e = p_d - p;
 
@@ -168,10 +168,10 @@ double R2GazeIK::computeDelta(const Eigen::VectorXd& q, const KDL::Frame& desire
 
 int R2GazeIK::computeSolution(const KDL::JntArray& q_act, const KDL::Frame& desired_frame, KDL::JntArray& q)
 {
-	Eigen::VectorXd q_in(q_act.data), q_out(q_act.data);
-	int ret = computeSolution(q_in, desired_frame, q_out);
-	q.data = q_out;
-	return ret;
+    Eigen::VectorXd q_in(q_act.data), q_out(q_act.data);
+    int ret = computeSolution(q_in, desired_frame, q_out);
+    q.data = q_out;
+    return ret;
 }
 
 int R2GazeIK::computeSolution(const Eigen::VectorXd& q_act, const KDL::Frame& desired_frame, Eigen::VectorXd& q)
@@ -183,7 +183,7 @@ int R2GazeIK::computeSolution(const Eigen::VectorXd& q_act, const KDL::Frame& de
     double err = computeDelta(q_local, desired_frame, del_q);
 
     if (err < 0) return -1;
-    
+
     // Iterate until position error is small
     int attempts = 0;
     while ((err > 0.01) & (attempts < maxSolverAttempts))
@@ -192,12 +192,12 @@ int R2GazeIK::computeSolution(const Eigen::VectorXd& q_act, const KDL::Frame& de
         err = computeDelta(q_local, desired_frame, del_q);
         if (err < 0) return -1;
         attempts = attempts + 1;
-    } 
+    }
 
     q = q_local;
-                 
+
     if (attempts >= maxSolverAttempts) return -1;
     return 0;
 }
-   
+
 } // end namespace

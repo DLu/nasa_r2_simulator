@@ -1,9 +1,9 @@
-#include "JointController.h"
+#include "gazebo_interface/JointController.h"
 
-#include "physics/Model.hh"
-#include "physics/World.hh"
-#include "physics/Joint.hh"
-#include "physics/Link.hh"
+#include <gazebo/physics/Model.hh>
+#include <gazebo/physics/World.hh>
+#include <gazebo/physics/Joint.hh>
+#include <gazebo/physics/Link.hh>
 
 using namespace gazebo;
 
@@ -27,8 +27,8 @@ JointController::JointController(physics::JointPtr _jointPtr, bool _advancedMode
     currStatusPtr->embeddedMotCom = true; // default to true on startup
 
     ROS_DEBUG("GetLimits for %s", _jointPtr->GetName().c_str());
-    jointLowLimit = _jointPtr->GetLowStop(0).GetAsRadian();
-    jointHighLimit = _jointPtr->GetHighStop(0).GetAsRadian();
+    jointLowLimit = _jointPtr->GetLowStop(0).Radian();
+    jointHighLimit = _jointPtr->GetHighStop(0).Radian();
 
     // set brake based on mode
     releaseBrake(!_advancedMode);
@@ -105,7 +105,7 @@ void JointController::update(common::Time& stepTime)
         cmd = effort;
         break;
     case POS_COM:
-        cmd = posPid.Update(jointPtr->GetAngle(0).GetAsRadian() - position, stepTime);
+        cmd = posPid.Update(jointPtr->GetAngle(0).Radian() - position, stepTime);
         break;
     case VEL_COM:
         cmd = velPid.Update(jointPtr->GetVelocity(0) - velocity, stepTime);

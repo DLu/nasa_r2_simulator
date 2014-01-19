@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="taskboard" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller">
+<robot name="taskboard" xmlns:xacro="http://wiki.ros.org/xacro">
   <link name="world"/>
   <link name="dummy">
     <inertial>
@@ -1336,8 +1336,8 @@
   </gazebo>
   
   <gazebo>
-    <controller:gazebo_taskboard name="gazebo_taskboard" plugin="libgazebo_taskboard.so">
-    </controller:gazebo_taskboard>
+    <plugin name="gazebo_taskboard" filename="libgazebo_taskboard.so">
+    </plugin>
   </gazebo>
 
 </robot>

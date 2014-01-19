@@ -1,11 +1,8 @@
 <?xml version="1.0"?>
-<robot name="r2_c_full_body" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" 
-			xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" 
-			xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" 
-			xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
+<robot name="r2_c_full_body" xmlns:xacro="http://wiki.ros.org/xacro">
 
   <gazebo>
-    <controller:gazebo_gripper name="left_gazebo_gripper" plugin="libgazebo_gripper.so">
+    <plugin name="left_gazebo_gripper" filename="libgazebo_gripper.so">
       <updateRate>10.0</updateRate> <!--Hz-->
       <gripperAttachLink>/r2/left_ankle_roll</gripperAttachLink>
 <!--      <gripperAttachLink>/r2/waist_center</gripperAttachLink>-->
@@ -14,11 +11,11 @@
       <maxRelativeMotionRate>0.0001</maxRelativeMotionRate> <!--units/second-->
       <attachWait>2.0</attachWait> <!--seconds-->
       <detachWait>0.0</detachWait> <!--seconds-->
-    </controller:gazebo_gripper>
+    </plugin>
   </gazebo>
 
   <gazebo>
-    <controller:gazebo_gripper name="right_gazebo_gripper" plugin="libgazebo_gripper.so">
+    <plugin name="right_gazebo_gripper" filename="libgazebo_gripper.so">
       <updateRate>10.0</updateRate> <!--Hz-->
       <gripperAttachLink>/r2/right_ankle_roll</gripperAttachLink>
       <gripperLink>/r2/right_leg_jaw0</gripperLink>
@@ -26,7 +23,7 @@
       <maxRelativeMotionRate>0.0001</maxRelativeMotionRate> <!--units/second-->
       <attachWait>2.0</attachWait> <!--seconds-->
       <detachWait>0.0</detachWait> <!--seconds-->
-    </controller:gazebo_gripper>
+    </plugin>
   </gazebo>
 
 </robot>

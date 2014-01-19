@@ -1,11 +1,8 @@
 <?xml version="1.0"?>
-<robot name="r2_c_full_body" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" 
-			xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" 
-			xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" 
-			xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
+<robot name="r2_c_full_body" xmlns:xacro="http://wiki.ros.org/xacro">
 
   <gazebo>
-    <controller:gazebo_interface name="gazebo_interface" plugin="libgazebo_interface.so">
+    <plugin name="gazebo_interface" filename="libgazebo_interface.so">
 <!--      <robotNamespace>/r2sim</robotNamespace>-->
       <paramsNamespace>r2_sim_params</paramsNamespace>
       <jointCommandsTopic>joint_commands</jointCommandsTopic>
@@ -16,7 +13,7 @@
       <jointControlTopic>joint_control</jointControlTopic>
       <jointStatusTopic>joint_status</jointStatusTopic>
       <jointStatusRate>5.0</jointStatusRate> <!--Hz, omit for fastest possible-->
-    </controller:gazebo_interface>
+    </plugin>
   </gazebo>
 
 </robot>

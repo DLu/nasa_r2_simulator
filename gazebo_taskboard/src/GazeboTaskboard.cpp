@@ -9,15 +9,15 @@
  * @version 1.1
  */
 
-#include "../include/GazeboTaskboard.h"
+#include "gazebo_taskboard/GazeboTaskboard.h"
 #include <boost/bind.hpp>
 #include <stdio.h>
 #include <math.h>
-#include <common/Events.hh>
 #include <std_msgs/String.h>
-#include <math/Angle.hh>
-#include <math/Pose.hh>
-#include <msgs/MessageTypes.hh>
+#include <gazebo/common/Events.hh>
+#include <gazebo/math/Angle.hh>
+#include <gazebo/math/Pose.hh>
+#include <gazebo/msgs/MessageTypes.hh>
 
 using namespace gazebo;
 using namespace gazebo_taskboard;
@@ -321,7 +321,7 @@ GazeboTaskboardSlot1::~GazeboTaskboardSlot1()
 {
     if (updateConnection)
     {
-        event::Events::DisconnectWorldUpdateStart(updateConnection);
+        event::Events::DisconnectWorldUpdateBegin(updateConnection);
         updateConnection.reset();
     }
 }
@@ -347,7 +347,7 @@ void GazeboTaskboardSlot1::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     }
 
     // Listen to the update event.This event is broadcasted every simulation iteration.
-    updateConnection = event::Events::ConnectWorldUpdateStart(
+    updateConnection = event::Events::ConnectWorldUpdateBegin(
         boost::bind(&GazeboTaskboardSlot1::OnUpdate, this));
 
     // Init services
