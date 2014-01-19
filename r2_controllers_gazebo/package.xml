@@ -1,3 +1,4 @@
+<?xml version="1.0" ?>
 <package>
   <name>r2_controllers_gazebo</name>
   <version>0.5.3</version>
@@ -6,7 +7,6 @@
   <maintainer email="davidvlu@gmail.com">David Lu!!</maintainer>
   <license>BSD</license>
 
-  <url></url>
   <url type="website">http://ros.org/wiki/r2_controllers_gazebo</url>
   <url type="bugtracker">http://ros.org/wiki/r2_controllers_gazebo</url>
   <url type="repository">http://ros.org/wiki/r2_controllers_gazebo</url>
@@ -87,7 +87,7 @@
   <run_depend>gazebo_ros_pkgs</run_depend>
 
   <export>
-    <controller_interface plugin="${prefix}/r2_controllers_gazebo_plugins.xml" />
+    <controller_interface plugin="${prefix}/r2_controllers_gazebo_plugins.xml"/>
     <python path="${prefix}/nodes"/>
     <python path="${prefix}/src"/>
   </export> 
