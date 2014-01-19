@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+  <name>nasa_r2_simulator</name>
+  <version>0.0.0</version>
+  <description>The nasa_r2_simulator package</description>
+
+  <maintainer email="davidvlu@gmail.com">David Lu!!</maintainer>
+
+  <license>BSD</license>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>r2_controllers_gazebo</build_depend>
+  <build_depend>r2_gazebo</build_depend>
+  <run_depend>r2_controllers_gazebo</run_depend>
+  <run_depend>r2_gazebo</run_depend>
+
+</package>
