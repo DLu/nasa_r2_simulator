@@ -39,6 +39,7 @@
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
     respawn="false" output="screen">
     <remap from="/r2/joint_states" to="/r2_control/joint_states" />
+    <remap from="/r2/joint_states" to="/joint_states" />
   </node>
 
   <!-- start gui -->
