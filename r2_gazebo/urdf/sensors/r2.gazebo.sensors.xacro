@@ -4,8 +4,8 @@
 			xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" 
 			xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
 
-  <include filename="$(find r2_gazebo)/urdf/sensors/grasshopper2.gazebo.xacro" />
-  <include filename="$(find r2_gazebo)/urdf/sensors/asus.gazebo.xacro" />
+  <xacro:include filename="$(find r2_gazebo)/urdf/sensors/grasshopper2.gazebo.xacro" />
+  <xacro:include filename="$(find r2_gazebo)/urdf/sensors/asus.gazebo.xacro" />
   
   <xacro:grasshopper2_cam_gazebo_v0 camera_name="${robot_name}neck/head/camera0" frame_name="${robot_name}left_camera_optical_frame" /> 
   <xacro:grasshopper2_cam_gazebo_v0 camera_name="${robot_name}neck/head/camera1" frame_name="${robot_name}right_camera_optical_frame" /> 
