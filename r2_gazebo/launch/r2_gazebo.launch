@@ -33,14 +33,16 @@
     output="screen" ns="/r2" args="r_arm_controller l_arm_controller r_hand_controller l_hand_controller neck_controller waist_controller joint_state_controller"/>
 
   <!-- convert joint states to TF transforms for rviz, etc -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
-    respawn="false" output="screen">
-    <remap from="/r2/joint_states" to="/joint_states" />
-  </node>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
+
+  <!-- remap js -->
+  <node name="js_remap" pkg="topic_tools" type="relay" respawn="true" output="screen" args="/r2/joint_states /joint_states"/>
 
   <!-- start gui -->
   <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen" if="$(arg gui)"/>
 
+  <!-- move robot to ready pose -->
+  <node name="r2_ready_pose" pkg="r2_control" type="r2ReadyPose.py" respawn="false" output="screen"/>
 
 </launch>
 
