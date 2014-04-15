@@ -19,7 +19,7 @@
   <depend package="gazebo"/>
   <export>
     <gazebo gazebo_media_path="${prefix}" />
-  </export> 
+  </export>
 </package>
 
 
