@@ -27,7 +27,7 @@
   <gazebo_link name="${robot_name}left_wrist_pitch"    gravityOff="false" static="false" collide="false"/>
   <gazebo_link name="${robot_name}left_wrist_yaw"      gravityOff="false" static="false" collide="false"/>
   <gazebo_link name="${robot_name}left_palm"           gravityOff="false" static="false" collide="false"/>
-  
+
   <gazebo_joint name="${robot_name}left_arm/joint0"/>
   <gazebo_joint name="${robot_name}left_arm/joint1"/>
   <gazebo_joint name="${robot_name}left_arm/joint2"/>

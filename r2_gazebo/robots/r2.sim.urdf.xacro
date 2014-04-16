@@ -5,7 +5,7 @@
 			xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
 			xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
 
-  <property name="robot_name" value= "/r2/"/>
+  <property name="robot_name" value= "r2/"/>
 
   <xacro:include filename="$(find r2_description)/robots/r2.urdf.xacro" />
 
