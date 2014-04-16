@@ -17,11 +17,11 @@ r2:
     gains:
       r2/right_arm/joint0: {p: 1000.0, d: 60, i: 0, i_clamp: 4.0}
       r2/right_arm/joint1: {p: 1000.0, d: 60, i: 0, i_clamp: 4.0}
-      r2/right_arm/joint2: {p: 700.0, d: 53, i: 0, i_clamp: 4.0}
-      r2/right_arm/joint3: {p: 400.0, d: 40, i: 0, i_clamp: 4.0}
-      r2/right_arm/joint4: {p: 200.0, d: 28, i: 0, i_clamp: 2.0}
-      r2/right_arm/joint5: {p: 100.0, d: 20, i: 0, i_clamp: 2.0}
-      r2/right_arm/joint6: {p: 100.0, d: 20, i: 0, i_clamp: 2.0}
+      r2/right_arm/joint2: {p: 1000.0, d: 60, i: 0, i_clamp: 4.0}
+      r2/right_arm/joint3: {p: 1000.0, d: 60, i: 0, i_clamp: 4.0}
+      r2/right_arm/joint4: {p: 1000.0, d: 60, i: 0, i_clamp: 2.0}
+      r2/right_arm/joint5: {p: 1000.0, d: 60, i: 0, i_clamp: 2.0}
+      r2/right_arm/joint6: {p: 1000.0, d: 60, i: 0, i_clamp: 2.0}
     follow_joint_trajectory:
       joints:
         - r2/right_arm/joint0
@@ -65,11 +65,11 @@ r2:
     gains:
       r2/left_arm/joint0: {p: 1000.0, d: 60, i: 0, i_clamp: 4.0}
       r2/left_arm/joint1: {p: 1000.0, d: 60, i: 0, i_clamp: 4.0}
-      r2/left_arm/joint2: {p: 700.0, d: 53, i: 0, i_clamp: 4.0}
-      r2/left_arm/joint3: {p: 400.0, d: 40, i: 0, i_clamp: 4.0}
-      r2/left_arm/joint4: {p: 200.0, d: 28, i: 0, i_clamp: 2.0}
-      r2/left_arm/joint5: {p: 100.0, d: 20, i: 0, i_clamp: 2.0}
-      r2/left_arm/joint6: {p: 100.0, d: 20, i: 0, i_clamp: 2.0}
+      r2/left_arm/joint2: {p: 1000.0, d: 60, i: 0, i_clamp: 4.0}
+      r2/left_arm/joint3: {p: 1000.0, d: 60, i: 0, i_clamp: 4.0}
+      r2/left_arm/joint4: {p: 1000.0, d: 60, i: 0, i_clamp: 2.0}
+      r2/left_arm/joint5: {p: 1000.0, d: 60, i: 0, i_clamp: 2.0}
+      r2/left_arm/joint6: {p: 1000.0, d: 60, i: 0, i_clamp: 2.0}
     follow_joint_trajectory:
       joints:
         - r2/left_arm/joint0

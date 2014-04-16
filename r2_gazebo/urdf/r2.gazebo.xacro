@@ -11,8 +11,8 @@
 
   <macro name="gazebo_joint" params="name">
      <gazebo reference="${name}">
-        <stopKd value="1.0" />
-        <stopKp value="1000000.0" />
+        <stopKd value="0.0" />
+        <stopKp value="1000.0" />
      </gazebo>
   </macro>
 
