@@ -100,9 +100,21 @@ r2:
       stop_trajectory_duration: 0        # Override default
 
   waist_controller:
-    type: effort_controllers/JointPositionController
-    joint: r2/waist/joint0
-    pid: {p: 400.0, i: 0.01, d: 200.0}
+    type: effort_controllers/JointTrajectoryController
+    joints:
+      - r2/waist/joint0
+    gains:
+      r2/waist/joint0: {p: 20.0, d: 7, i: 0, i_clamp: 4.0}
+    follow_joint_trajectory_node:
+      joints:
+        - r2/waist/joint0
+      constraints:
+        goal_time: 5.0
+        r2/waist/joint0:
+          goal: 0.2
+      state_publish_rate:  25            # Override default
+      action_monitor_rate: 30            # Override default
+      stop_trajectory_duration: 0        # Override default
 
   neck_controller:
     type: "effort_controllers/JointTrajectoryController"
