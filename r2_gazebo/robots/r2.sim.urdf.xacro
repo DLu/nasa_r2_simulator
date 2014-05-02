@@ -11,8 +11,8 @@
 
    <xacro:include filename="$(find r2_gazebo)/urdf/r2.gazebo.xacro" />
 
-<!--   <xacro:include filename="$(find r2_gazebo)/urdf/sensors/r2.gazebo.sensors.xacro" />
- -->
+  <xacro:include filename="$(find r2_gazebo)/urdf/sensors/r2.gazebo.sensors.xacro" />
+
   <xacro:include filename="$(find r2_gazebo)/urdf/gazebo_plugins/r2.transmissions.xacro" />
   <xacro:include filename="$(find r2_gazebo)/urdf/gazebo_plugins/r2.gazebo.controller.xacro" />
 

@@ -29,6 +29,9 @@
   <rosparam file="$(find r2_gazebo)/config/controllers/r2_generic_traj_control.yaml" command="load"/>
 
   <!-- load the controllers -->
+  <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="r2" args="r_arm_controller l_arm_controller neck_controller waist_controller joint_state_controller"/> -->
+
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
     output="screen" ns="r2" args="r_arm_controller l_arm_controller r_hand_controller l_hand_controller neck_controller waist_controller joint_state_controller"/>
 
