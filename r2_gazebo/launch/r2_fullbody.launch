@@ -1,17 +1,3 @@
-
-  <!-- load controller parameters-->
-  <rosparam file="$(find r2_gazebo)/config/controllers/r2sim_legs_params.yaml" command="load" />
-  <rosparam file="$(find r2_gazebo)/config/controllers/r2sim_torso_params.yaml" command="load" />
-
-  <!-- load robot -->
-  <param name="/use_sim_time" value="true"/>
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/robots/r2c_full_body.sim.urdf.xacro'" />
-  <node name="spawn_r2c_body" pkg="gazebo" type="spawn_model" args="-urdf -param robot_description -model r2_fullbody -paused=true" respawn="false" output="screen" />
-
-  
-
-<!-- -->
-
 <?xml version="1.0"?>
 <launch>
   <arg name="robot"     default="true" />
@@ -35,19 +21,15 @@
 
   <!-- load robot -->
   <group if="$(arg robot)">
-    <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/robots/r2.sim.urdf.xacro'" />
-    <node name="spawn_r2" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model r2 -paused=true -y 2" respawn="false" output="screen" />
+    <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/robots/r2_fullbody.sim.urdf.xacro'" />
+    <node name="spawn_r2" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model r2_fullbody -paused=true" respawn="false" output="screen" />
   </group>
 
   <!-- Load joint controller configurations from YAML file to parameter server -->
-  <rosparam file="$(find r2_gazebo)/config/controllers/r2_generic_traj_control.yaml" command="load"/>
-
-  <!-- load the controllers -->
-  <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" ns="r2" args="r_arm_controller l_arm_controller neck_controller waist_controller joint_state_controller"/> -->
+  <rosparam file="$(find r2_gazebo)/config/controllers/r2_fullbody_generic_traj_control.yaml" command="load"/>
 
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" ns="r2" args="r_arm_controller l_arm_controller r_hand_controller l_hand_controller neck_controller waist_controller joint_state_controller"/>
+    output="screen" ns="r2" args="r_arm_controller l_arm_controller r_hand_controller l_hand_controller l_leg_controller, r_leg_controller, neck_controller waist_controller joint_state_controller"/>
 
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>

@@ -22,7 +22,7 @@
   <!-- load robot -->
   <group if="$(arg robot)">
     <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/robots/r2.sim.urdf.xacro'" />
-    <node name="spawn_r2" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model r2 -paused=true" respawn="false" output="screen" />
+    <node name="spawn_r2" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model r2 -paused=true -y 2" respawn="false" output="screen" />
   </group>
 
   <!-- Load joint controller configurations from YAML file to parameter server -->
@@ -45,10 +45,13 @@
   <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen" if="$(arg gui)"/>
 
   <!-- move robot to ready pose -->
-  <node name="r2_ready_pose" pkg="r2_control" type="r2ReadyPose.py" respawn="false" output="screen"/>
+  <node name="r2_ready_pose" pkg="r2_control" type="r2_ready_pose.py" respawn="false" output="screen"/>
 
   <!-- reference frame broadcaster for moveit -->
-  <node pkg="tf" type="static_transform_publisher" name="odom_broadcaster" args="0 0 0 0 0 0 reference_frame world 100" />
+  <node pkg="tf" type="static_transform_publisher" name="moveit_odom_broadcaster" args="0 0 0 0 0 0 reference_frame world 100" />
+
+  <node pkg="tf" type="static_transform_publisher" name="octomap_odom_broadcaster" args="0 0 0 0 0 0 /world /map 100"/>
+  <node pkg="octomap_server" type="octomap_server_node" name="octomap_server" args="cloud_in:=/r2/asus/depth/points _resolution:=0.02" />
 
 </launch>
 
