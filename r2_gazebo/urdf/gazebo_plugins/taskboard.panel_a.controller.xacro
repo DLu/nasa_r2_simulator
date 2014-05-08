@@ -5,8 +5,9 @@
 			xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
 
   <gazebo>
-    <controller:panel_a_interface name="panel_a_interface" plugin="libgazebo_taskboard.so">
-    </controller:panel_a_interface>
+  	<plugin name="panel_a_interface" filename="libgazebo_taskboard.so"/>
+<!--     <controller:panel_a_interface name="panel_a_interface" plugin="libgazebo_taskboard.so">
+    </controller:panel_a_interface> -->
   </gazebo>
 
 </robot>

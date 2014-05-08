@@ -18,7 +18,7 @@
   <group if="$(arg gravity)">
     <param name="/gravity/x" value="0"/>
     <param name="/gravity/y" value="0"/>
-    <param name="/gravity/z" value="0"/>
+    <param name="/gravity/z" value="-9.8"/>
   </group>
 
   <!-- load robot -->

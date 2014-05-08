@@ -27,7 +27,7 @@
 
       <gazebo reference="${parent_camera_link}">
         <sensor type="depth" name="openni_camera_camera">
-            <always_on>1</always_on>
+            <always_on>0</always_on>
             <visualize>true</visualize>
             <camera>
                 <horizontal_fov>1.047</horizontal_fov>
