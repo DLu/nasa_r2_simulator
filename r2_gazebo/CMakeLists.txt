@@ -87,6 +87,8 @@ catkin_package(
 #  DEPENDS system_lib
 )
 
+execute_process(COMMAND setup.sh ${CMAKE_SOURCE_DIR}/)
+
 ###########
 ## Build ##
 ###########

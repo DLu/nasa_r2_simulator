@@ -2,7 +2,7 @@
 <launch>
   <arg name="robot"     default="true" />
   <arg name="gui"       default="true" />
-  <arg name="world"     default="r2_ISS" /> <!-- r2_ISS,  r2_ISS_simple, r2_empty_no_gravity-->
+  <arg name="world"     default="r2_ISS_simple" /> <!-- r2_ISS,  r2_ISS_simple, r2_empty_no_gravity-->
   <arg name="gravity"   default="true" />
   <arg name="debug"     default="false" />
   <arg name="i_control" default="false" />

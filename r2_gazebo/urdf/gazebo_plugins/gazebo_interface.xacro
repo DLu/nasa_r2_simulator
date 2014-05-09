@@ -17,18 +17,5 @@
       <jointStatusRate>5.0</jointStatusRate> <!--Hz, omit for fastest possible-->
     </plugin>
   </gazebo>
-<!-- 
-  <gazebo>
-    <controller:gazebo_interface name="gazebo_interface" plugin="libgazebo_interface.so">
-      <paramsNamespace>r2_sim_params</paramsNamespace>
-      <jointCommandsTopic>joint_commands</jointCommandsTopic>
-      <jointStatesTopic>joint_states</jointStatesTopic>
-      <jointStatesRate>20.0</jointStatesRate>
-      <advancedMode>false</advancedMode>
-      <jointControlTopic>joint_control</jointControlTopic>
-      <jointStatusTopic>joint_status</jointStatusTopic>
-      <jointStatusRate>5.0</jointStatusRate>
-    </controller:gazebo_interface>
-  </gazebo>
- -->
+
 </robot>

@@ -1,4 +1,4 @@
-<?xml version="1.0"?> 
+<?xml version="1.0"?>
 
 <gazebo version="1.0">
   <world name="default">
@@ -27,12 +27,16 @@
         </inertial>
         <collision name="ISS_Surface">
           <geometry>
-            <mesh filename="ISS/US_Lab_ISS_half.dae"/>
+            <mesh>
+              <uri>model://ISS/US_Lab_ISS_half.dae</uri>
+            </mesh>
           </geometry>
         </collision>
         <visual name="ISS_Visual">
           <geometry>
-            <mesh filename="ISS/US_Lab_ISS_half.dae"/>
+            <mesh>
+              <uri>model://ISS/US_Lab_ISS_half.dae</uri>
+            </mesh>
           </geometry>
         </visual>
       </link>
