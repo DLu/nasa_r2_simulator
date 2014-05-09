@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <launch>
+
+  <env name="GAZEBO_MODEL_PATH" value="$(find r2_gazebo)/Media/models"/>
+
   <arg name="robot"     default="true" />
   <arg name="gui"       default="true" />
   <arg name="world"     default="r2_ISS" /> <!-- r2_ISS,  r2_ISS_simple, r2_empty_no_gravity-->
