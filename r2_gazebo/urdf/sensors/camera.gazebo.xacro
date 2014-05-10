@@ -26,7 +26,7 @@
         </noise>
       </camera>
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
-        <alwaysOn>false</alwaysOn>
+        <alwaysOn>0</alwaysOn>
         <updateRate>0.0</updateRate>
         <cameraName>${camera_name}</cameraName>
         <imageTopicName>image_raw</imageTopicName>
