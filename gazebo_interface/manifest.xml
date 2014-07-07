@@ -10,7 +10,7 @@
   <url>http://ros.org/wiki/gazebo_interface</url>
 
   <depend package="sensor_msgs"/>
-  <depend package="r2_msgs"/>
+  <depend package="nasa_r2_common_msgs"/>
   <depend package="gazebo"/>
   <export>
     <gazebo plugin_path="${prefix}/lib" />
