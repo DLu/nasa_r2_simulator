@@ -63,12 +63,12 @@
 #include <sensor_msgs/JointState.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Twist.h>
-#include <r2_msgs/Gains.h>
-#include <r2_msgs/SetTipName.h>
-#include <r2_msgs/SetJointMode.h>
-#include <r2_msgs/Power.h>
-#include <r2_msgs/Servo.h>
-#include <r2_msgs/PoseTwistStamped.h>
+#include <nasa_r2_common_msgs/Gains.h>
+#include <nasa_r2_common_msgs/SetTipName.h>
+#include <nasa_r2_common_msgs/SetJointMode.h>
+#include <nasa_r2_common_msgs/Power.h>
+#include <nasa_r2_common_msgs/Servo.h>
+#include <nasa_r2_common_msgs/PoseTwistStamped.h>
 
 #include "TreeChain.h"
 #include "WholeBodyCalc.h"
@@ -88,8 +88,8 @@ class R2ImpedanceController: public pr2_controller_interface::Controller{
 	
 	message_filters::Subscriber<geometry_msgs::PoseStamped> 				left_pose_command_sub;
 	boost::scoped_ptr<tf::MessageFilter<geometry_msgs::PoseStamped> >			left_pose_command_filter;
-	message_filters::Subscriber<r2_msgs::PoseTwistStamped> 					left_pose_vel_command_sub;
-	boost::scoped_ptr<tf::MessageFilter<r2_msgs::PoseTwistStamped> >			left_pose_vel_command_filter;
+	message_filters::Subscriber<nasa_r2_common_msgs::PoseTwistStamped> 					left_pose_vel_command_sub;
+	boost::scoped_ptr<tf::MessageFilter<nasa_r2_common_msgs::PoseTwistStamped> >			left_pose_vel_command_filter;
 	
 	boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::PoseStamped> >	right_tip_pose_publisher;
 	boost::scoped_ptr<realtime_tools::RealtimePublisher<geometry_msgs::Twist> >		right_pose_error_publisher;
@@ -97,8 +97,8 @@ class R2ImpedanceController: public pr2_controller_interface::Controller{
 	
 	message_filters::Subscriber<geometry_msgs::PoseStamped> 				right_pose_command_sub;
 	boost::scoped_ptr<tf::MessageFilter<geometry_msgs::PoseStamped> >			right_pose_command_filter;
-	message_filters::Subscriber<r2_msgs::PoseTwistStamped>	 				right_pose_vel_command_sub;
-	boost::scoped_ptr<tf::MessageFilter<r2_msgs::PoseTwistStamped> >			right_pose_vel_command_filter;
+	message_filters::Subscriber<nasa_r2_common_msgs::PoseTwistStamped>	 				right_pose_vel_command_sub;
+	boost::scoped_ptr<tf::MessageFilter<nasa_r2_common_msgs::PoseTwistStamped> >			right_pose_vel_command_filter;
 	
 	
 	
@@ -106,7 +106,7 @@ class R2ImpedanceController: public pr2_controller_interface::Controller{
 	ros::Subscriber waist_joint_command_sub;
 	
 	ros::Subscriber set_gains_sub;
-	boost::scoped_ptr<realtime_tools::RealtimePublisher<r2_msgs::Gains> > gains_publisher;
+	boost::scoped_ptr<realtime_tools::RealtimePublisher<nasa_r2_common_msgs::Gains> > gains_publisher;
 	
 	ros::ServiceServer srv_set_joint_mode;
 	ros::ServiceServer srv_set_tip_name;
@@ -240,21 +240,21 @@ class R2ImpedanceController: public pr2_controller_interface::Controller{
 	void pose_left_command(const geometry_msgs::PoseStamped::ConstPtr& msg);
 	void pose_right_command(const geometry_msgs::PoseStamped::ConstPtr& msg);
 
-	void pose_vel_left_command(const r2_msgs::PoseTwistStamped::ConstPtr& msg );
-	void pose_vel_right_command(const r2_msgs::PoseTwistStamped::ConstPtr& msg );
-	void pose_vel_command_inner(	const r2_msgs::PoseTwistStamped::ConstPtr& msg,
+	void pose_vel_left_command(const nasa_r2_common_msgs::PoseTwistStamped::ConstPtr& msg );
+	void pose_vel_right_command(const nasa_r2_common_msgs::PoseTwistStamped::ConstPtr& msg );
+	void pose_vel_command_inner(	const nasa_r2_common_msgs::PoseTwistStamped::ConstPtr& msg,
 					Eigen::Matrix<double,7,1>& cmd,
 					KDL::Twist& velCmd,
 					bool& cart_vel );
 
 	KDL::Frame transformPoseMsg(const geometry_msgs::PoseStamped::ConstPtr& msg);
-	void set_gains(const r2_msgs::Gains::ConstPtr& msg );
+	void set_gains(const nasa_r2_common_msgs::Gains::ConstPtr& msg );
 
 	// service functions
-	bool set_joint_mode(r2_msgs::SetJointMode::Request  &req,  r2_msgs::SetJointMode::Response &res );
-	bool set_tip_name(r2_msgs::SetTipName::Request &req,  r2_msgs::SetTipName::Response &res );
-	bool set_power(r2_msgs::Power::Request &req,  r2_msgs::Power::Response &res );
-	bool set_servo(r2_msgs::Servo::Request &req,  r2_msgs::Servo::Response &res );
+	bool set_joint_mode(nasa_r2_common_msgs::SetJointMode::Request  &req,  nasa_r2_common_msgs::SetJointMode::Response &res );
+	bool set_tip_name(nasa_r2_common_msgs::SetTipName::Request &req,  nasa_r2_common_msgs::SetTipName::Response &res );
+	bool set_power(nasa_r2_common_msgs::Power::Request &req,  nasa_r2_common_msgs::Power::Response &res );
+	bool set_servo(nasa_r2_common_msgs::Servo::Request &req,  nasa_r2_common_msgs::Servo::Response &res );
 	
 	
 	

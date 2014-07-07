@@ -371,17 +371,17 @@ void R2ImpedanceController::init_ros_msgs(){
 	right_pose_command_filter->registerCallback(boost::bind(&R2ImpedanceController::pose_right_command, this, _1));
 
 	left_pose_vel_command_sub.subscribe(node, "left/pose_twist_command", 1);
-	left_pose_vel_command_filter.reset(new tf::MessageFilter<r2_msgs::PoseTwistStamped>(left_pose_vel_command_sub, tfListener, cc.root_name, 10, node ));
+	left_pose_vel_command_filter.reset(new tf::MessageFilter<nasa_r2_common_msgs::PoseTwistStamped>(left_pose_vel_command_sub, tfListener, cc.root_name, 10, node ));
 	left_pose_vel_command_filter->registerCallback(boost::bind(&R2ImpedanceController::pose_vel_left_command, this, _1));
 
 	right_pose_vel_command_sub.subscribe(node, "right/pose_twist_command", 1);
-	right_pose_vel_command_filter.reset(new tf::MessageFilter<r2_msgs::PoseTwistStamped>(right_pose_vel_command_sub, tfListener, cc.root_name, 10, node ));
+	right_pose_vel_command_filter.reset(new tf::MessageFilter<nasa_r2_common_msgs::PoseTwistStamped>(right_pose_vel_command_sub, tfListener, cc.root_name, 10, node ));
 	right_pose_vel_command_filter->registerCallback(boost::bind(&R2ImpedanceController::pose_vel_right_command, this, _1));
 
 
 	
 	set_gains_sub = node.subscribe("set_gains", 3, &R2ImpedanceController::set_gains, this );
-	gains_publisher.reset( new realtime_tools::RealtimePublisher<r2_msgs::Gains>(node, "gains", 5 ));
+	gains_publisher.reset( new realtime_tools::RealtimePublisher<nasa_r2_common_msgs::Gains>(node, "gains", 5 ));
 	
 	
 	srv_set_joint_mode = node.advertiseService("set_joint_mode", &R2ImpedanceController::set_joint_mode, this);
@@ -426,13 +426,13 @@ void R2ImpedanceController::pose_right_command(const geometry_msgs::PoseStamped:
 	f.M.GetQuaternion(x,y,z,w);
 	cc.right_cart_vel = false;
 }
-void R2ImpedanceController::pose_vel_left_command(const r2_msgs::PoseTwistStamped::ConstPtr& msg ){
+void R2ImpedanceController::pose_vel_left_command(const nasa_r2_common_msgs::PoseTwistStamped::ConstPtr& msg ){
 	pose_vel_command_inner( msg, cc.leftCmd, cc.leftVelCmd, cc.left_cart_vel );
 }
-void R2ImpedanceController::pose_vel_right_command(const r2_msgs::PoseTwistStamped::ConstPtr& msg ){
+void R2ImpedanceController::pose_vel_right_command(const nasa_r2_common_msgs::PoseTwistStamped::ConstPtr& msg ){
 	pose_vel_command_inner( msg, cc.rightCmd, cc.rightVelCmd, cc.right_cart_vel );
 }
-void R2ImpedanceController::pose_vel_command_inner(	const r2_msgs::PoseTwistStamped::ConstPtr& msg,
+void R2ImpedanceController::pose_vel_command_inner(	const nasa_r2_common_msgs::PoseTwistStamped::ConstPtr& msg,
 							Eigen::Matrix<double,7,1>& cmd,
 							KDL::Twist& velCmd,
 							bool& cart_vel)
@@ -491,7 +491,7 @@ KDL::Frame R2ImpedanceController::transformPoseMsg(const geometry_msgs::PoseStam
 	
 	return frame;
 }
-void R2ImpedanceController::set_gains(const r2_msgs::Gains::ConstPtr& msg ){
+void R2ImpedanceController::set_gains(const nasa_r2_common_msgs::Gains::ConstPtr& msg ){
 	boost::lock_guard<boost::mutex> lock(thread_mutex);
 	size_t size = msg->joint_names.size();
 	if( size != msg->K.size() || size!= msg->D.size() ){
@@ -700,7 +700,7 @@ void R2ImpedanceController::joint_command_entry( const string& name, bool value,
 }
 
 
-bool R2ImpedanceController::set_joint_mode(r2_msgs::SetJointMode::Request  &req,  r2_msgs::SetJointMode::Response &res ){ 
+bool R2ImpedanceController::set_joint_mode(nasa_r2_common_msgs::SetJointMode::Request  &req,  nasa_r2_common_msgs::SetJointMode::Response &res ){ 
 	boost::lock_guard<boost::mutex> lock(thread_mutex);
 	class Local{
 		public:
@@ -730,7 +730,7 @@ bool R2ImpedanceController::set_joint_mode(r2_msgs::SetJointMode::Request  &req,
 	
 	return res.result;
 }
-bool R2ImpedanceController::set_tip_name(r2_msgs::SetTipName::Request &req,  r2_msgs::SetTipName::Response &res ){
+bool R2ImpedanceController::set_tip_name(nasa_r2_common_msgs::SetTipName::Request &req,  nasa_r2_common_msgs::SetTipName::Response &res ){
 	boost::lock_guard<boost::mutex> lock(thread_mutex);
 	if( req.arm_name == "left" ){
 		cc.left.init( cc.robot_tree, cc.root_name, req.tip_name, cc.cartK_left, cc.cartD_left );
@@ -745,8 +745,8 @@ bool R2ImpedanceController::set_tip_name(r2_msgs::SetTipName::Request &req,  r2_
 	}
 	return res.result;
 }
-bool R2ImpedanceController::set_power(r2_msgs::Power::Request &req,  r2_msgs::Power::Response &res ){ res.status = true; return true;}
-bool R2ImpedanceController::set_servo(r2_msgs::Servo::Request &req,  r2_msgs::Servo::Response &res ){ res.status = true; return true;}
+bool R2ImpedanceController::set_power(nasa_r2_common_msgs::Power::Request &req,  nasa_r2_common_msgs::Power::Response &res ){ res.status = true; return true;}
+bool R2ImpedanceController::set_servo(nasa_r2_common_msgs::Servo::Request &req,  nasa_r2_common_msgs::Servo::Response &res ){ res.status = true; return true;}
 
 void R2ImpedanceController::CtrlCalc::activate( TreeChain& tc, bool& flag, Eigen::Matrix<double,7,1>& pose_cmd ){
 	flag = true;
@@ -894,7 +894,7 @@ void R2ImpedanceController::CtrlCalc::calculate(){
 
 void R2ImpedanceController::publish_msgs(){
 	if( gains_publisher && gains_publisher->trylock() ){
-		r2_msgs::Gains& msg = gains_publisher->msg_;
+		nasa_r2_common_msgs::Gains& msg = gains_publisher->msg_;
 		msg.joint_names.clear();
 		msg.K.clear();
 		msg.D.clear();

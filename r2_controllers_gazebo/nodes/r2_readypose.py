@@ -9,7 +9,7 @@ import tf
 from std_msgs.msg import String
 from sensor_msgs.msg import JointState
 
-from r2_msgs.srv import *
+from nasa_r2_common_msgs.srv import *
 
 import math
 import time
