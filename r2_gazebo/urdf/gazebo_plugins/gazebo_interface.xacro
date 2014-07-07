@@ -10,7 +10,9 @@
       <paramsNamespace>r2_sim_params</paramsNamespace>
       <jointCommandsTopic>joint_commands</jointCommandsTopic>
       <jointStatesTopic>joint_states</jointStatesTopic>
-      <jointStatesRate>20.0</jointStatesRate> <!--Hz, omit for fastest possible-->
+      <jointCapabilitiesTopic>joint_capabilities</jointCapabilitiesTopic>
+      <jointCommandRefsTopic>joint_command_refs</jointCommandRefsTopic>
+      <jointStatesRate>50.0</jointStatesRate> <!--Hz, omit for fastest possible-->
       <advancedMode>false</advancedMode>
       <!-- if advancedMode=false, joint brakes, etc are not simulated and the following parameters are ignored -->
       <jointControlTopic>joint_control</jointControlTopic>

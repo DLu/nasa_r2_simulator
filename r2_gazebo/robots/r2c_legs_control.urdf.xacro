@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<robot name="r2c_legs">
+
+  <property name="robot_name" value= "/r2/" />
+
+  <link name="${robot_name}robot_world"/>
+
+  <non_visual_link name="${robot_name}robot_base"/>
+
+  <joint name="${robot_name}fixed/robot_world/robot_base" type="fixed">
+    <parent link="${robot_name}robot_world"/>
+    <child link="${robot_name}robot_base"/>
+    <origin rpy="0.0 3.14159 3.14159" xyz="0.0 0.0 0.0"/>
+  </joint>
+  
+  <include filename="$(find r2_gazebo)/urdf/models/r2.common.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.imu.xacro" />
+
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_legs/r2c_legs.pelvis.xacro" />
+
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_legs/r2c_legs.left_leg.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_legs/r2c_legs.left_foot.xacro" />
+
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_legs/r2c_legs.right_leg.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_legs/r2c_legs.right_foot.xacro" />
+
+</robot>

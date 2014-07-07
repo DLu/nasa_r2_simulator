@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+
+<robot name="r2c_full_body" xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
+
+  <property name="robot_name" value= "/r2/" />
+
+  <non_visual_link name="${robot_name}world_ref"/>
+
+  <xacro:macro name="robot_world_origin" params="*origin">
+    <joint name="${robot_name}fixed/world_ref/robot_world" type="fixed">
+      <parent link="${robot_name}world_ref"/>
+      <child link="${robot_name}robot_world"/>
+      <xacro:insert_block name="origin" />
+    </joint>
+  </xacro:macro>
+
+  <non_visual_link name="${robot_name}robot_world"/>
+  
+  <joint name="${robot_name}fixed/robot_world/robot_base" type="fixed">
+    <parent link="${robot_name}robot_world"/>
+    <child link="${robot_name}robot_base"/>
+    <origin rpy="0.0 3.14159 3.14159" xyz="0.0 0.0 0.0"/>
+  </joint>
+
+  <non_visual_link name="${robot_name}robot_base"/>
+  
+  <include filename="$(find r2_gazebo)/urdf/models/r2.common.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.body.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.head.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.head_sensors.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.imu.xacro" />
+
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.left_arm.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.left_forearm.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.left_hand.xacro" />
+
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.right_arm.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.right_forearm.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.right_hand.xacro" />
+
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_legs/r2c_legs.pelvis.xacro" />
+
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_legs/r2c_legs.left_leg.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_legs/r2c_legs.left_foot.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_legs/r2c_legs.left_foot_gripper.xacro" />
+
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_legs/r2c_legs.right_leg.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_legs/r2c_legs.right_foot.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_legs/r2c_legs.right_foot_gripper.xacro" />
+
+</robot>

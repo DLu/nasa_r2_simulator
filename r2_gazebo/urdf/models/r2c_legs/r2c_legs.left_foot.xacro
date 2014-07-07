@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<robot>
+
+  <joint name="${robot_name}fixed/left_ankle_roll/left_leg_ati" type="fixed">
+    <parent link="${robot_name}left_ankle_roll"/>
+    <child link="${robot_name}left_leg/ati"/>
+    <origin rpy="3.1416 0.0 -1.5708" xyz="0.0 0.0 0.070182"/>
+  </joint>
+  
+  <non_visual_link name="${robot_name}left_leg/ati"/>
+  
+  <joint name="${robot_name}fixed/left_leg_ati/left_leg_foot" type="fixed">
+    <parent link="${robot_name}left_leg/ati"/>
+    <child link="${robot_name}left_leg_foot"/>
+    <origin rpy="3.1416 0.0 -1.5708" xyz="0.0 0.0 0.0206502"/>
+  </joint>
+
+  <link name="${robot_name}left_leg_foot">
+    <inertial>
+      <mass value="4.4308"/>
+      <inertia ixx="0.01928" ixy="-0.0003391" ixz="-0.0001325" iyy="0.01765" iyz="-0.0006598" izz="0.009944"/>
+      <origin rpy="0 0 0" xyz="-0.001903 0.0002149 0.08495"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_foot.dae"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_foot.dae"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+  </link>
+  
+  <joint name="${robot_name}fixed/left_leg_foot/left_hr_tip" type="fixed">
+    <parent link="${robot_name}left_leg_foot"/>
+    <child link="${robot_name}left_leg/gripper/tip"/>
+    <origin rpy="0.0 0 0" xyz="0 0 0.19451"/>
+  </joint>
+  
+  <non_visual_link name="${robot_name}left_leg/gripper/tip"/>
+
+</robot>

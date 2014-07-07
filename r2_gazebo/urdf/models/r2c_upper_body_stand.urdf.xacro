@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+
+<robot name="r2c_upper_body_stand">
+
+  <property name="robot_name" value= "/r2/" />
+
+  <include filename="$(find r2_gazebo)/urdf/models/r2.base.xacro" />
+urdf/
+  <include filename="$(find r2_gazebo)/urdf/models/r2.common.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.imu.xacro" />
+urdf/
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.body.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.head.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.head_sensors.xacro" />
+urdf/
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.left_arm.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.left_forearm.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.left_hand.xacro" />
+urdf/
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.right_arm.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.right_forearm.xacro" />
+  <include filename="$(find r2_gazebo)/urdf/models/r2c_upperbody/r2c.right_hand.xacro" />
+
+</robot>

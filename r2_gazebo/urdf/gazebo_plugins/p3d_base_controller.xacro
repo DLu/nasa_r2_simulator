@@ -7,15 +7,15 @@
   <gazebo>
     <controller:gazebo_ros_p3d name="p3d_base_controller" plugin="libgazebo_ros_p3d.so">
 <!--      <robotNamespace>r2sim</robotNamespace>-->
-      <bodyName>/r2/robot_base</bodyName>
-      <topicName>/r2/robot_base/pose_state</topicName>
+      <bodyName>/r2/world_ref</bodyName>
+      <topicName>/r2/world_ref/pose_state</topicName>
       <gaussianNoise>0.0</gaussianNoise>
       <frameName>world</frameName>
       <xyzOffsets>0 0 0</xyzOffsets>
       <rpyOffsets>0 0 0</rpyOffsets>
       <interface:position name="p3d_base_position"/>
     </controller:gazebo_ros_p3d>
-    <canonicalBody>/r2/robot_world</canonicalBody>
+    <canonicalBody>/r2/world_ref</canonicalBody>
   </gazebo>
 
 </robot>

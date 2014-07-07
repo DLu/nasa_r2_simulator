@@ -3,11 +3,17 @@
 
   <!-- load world -->
   <node name="gazebo" pkg="gazebo" type="gazebo" args="$(find r2_gazebo)/gazebo/r2_empty.world" output="screen" respawn="false" />
+
+ <!-- load controller parameters-->
+  <rosparam file="$(find r2_gazebo)/config/controllers/r2sim_torso_params.yaml" command="load" />
   
   <!-- load robot -->
   <param name="/use_sim_time" value="true"/>
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/robots/r2.sim.urdf.xacro'" /> 
-  <node name="spawn_r2" pkg="gazebo" type="spawn_model" args="-urdf -param robot_description -model r2 -paused=true" respawn="false" output="screen" /> 
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/robots/r2c_torso.sim.urdf.xacro'" />
+  <param name="robot_urdf" value="$(find r2_gazebo)/robots/r2c_torso.sim.urdf.xml" />
+  
+  <node name="spawn_r2_orocos" pkg="gazebo" type="spawn_model" args="-urdf -param robot_description -model r2_orocos -paused=true" respawn="false" output="screen" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
  
   <!-- load taskboard -->
   <param name="taskboard_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard.urdf.xacro'" />  
@@ -16,18 +22,17 @@
   <!-- start gui -->
   <node name="gazebo_gui" pkg="gazebo" type="gui" respawn="false" output="screen" />
 
-  <!-- load controller -->
-  <rosparam file="$(find r2_gazebo)/config/controllers/r2_impedance_controller.yaml" command="load" />  
-  <include file="$(find pr2_controller_manager)/controller_manager.launch" />
-  <node name="default_controllers_spawner"
-        pkg="pr2_controller_manager" type="spawner" output="screen"
-        args="r2_controller" />
-
   <!-- load taskboard connectors -->  <!-- ANNOYING!! THESE NEED TO BE DEFINED AFTER A BIT OF A DELAY OR NOT ALL THE MODELS SHOW UP.  FIXME! -->
   <param name="taskboard_B01_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard_B01.urdf.xacro'" />
   <param name="taskboard_B05_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard_B05.urdf.xacro'" /> 
   <node name="spawn_taskboard_B01" pkg="gazebo" type="spawn_model" args="-urdf -param taskboard_B01_description -model taskboard_B01" respawn="false" output="screen"/> 
   <node name="spawn_taskboard_B05" pkg="gazebo" type="spawn_model" args="-urdf -param taskboard_B05_description -model taskboard_B05" respawn="false" output="screen"/>
+  <node pkg="robot_state_publisher" type="state_publisher" name="rob_st_pub" >
+    <remap from="robot_description" to="taskboard_description" />
+  </node>
+
+  <!-- Start Controller -->
+  <node name="r2_controller" pkg="r2_controllers_ros" type="r2_controllers_ros" respawn="false" output="screen" />
 
 
 </launch>

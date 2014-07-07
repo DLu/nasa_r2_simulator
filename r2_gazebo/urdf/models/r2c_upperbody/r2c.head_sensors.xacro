@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<robot>
+
+  <joint name="${robot_name}fixed/neck_roll/vision_base" type="fixed">
+    <parent link="${robot_name}head"/>
+    <child link="${robot_name}vision_base"/>
+    <origin rpy=" 1.5708 0.0 0.0 " xyz=" 0.0 -0.058 0.0074676"/>
+  </joint>
+
+  <link name="${robot_name}vision_base">
+    <inertial>
+      <mass value=".1"/>
+      <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
+    </inertial>
+  </link>
+
+  <joint name="${robot_name}fixed/vision_base/asus_frame" type="fixed">
+    <parent link="${robot_name}vision_base"/>
+    <child link="${robot_name}asus_frame"/>
+     <origin rpy="1.50 0.0 1.5708 " xyz="0.12 -0.015 -0.14 "/>
+<!-- OK    <origin rpy="1.45 0 1.57 " xyz="0.11 -0.040 -0.15 "/>  -->
+<!-- ORIGINAL     <origin rpy="1.57 0 1.57 " xyz="0.066675 -0.0508 -0.116205 "/>  -->
+  </joint>
+
+  <joint name="${robot_name}fixed/vision_base/simulated_asus_frame" type="fixed">
+    <parent link="${robot_name}vision_base"/>
+    <child link="${robot_name}simulated_asus_frame"/>
+    <dynamics damping="1.0" />
+    <origin rpy="0 0 0" xyz="0.12 -0.015 -0.14 "/> 
+  </joint>
+
+  <joint name="${robot_name}fixed/vision_base/vision_center_frame" type="fixed">
+    <parent link="${robot_name}vision_base"/>
+    <child link="${robot_name}vision_center_frame"/>
+    <dynamics damping="1.0" />
+    <origin rpy="1.5708 -1.5708 1.5708" xyz=" 0.066675 0.0 -0.116205 "/>
+  </joint>
+
+  <!-- actual asus --> 
+  <link name="${robot_name}asus_frame">
+    <inertial>
+      <mass value=".01"/>
+      <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
+    </inertial>
+  </link>
+
+  <joint name="${robot_name}fixed/asus_frame/openni_depth_frame" type="fixed">
+    <parent link="${robot_name}asus_frame"/>
+    <child link="${robot_name}openni_depth_frame"/>
+    <origin rpy="1.5708 -1.5708 0 " xyz="0 0 0 "/>
+  </joint>
+
+ <!-- asus default --> 
+ <link name="${robot_name}openni_depth_frame">
+    <inertial>
+      <mass value=".01"/>
+      <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
+    </inertial>
+  </link>
+
+ <!-- simulated asus --> 
+ <link name="${robot_name}simulated_asus_frame">
+    <inertial>
+      <mass value=".01"/>
+      <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
+    </inertial>
+  </link>
+
+  <!--visions --> 
+  <link name="${robot_name}vision_center_frame">
+    <inertial>
+      <mass value=".1"/>
+      <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
+    </inertial>
+  </link>
+  
+  <joint name="${robot_name}fixed/vision_center_frame/left_camera_frame" type="fixed">
+    <parent link="${robot_name}vision_center_frame"/>
+    <child link="${robot_name}left_camera_frame"/>
+    <dynamics damping="1.0" />
+    <origin rpy="0 0 1.5708" xyz="0.0087 0.04887 0.01789"/>
+  </joint>
+
+  <joint name="${robot_name}fixed/vision_center_frame/right_camera_frame" type="fixed">
+    <parent link="${robot_name}vision_center_frame"/>
+    <child link="${robot_name}right_camera_frame"/>
+    <dynamics damping="1.0" />
+    <origin rpy="0 0 1.5708" xyz="0.0087 -0.04887 0.01789"/>
+  </joint>
+
+  <link name="${robot_name}left_camera_frame">
+    <inertial>
+      <mass value=".1"/>
+      <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
+    </inertial>
+  </link>
+ 
+  <joint name="${robot_name}fixed/left_camera_frame/left_camera_optical_frame" type="fixed">
+    <parent link="${robot_name}left_camera_frame"/>
+    <child link="${robot_name}left_camera_optical_frame"/>
+    <dynamics damping="1.0" />
+    <origin rpy="-1.5708 -1.5708 0" xyz="0 0 0"/>
+  </joint>
+
+  <link name="${robot_name}left_camera_optical_frame">
+    <inertial>
+      <mass value=".1"/>
+      <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
+    </inertial>
+  </link>
+
+  <link name="${robot_name}right_camera_frame">
+    <inertial>
+      <mass value=".1"/>
+      <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
+    </inertial>
+  </link>
+
+  <joint name="${robot_name}fixed/right_camera_frame/right_camera_optical_frame" type="fixed">
+    <parent link="${robot_name}right_camera_frame"/>
+    <child link="${robot_name}right_camera_optical_frame"/>
+    <dynamics damping="1.0" />
+    <origin rpy="-1.5708 -1.5708 0" xyz="0 0 0"/>
+  </joint>
+
+  <link name="${robot_name}right_camera_optical_frame">
+    <inertial>
+      <mass value=".1"/>
+      <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
+    </inertial>
+  </link>
+
+</robot> 

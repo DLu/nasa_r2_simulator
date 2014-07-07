@@ -15,7 +15,8 @@
   <depend package="urdf"/>
   <depend package="kdl_parser"/>
   <depend package="gazebo_msgs"/>
-  <depend package="r2_msgs"/>
+  <depend package="r2_description"/>
+  <depend package="nasa_r2_common_msgs"/>
   <depend package="gazebo"/>
   <export>
     <gazebo gazebo_media_path="${prefix}" />

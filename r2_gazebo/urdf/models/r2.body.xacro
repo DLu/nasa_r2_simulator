@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<robot>
+
+  <property name="waist_j0_damping" value= "10.0" />
+  <property name="waist_j0_friction" value= "0.0" />
+
+  <joint name="${robot_name}waist/joint0" type="revolute">
+    <parent link="${robot_name}robot_base"/>
+    <child link="${robot_name}waist_center"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="0.0 0 0.0" xyz="0.0 0.0 0.0"/>
+    <dynamics damping="${waist_j0_damping}" friction="${waist_j0_friction}"/>
+    <limit effort="10000000.0" lower="-3.14" upper="3.14" velocity="1000"/>
+  </joint>
+
+  <link name="${robot_name}waist_center">
+    <visual>
+      <geometry>
+         <mesh filename="package://r2_description/meshes/Body.dae"/>  
+      </geometry>
+      <origin rpy="-1.57 0 -1.57" xyz="0.02 0.05 -0.5625"/>
+    </visual>
+    <collision>
+      <geometry>
+         <mesh filename="package://r2_description/meshes/Body.dae"/>  
+      </geometry>
+      <origin rpy="-1.57 0 -1.57" xyz="0.02 0.05 -0.5625"/>
+    </collision>
+    <inertial>
+      <mass value="10"/>
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+    </inertial>
+   </link>
+
+  <joint name="${robot_name}fixed/waist_center/robot_reference" type="fixed">
+    <parent link="${robot_name}waist_center"/>
+    <child link="${robot_name}robot_reference"/>
+    <origin rpy="0.0 0 0.0" xyz="0.1234 0.0 0.0"/>
+  </joint>
+
+  <joint name="${robot_name}fixed/waist_center/body_cover" type="fixed">
+    <parent link="${robot_name}waist_center"/>
+    <child link="${robot_name}body_cover"/>
+    <origin rpy="0.0 0.0 0.0" xyz="0 0.0 0.0"/>
+  </joint>
+
+  <joint name="${robot_name}fixed/waist_center/backpack" type="fixed">
+    <parent link="${robot_name}waist_center"/>
+    <child link="${robot_name}backpack"/>
+    <origin rpy="0.0 0.0 0.0" xyz="0 0.0 0.0"/>
+  </joint>
+
+  <joint name="${robot_name}fixed/waist_center/chest_center" type="fixed">
+    <parent link="${robot_name}waist_center"/>
+    <child link="${robot_name}chest_center"/>
+    <origin rpy="0.0 0.0 0.0" xyz="-0.01235 0.0 0.0"/>
+  </joint>
+
+  <joint name="${robot_name}fixed/waist_center/left_shoulder_jr3" type="fixed">
+    <parent link="${robot_name}waist_center"/>
+    <child link="${robot_name}left_shoulder_jr3"/>
+    <origin rpy="0.0 -0.0 0.0 " xyz="-0.0240898 -0.0996837 -0.413899"/>
+  </joint>
+
+  <joint name="${robot_name}fixed/waist_center/right_shoulder_jr3" type="fixed">
+    <parent link="${robot_name}waist_center"/>
+    <child link="${robot_name}right_shoulder_jr3"/>
+    <origin rpy="0.0 -0.0 0.0 " xyz="-0.0240898 0.0996837 -0.413899"/>
+  </joint>
+
+  <non_visual_link name="${robot_name}robot_reference"/>
+
+  <link name="${robot_name}body_cover">
+    <visual>
+      <geometry>
+         <mesh filename="package://r2_description/meshes/Body_Cover.dae"/>  
+      </geometry>
+      <origin rpy="-1.57 0 -1.57" xyz="0.02 0.05 -0.5625"/>
+    </visual>
+    <collision>
+      <geometry>
+         <mesh filename="package://r2_description/meshes/Body_Cover.dae"/>  
+      </geometry>
+      <origin rpy="-1.57 0 -1.57" xyz="0.02 0.05 -0.5625"/>
+    </collision>
+    <inertial>
+        <mass value="0.1"/>
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+
+   <link name="${robot_name}backpack">
+    <visual>
+      <geometry>
+         <mesh filename="package://r2_description/meshes/Backpack.dae"/>  
+      </geometry>
+      <origin rpy="0 0 0.25" xyz="0.0 0.0 -0.54"/>
+    </visual>
+    <collision>
+      <geometry>
+         <mesh filename="package://r2_description/meshes/Backpack.dae"/>  
+      </geometry>
+      <origin rpy="0 0 0.25" xyz="0.0 0.0 -0.54"/>
+    </collision>
+    <inertial>
+      <mass value="10"/>
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+    </inertial>
+  </link>
+
+  <non_visual_link name="${robot_name}chest_center"/>
+
+  <non_visual_link name="${robot_name}left_shoulder_jr3"/>
+
+  <non_visual_link name="${robot_name}right_shoulder_jr3"/>
+
+  <joint name="${robot_name}fixed/chest_center/chest_base" type="fixed">
+    <parent link="${robot_name}chest_center"/>
+    <child link="${robot_name}chest_base"/>
+    <origin rpy="0.0 -0.0 0.0 " xyz="-0.05299202 -0.0 -0.5442458"/>
+  </joint>
+
+  <non_visual_link name="${robot_name}chest_base"/>  
+  
+</robot>

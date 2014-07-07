@@ -7,9 +7,9 @@
 
   <property name="robot_name" value= "/r2/" />
 
-  <include filename="$(find r2_description)/robots/r2.urdf.xacro" />
+  <include filename="$(find r2_gazebo)/robots/r2.urdf.xacro" />
 
   <include filename="$(find r2_gazebo)/urdf/r2.gazebo.xacro" />
-  <include filename="$(find r2_gazebo)/urdf/sensors/r2.gazebo.sensors.xacro" /> 
-
+  <include filename="$(find r2_gazebo)/urdf/sensors/r2.gazebo.sensors.xacro" />
+  
 </robot>
