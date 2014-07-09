@@ -8,7 +8,6 @@
   <arg name="world"     default="r2_ISS_simple" /> <!-- r2_ISS,  r2_ISS_simple, r2_empty_no_gravity-->
   <arg name="gravity"   default="true" />
   <arg name="debug"     default="false" />
-  <arg name="i_control" default="false" />
   <arg name="octomap"   default="false" />
 
 
@@ -39,7 +38,8 @@
   <param name="taskboard_B05_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard_B05.urdf.xacro'" />
   <node name="spawn_taskboard_B01" pkg="gazebo_ros" type="spawn_model" args="-urdf -param taskboard_B01_description -model taskboard_B01" respawn="false" output="screen"/>
   <node name="spawn_taskboard_B05" pkg="gazebo_ros" type="spawn_model" args="-urdf -param taskboard_B05_description -model taskboard_B05" respawn="false" output="screen"/>
-
+  
+  
   <!-- Load joint controller configurations from YAML file to parameter server -->
   <rosparam file="$(find r2_gazebo)/config/controllers/r2_generic_traj_control.yaml" command="load"/>
 
