@@ -5,11 +5,11 @@ project(gazebo_interface)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  r2_msgs
   roscpp
   rospy
   sensor_msgs
   std_msgs
+  r2_msgs
   gazebo_ros
 )
 
