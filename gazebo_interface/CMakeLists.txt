@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
+  r2_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -116,6 +117,8 @@ add_library(gazebo_interface
   src/${PROJECT_NAME}/JointController.cpp
   src/${PROJECT_NAME}/RobotController.cpp
 )
+
+add_dependencies(gazebo_interface r2_msgs_generate_messages_cpp)
 
 ## Declare a cpp executable
 # add_executable(r2_gazebo_node src/r2_gazebo_node.cpp)
