@@ -24,15 +24,7 @@
     <node name="spawn_r2" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model r2 -paused=true" respawn="false" output="screen" />
   </group>
 
-  <!-- load taskboard -->
-  <param name="taskboard_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard.urdf.xacro'" />
-  <node name="spawn_taskboard" pkg="gazebo_ros" type="spawn_model" args="-urdf -param taskboard_description -model taskboard" respawn="false" output="screen" />
-
-  <!-- load taskboard connectors -->  <!-- ANNOYING!! THESE NEED TO BE DEFINED AFTER A BIT OF A DELAY OR NOT ALL THE MODELS SHOW UP.  FIXME! -->
-  <param name="taskboard_B01_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard_B01.urdf.xacro'" />
-  <param name="taskboard_B05_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard_B05.urdf.xacro'" />
-  <node name="spawn_taskboard_B01" pkg="gazebo_ros" type="spawn_model" args="-urdf -param taskboard_B01_description -model taskboard_B01" respawn="false" output="screen"/>
-  <node name="spawn_taskboard_B05" pkg="gazebo_ros" type="spawn_model" args="-urdf -param taskboard_B05_description -model taskboard_B05" respawn="false" output="screen"/>
+  <include file="$(find r2_gazebo)/launch/taskboard.launch"/>
 
   <!-- Load joint controller configurations from YAML file to parameter server -->
   <rosparam file="$(find r2_gazebo)/config/controllers/r2_generic_traj_control.yaml" command="load"/>
