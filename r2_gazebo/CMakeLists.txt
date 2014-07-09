@@ -16,7 +16,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 #set the default path for built libraries to the "lib" directory
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
-execute_process(COMMAND /bin/bash ${PROJECT_SOURCE_DIR}/generateXml.sh)
+#execute_process(COMMAND /bin/bash ${PROJECT_SOURCE_DIR}/generateXml.sh)
 
 #uncomment if you have defined messages
 #rosbuild_genmsg()
