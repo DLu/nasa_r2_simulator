@@ -9,22 +9,22 @@
   
   <!-- load robot -->
   <param name="/use_sim_time" value="true"/>
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/robots/r2c_torso.sim.urdf.xacro'" />
-  <param name="robot_urdf" value="$(find r2_gazebo)/robots/r2c_torso.sim.urdf.xml" />
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_description)/robots/r2c_torso.sim.urdf.xacro'" />
+  <param name="robot_urdf" value="$(find r2_description)/robots/r2c_torso.sim.urdf.xml" />
   
   <node name="spawn_r2_orocos" pkg="gazebo" type="spawn_model" args="-urdf -param robot_description -model r2_orocos -paused=true" respawn="false" output="screen" />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
  
   <!-- load taskboard -->
-  <param name="taskboard_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard.urdf.xacro'" />  
+  <param name="taskboard_description" command="$(find xacro)/xacro.py '$(find r2_description)/urdf/taskboard.urdf.xacro'" />  
   <node name="spawn_taskboard" pkg="gazebo" type="spawn_model" args="-urdf -param taskboard_description -model taskboard" respawn="false" output="screen" /> 
 
   <!-- start gui -->
   <node name="gazebo_gui" pkg="gazebo" type="gui" respawn="false" output="screen" />
 
   <!-- load taskboard connectors -->  <!-- ANNOYING!! THESE NEED TO BE DEFINED AFTER A BIT OF A DELAY OR NOT ALL THE MODELS SHOW UP.  FIXME! -->
-  <param name="taskboard_B01_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard_B01.urdf.xacro'" />
-  <param name="taskboard_B05_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard_B05.urdf.xacro'" /> 
+  <param name="taskboard_B01_description" command="$(find xacro)/xacro.py '$(find r2_description)/urdf/taskboard_B01.urdf.xacro'" />
+  <param name="taskboard_B05_description" command="$(find xacro)/xacro.py '$(find r2_description)/urdf/taskboard_B05.urdf.xacro'" /> 
   <node name="spawn_taskboard_B01" pkg="gazebo" type="spawn_model" args="-urdf -param taskboard_B01_description -model taskboard_B01" respawn="false" output="screen"/> 
   <node name="spawn_taskboard_B05" pkg="gazebo" type="spawn_model" args="-urdf -param taskboard_B05_description -model taskboard_B05" respawn="false" output="screen"/>
   <node pkg="robot_state_publisher" type="state_publisher" name="rob_st_pub" >

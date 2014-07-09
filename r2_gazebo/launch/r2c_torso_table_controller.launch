@@ -9,8 +9,8 @@
 
   <!-- load robot -->
   <param name="/use_sim_time" value="true"/>
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/robots/r2c_torso.sim.urdf.xacro'" />
-  <param name="robot_urdf" value="$(find r2_gazebo)/robots/r2c_torso.sim.urdf.xml" />
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find r2_description)/robots/r2c_torso.sim.urdf.xacro'" />
+  <param name="robot_urdf" value="$(find r2_description)/robots/r2c_torso.sim.urdf.xml" />
   
   <node name="spawn_r2_orocos" pkg="gazebo" type="spawn_model" args="-urdf -param robot_description -model r2_orocos -paused=true" respawn="false" output="screen" />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
