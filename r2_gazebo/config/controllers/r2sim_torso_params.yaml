@@ -56,51 +56,52 @@ r2_sim_params:
                     [70.0, 0, 7]
                 joint4:
                     [40.0, 0, 2]
-                joint5:
-                    [10.0, 0, .5]
-                joint6:
-                    [3.0, 0, .3]
+                wrist:
+                    pitch:
+                        [10.0, 0, .5]
+                    yaw:
+                        [3.0, 0, .3]
                 hand:
                     thumb:
-                        joint0:
+                        roll:
                             [6, 0.0, 0.3]
-                        joint1:
+                        proximal:
                             [3, 0.0, 0.4]
-                        joint2:
+                        medial:
                             [.6, 0.0, 0.1]
-                        joint3:
+                        distal:
                             [.25, 0.0, 0.035]
                     index:
-                        joint0:
+                        yaw:
                             [6, 0.0, 0.3]
-                        joint1:
+                        proximal:
                             [3, 0.0, 0.4]
-                        joint2:
+                        medial:
                             [.6, 0.0, 0.1]
-                        joint3:
+                        distal:
                             [.25, 0.0, 0.035]
                     middle:
-                        joint0:
+                        yaw:
                             [6, 0.0, 0.3]
-                        joint1:
+                        proximal:
                             [3, 0.0, 0.4]
-                        joint2:
+                        medial:
                             [.6, 0.0, 0.1]
-                        joint3:
+                        distal:
                             [.25, 0.0, 0.035]
                     ring:
-                        joint0:
+                        proximal:
                             [3, 0.0, 0.4]
-                        joint1:
+                        medial:
                             [.6, 0.0, 0.1]
-                        joint2:
+                        distal:
                             [.25, 0.0, 0.035]
                     little:
-                        joint0:
+                        proximal:
                             [3, 0.0, 0.4]
-                        joint1:
+                        medial:
                             [.6, 0.0, 0.1]
-                        joint2:
+                        distal:
                             [.25, 0.0, 0.035]
                             
             right_arm:
@@ -114,51 +115,52 @@ r2_sim_params:
                     [70.0, 0, 7]
                 joint4:
                     [40.0, 0, 2]
-                joint5:
-                    [10.0, 0, .5]
-                joint6:
-                    [3.0, 0, .3]
+                wrist:
+                    pitch:
+                        [10.0, 0, .5]
+                    yaw:
+                        [3.0, 0, .3]
                 hand:
                     thumb:
-                        joint0:
+                        roll:
                             [6, 0.0, 0.3]
-                        joint1:
+                        proximal:
                             [3, 0.0, 0.4]
-                        joint2:
+                        medial:
                             [.6, 0.0, 0.1]
-                        joint3:
+                        distal:
                             [.25, 0.0, 0.035]
                     index:
-                        joint0:
+                        yaw:
                             [6, 0.0, 0.3]
-                        joint1:
+                        proximal:
                             [3, 0.0, 0.4]
-                        joint2:
+                        medial:
                             [.6, 0.0, 0.1]
-                        joint3:
+                        distal:
                             [.25, 0.0, 0.035]
                     middle:
-                        joint0:
+                        yaw:
                             [6, 0.0, 0.3]
-                        joint1:
+                        proximal:
                             [3, 0.0, 0.4]
-                        joint2:
+                        medial:
                             [.6, 0.0, 0.1]
-                        joint3:
+                        distal:
                             [.25, 0.0, 0.035]
                     ring:
-                        joint0:
+                        proximal:
                             [3, 0.0, 0.4]
-                        joint1:
+                        medial:
                             [.6, 0.0, 0.1]
-                        joint2:
+                        distal:
                             [.25, 0.0, 0.035]
                     little:
-                        joint0:
+                        proximal:
                             [3, 0.0, 0.4]
-                        joint1:
+                        medial:
                             [.6, 0.0, 0.1]
-                        joint2:
+                        distal:
                             [.25, 0.0, 0.035]
                             
     # list of dependencies with a scale to apply to commands (pos, vel, effort)
@@ -169,58 +171,58 @@ r2_sim_params:
     dependency:
         r2:
             left_arm/hand:
-                index/joint2:
-                    children: /r2/left_arm/hand/index/joint3
+                index/medial:
+                    children: /r2/left_arm/hand/index/distal
                     factors: 1.0
                     
-                middle/joint2:
-                    children: /r2/left_arm/hand/middle/joint3
+                middle/medial:
+                    children: /r2/left_arm/hand/middle/distal
                     factors: 1.0
                     
-                ring/joint0:
+                ringlittle/ring:
                     children: 
-                        - /r2/left_arm/hand/ring/joint0
-                        - /r2/left_arm/hand/ring/joint1
-                        - /r2/left_arm/hand/ring/joint2
+                        - /r2/left_arm/hand/ring/proximal
+                        - /r2/left_arm/hand/ring/medial
+                        - /r2/left_arm/hand/ring/distal
                     factors:
                         - 0.5
                         - 0.5
                         - 0.5
                     
-                little/joint0:
+                ringlittle/little:
                     children: 
-                        - /r2/left_arm/hand/little/joint0
-                        - /r2/left_arm/hand/little/joint1
-                        - /r2/left_arm/hand/little/joint2
+                        - /r2/left_arm/hand/little/proximal
+                        - /r2/left_arm/hand/little/medial
+                        - /r2/left_arm/hand/little/distal
                     factors:
                         - 0.5
                         - 0.5
                         - 0.5
                     
             right_arm/hand:
-                index/joint2:
-                    children: /r2/right_arm/hand/index/joint3
+                index/medial:
+                    children: /r2/right_arm/hand/index/distal
                     factors: 1.0
                     
-                middle/joint2:
-                    children: /r2/right_arm/hand/middle/joint3
+                middle/medial:
+                    children: /r2/right_arm/hand/middle/distal
                     factors: 1.0
                     
-                ring/joint0:
+                ringlittle/ring:
                     children: 
-                        - /r2/right_arm/hand/ring/joint0
-                        - /r2/right_arm/hand/ring/joint1
-                        - /r2/right_arm/hand/ring/joint2
+                        - /r2/right_arm/hand/ring/proximal
+                        - /r2/right_arm/hand/ring/medial
+                        - /r2/right_arm/hand/ring/distal
                     factors:
                         - 0.5
                         - 0.5
                         - 0.5
                     
-                little/joint0:
+                ringlittle/little:
                     children: 
-                        - /r2/right_arm/hand/little/joint0
-                        - /r2/right_arm/hand/little/joint1
-                        - /r2/right_arm/hand/little/joint2
+                        - /r2/right_arm/hand/little/proximal
+                        - /r2/right_arm/hand/little/medial
+                        - /r2/right_arm/hand/little/distal
                     factors:
                         - 0.5
                         - 0.5
