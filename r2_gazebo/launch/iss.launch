@@ -1,0 +1,10 @@
+<launch>
+  <!-- load taskboard -->
+  <param name="iss_description" filename="$(find r2_gazebo)/urdf/ISS.urdf" />
+  <node name="spawn_iss" pkg="gazebo_ros" type="spawn_model" args="-urdf -param iss_description -model iss" respawn="false" output="screen" />
+
+  <node pkg="robot_state_publisher" type="state_publisher" name="task_state_pub" >
+    <remap from="robot_description" to="iss_description" />
+  </node>
+</launch>
+
