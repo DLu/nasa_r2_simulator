@@ -6,7 +6,7 @@
   <arg name="gravity"   default="true" />
   <arg name="debug"     default="false" />
   <arg name="i_control" default="false" />
-  <arg name="octomap"   default="true" />
+  <arg name="octomap"   default="false" />
 
   <param name="/use_sim_time" value="true"/>
 
