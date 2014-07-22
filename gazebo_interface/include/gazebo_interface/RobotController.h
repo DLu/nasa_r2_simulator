@@ -9,7 +9,7 @@
 #include <gazebo/common/Time.hh>
 #include <gazebo/physics/PhysicsTypes.hh>
 
-#include "JointController.h"
+#include <gazebo_interface/JointController.h>
 
 #include <boost/thread.hpp>
 

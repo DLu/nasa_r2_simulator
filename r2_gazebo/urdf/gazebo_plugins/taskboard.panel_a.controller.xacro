@@ -4,6 +4,8 @@
   <gazebo>
     <plugin name="panel_a_interface" filename="libgazebo_taskboard.so">
     </plugin>
+<!--     <controller:panel_a_interface name="panel_a_interface" plugin="libgazebo_taskboard.so">
+    </controller:panel_a_interface> -->
   </gazebo>
 
 </robot>

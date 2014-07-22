@@ -30,11 +30,11 @@ namespace gazebo
 {
    /**
     * @brief The GazeboTaskboardSlot1 class represents a controller for taskboard model (slot1).
-    * 
+    *
     * It is implemented as gazebo ModelPlugin, the instane of this class is associated with
     * taskboard model by the ROS gazebo plugin. The controller is responsible for simulating taskboard
     * behavior in reaction to external influences in similar way as it happens for real ISS taskboard.
-    * 
+    *
     * @author KennyAlive
     * @version 1.0
     */
@@ -48,7 +48,7 @@ namespace gazebo
 
         /// @brief Initializes plugin by providing associated model.
         virtual void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf);
-        
+
     private:
         /// @brief Switch state with 2 stable positions
         enum TwoWayToggleSwitchState
@@ -96,9 +96,9 @@ namespace gazebo
         void TurnOnLeds();
         /// @brief Turns off all LEDs.
         void TurnOffAllLeds();
-        
+
         /// @brief Peforms power cover manipulation.
-        bool ManipulatePowerCover(gazebo_taskboard::ManipulatePowerCover::Request& request, 
+        bool ManipulatePowerCover(gazebo_taskboard::ManipulatePowerCover::Request& request,
                                   gazebo_taskboard::ManipulatePowerCover::Response& response);
         /// @brief Peforms power switch manipulation.
         bool ManipulatePowerSwitch(gazebo_taskboard::ManipulatePowerSwitch::Request& request,
@@ -117,32 +117,32 @@ namespace gazebo
         void HandleManipulation();
 
         /// @brief Calculates empirical torque vector used to simulate switches/toggles rotation.
-        math::Vector3 computeEmpiricalTorque(double deviationAngle, double initialValue, 
+        math::Vector3 computeEmpiricalTorque(double deviationAngle, double initialValue,
                                              double snapCoeff, double snapExp, double torqueCoeff) const;
-                                             
+
         /// @brief Makes joint transition from current OUT position to nearest UP/DOWN state.
         bool UpdateTransitionFromOutState2Way(physics::LinkPtr link, physics::JointPtr joint,
                                               TwoWayToggleSwitchState& state) const;
         /// @brief Makes joint transition from current OUT position to nearest UP/CENTER/DOWN state.
-        bool UpdateTransitionFromOutState3Way(physics::LinkPtr link, physics::JointPtr joint, 
+        bool UpdateTransitionFromOutState3Way(physics::LinkPtr link, physics::JointPtr joint,
                                               ThreeWayToggleSwitchState& state) const;
-          
+
         /// @brief Gets current simulation time in seconds.
         double GetTime() const;
 
     private:
         /**
          * @brief first frame update flag.
-         * 
+         *
          * In Load method the physics engine is not ready for usage, for example,
          * we can not create model at that point. On the first update frame the physics
          * is ready and we can create all the necessary models (LEDs in our case).
          */
         bool firstFrameInitializationDone;
-        
+
         /// @brief indicates if the leds setup is done
         bool ledsReady;
-        
+
         /// @brief the handle of plugin node
         ros::NodeHandle node;
 
@@ -176,7 +176,7 @@ namespace gazebo
         physics::LinkPtr linksSafeToggle[SAFE_TOGGLES_COUNT];
         /// @brief safe toggles revolute joints
         physics::JointPtr safeTogglesRevoluteJoints[SAFE_TOGGLES_COUNT];
-        
+
         /// @brief the numpad buttons count constant
         static const int NUM_PAD_BUTTONS_COUNT = 9;
         /// @brief the numpad buttons links
@@ -196,7 +196,7 @@ namespace gazebo
         ros::ServiceServer srv_manipulateNumPad;
         /// @brief service for safe toggles manipulation
         ros::ServiceServer srv_manipulateSafeToggle;
-        
+
         struct ManipulationState;
         /// @brief Holds entire manipulation state
         boost::scoped_ptr<ManipulationState> manipulationState;

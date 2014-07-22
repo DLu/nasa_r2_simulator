@@ -10,13 +10,13 @@
   <link name="taskboard_lower">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_lower_assembly_robonaut.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_lower_assembly_robonaut.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_lower_assembly_robonaut.dae" scale="0 0 0"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_lower_assembly_robonaut.dae" scale="0 0 0"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -29,13 +29,13 @@
   <link name="taskboard_lower_labels">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_lower_assembly_labels.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_lower_assembly_labels.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_lower_assembly_labels.dae" scale="0 0 0"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_lower_assembly_labels.dae" scale="0 0 0"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -48,13 +48,13 @@
   <link name="taskboard_slot3">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_eva_slot3.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_eva_slot3.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_eva_slot3.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_eva_slot3.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -67,13 +67,13 @@
   <link name="taskboard_slot3_panel">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_panel.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_panel.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_panel.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_panel.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -86,13 +86,13 @@
   <link name="taskboard_slot3_labels">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_eva_slot3_labels.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_eva_slot3_labels.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_eva_slot3_labels.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_eva_slot3_labels.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -105,13 +105,13 @@
   <link name="taskboard_slot4">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot4.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot4.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot4.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot4.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -124,13 +124,13 @@
   <link name="taskboard_slot4_panel">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot4_panel.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot4_panel.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot4_panel.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot4_panel.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -143,13 +143,13 @@
   <link name="taskboard_slot4_labels">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot4_labels.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot4_labels.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot4_labels.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot4_labels.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -162,13 +162,13 @@
   <link name="taskboard_slot1">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -181,13 +181,13 @@
   <link name="taskboard_slot1_panel">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_panel.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_panel.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_panel.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_panel.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -200,13 +200,13 @@
   <link name="taskboard_slot1_labels">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_labels.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_labels.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_labels.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_labels.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -219,13 +219,13 @@
   <link name="taskboard_slot1_switch1">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch1.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch1.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch1.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch1.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -234,7 +234,7 @@
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
-  
+
   <link name="taskboard_slot1_switch2_pullout">
     <inertial>
       <mass value=".01"/>
@@ -245,13 +245,13 @@
   <link name="taskboard_slot1_switch2">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch2.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch2.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch2.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch2.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -260,7 +260,7 @@
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
-  
+
   <link name="taskboard_slot1_switch3_pullout">
     <inertial>
       <mass value=".01"/>
@@ -271,13 +271,13 @@
   <link name="taskboard_slot1_switch3">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch3.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch3.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch3.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch3.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -297,13 +297,13 @@
   <link name="taskboard_slot1_switch4">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch4.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch4.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch4.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch4.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -316,13 +316,13 @@
   <link name="taskboard_slot1_switch1_cover">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch1_cover.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch1_cover.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch1_cover.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch1_cover.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -331,17 +331,17 @@
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
-  
+
   <link name="taskboard_slot1_guard">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_guard.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_guard.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_guard.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_guard.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -354,13 +354,13 @@
   <link name="taskboard_slot1_A1">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_a1.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_a1.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_a1.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_a1.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -373,13 +373,13 @@
   <link name="taskboard_slot1_A2">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_a2.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_a2.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_a2.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_a2.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -392,13 +392,13 @@
   <link name="taskboard_slot1_A3">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_a3.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_a3.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_a3.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_a3.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -411,13 +411,13 @@
   <link name="taskboard_slot1_B1">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_b1.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_b1.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_b1.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_b1.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -430,13 +430,13 @@
   <link name="taskboard_slot1_B2">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_b2.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_b2.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_b2.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_b2.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -449,13 +449,13 @@
   <link name="taskboard_slot1_B3">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_b3.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_b3.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_b3.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_b3.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -468,13 +468,13 @@
   <link name="taskboard_slot1_C1">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_c1.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_c1.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_c1.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_c1.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -487,13 +487,13 @@
   <link name="taskboard_slot1_C2">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_c2.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_c2.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_c2.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_c2.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -506,13 +506,13 @@
   <link name="taskboard_slot1_C3">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_c3.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_c3.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_c3.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_c3.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -525,13 +525,13 @@
   <link name="taskboard_slot1_blackplate">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_blackplate.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_blackplate.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_blackplate.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_blackplate.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -544,13 +544,13 @@
   <link name="taskboard_slot1_switch">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_switch.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -563,13 +563,13 @@
   <link name="taskboard_slot2">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -582,13 +582,13 @@
   <link name="taskboard_slot2_panel">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_panel.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_panel.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_panel.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot1_panel.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -601,13 +601,13 @@
   <link name="taskboard_slot2_labels1">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_labels1.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_labels1.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_labels1.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_labels1.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -620,13 +620,13 @@
   <link name="taskboard_slot2_labels2">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_labels2.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_labels2.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_labels2.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_labels2.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -639,13 +639,13 @@
   <link name="taskboard_slot2_B06">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b06.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b06.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b06.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b06.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -658,13 +658,13 @@
   <link name="taskboard_slot2_B06_Base">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b06_base.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b06_base.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b06_base.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b06_base.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -677,13 +677,13 @@
   <link name="taskboard_slot2_B04">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b04.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b04.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b04.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b04.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -696,13 +696,13 @@
   <link name="taskboard_slot2_B04_Base">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b04_base.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b04_base.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b04_base.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b04_base.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -715,13 +715,13 @@
   <link name="taskboard_slot2_B04_Cap">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b04_cap.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b04_cap.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b04_cap.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b04_cap.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -734,13 +734,13 @@
   <link name="taskboard_slot2_B02">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b02.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b02.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b02.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b02.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -760,13 +760,13 @@
   <link name="taskboard_slot2_B02_Base">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b02_base.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b02_base.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b02_base.dae" scale="0 0 0"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b02_base.dae" scale="0 0 0"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -779,13 +779,13 @@
   <link name="taskboard_slot2_B01_Base">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b01_base.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b01_base.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b01_base.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b01_base.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -798,13 +798,13 @@
   <link name="taskboard_slot2_B05_Base">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b05_base.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b05_base.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b05_base.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b05_base.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -817,13 +817,13 @@
   <link name="taskboard_slot2_B03">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b03.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b03.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b03.dae" scale="1 1 1"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b03.dae" scale="1 1 1"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -836,13 +836,13 @@
   <link name="taskboard_slot2_B03_Base">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b03_base.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b03_base.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b03_base.dae" scale="0 0 0"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b03_base.dae" scale="0 0 0"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -862,13 +862,13 @@
   <link name="taskboard_slot2_B03_Strip">
     <visual>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b03_strip.dae"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b03_strip.dae"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </visual> 
+    </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b03_strip.dae" scale="0 0 0"/> 
+        <mesh filename="package://r2_gazebo/Media/models/taskboard/tskbd_panel_assembly_slot2_b03_strip.dae" scale="0 0 0"/>
       </geometry>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </collision>
@@ -966,7 +966,7 @@
     <axis xyz="1 0 0"/>
     <limit effort="10000000.0" lower="-.94" upper="0" velocity="1000"/>
   </joint>
-  
+
   <joint name="taskboard_lower/taskboard_slot1_switch2_pullout" type="prismatic">
     <parent link="taskboard_slot1_switch2_pullout"/>
     <child link="taskboard_slot1_switch2"/>
@@ -982,7 +982,7 @@
     <axis xyz="1 0 0"/>
     <limit effort="10000000.0" lower="-.94" upper="0" velocity="1000"/>
   </joint>
-  
+
   <joint name="taskboard_lower/taskboard_slot1_switch3_pullout" type="prismatic">
     <parent link="taskboard_slot1_switch3_pullout"/>
     <child link="taskboard_slot1_switch3"/>
@@ -1014,7 +1014,7 @@
     <axis xyz="1 0 0"/>
     <limit effort="10000000.0" lower="-1.57" upper="0" velocity="1000"/>
   </joint>
-  
+
   <joint name="taskboard_lower/taskboard_slot1_guard" type="fixed">
     <parent link="taskboard_slot1"/>
     <child link="taskboard_slot1_guard"/>
@@ -1266,7 +1266,7 @@
   <gazebo reference="taskboard_slot1_switch1_cover">
     <material value="Gazebo/Red" />
   </gazebo>
-  
+
   <gazebo reference="taskboard_slot1_guard">
     <material value="Gazebo/Black" />
   </gazebo>
@@ -1334,10 +1334,15 @@
   <gazebo reference="taskboard_slot2_B03_Strip">
     <material value="Gazebo/White" />
   </gazebo>
-  
+
+<!--   <gazebo>
+    <controller:gazebo_taskboard name="gazebo_taskboard" plugin="libgazebo_taskboard.so">
+    </controller:gazebo_taskboard>
+  </gazebo> -->
+
   <gazebo>
-    <plugin name="gazebo_taskboard" filename="libgazebo_taskboard.so">
-    </plugin>
+    <plugin name="gazebo_taskboard" filename="libgazebo_taskboard.so"/>
   </gazebo>
+
 
 </robot>

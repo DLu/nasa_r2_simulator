@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<robot name="r2_c_full_body" xmlns:xacro="http://wiki.ros.org/xacro">
+<robot name="r2_fullbody" xmlns:xacro="http://wiki.ros.org/xacro">
 
   <gazebo>
     <plugin name="gazebo_interface" filename="libgazebo_interface.so">
-<!--      <robotNamespace>/r2sim</robotNamespace>-->
       <paramsNamespace>r2_sim_params</paramsNamespace>
       <jointCommandsTopic>joint_commands</jointCommandsTopic>
       <jointStatesTopic>joint_states</jointStatesTopic>

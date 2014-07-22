@@ -1,12 +1,13 @@
 #ifndef GAZEBOINTERFACE_H
 #define GAZEBOINTERFACE_H
 
-#include "RobotController.h"
-#include "r2_msgs/JointControl.h"
-#include "r2_msgs/JointStatus.h"
+#include <gazebo_interface/RobotController.h>
 
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/common/Events.hh>
+
+#include <r2_msgs/JointControl.h>
+#include <r2_msgs/JointStatus.h>
 
 #include <ros/ros.h>
 #include <sensor_msgs/JointState.h>

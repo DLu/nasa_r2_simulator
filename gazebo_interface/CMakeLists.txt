@@ -4,41 +4,46 @@ project(gazebo_interface)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS r2_msgs sensor_msgs)
+find_package(catkin REQUIRED COMPONENTS
+  r2_msgs
+  roscpp
+  rospy
+  sensor_msgs
+  std_msgs
+  gazebo_ros
+)
 
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS system)
 find_package(SDFormat REQUIRED)
 find_package(gazebo REQUIRED)
 
-# parse gazebo flags
-set(cxx_flags)
-foreach (item ${GAZEBO_CFLAGS})
-  set(cxx_flags "${cxx_flags} ${item}")
-endforeach ()
-set(ld_flags)
-foreach (item ${GAZEBO_LDFLAGS})
-  set(ld_flags "${ld_flags} ${item}")
-endforeach ()
 
 ###################################
 ## catkin specific configuration ##
 ###################################
 ## The catkin_package macro generates cmake config files for your package
 ## Declare things to be passed to dependent projects
+## INCLUDE_DIRS: uncomment this if you package contains header files
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-#  LIBRARIES gazebo_interface
-  CATKIN_DEPENDS r2_msgs sensor_msgs
+   INCLUDE_DIRS include
+  LIBRARIES gazebo_interface
+  CATKIN_DEPENDS r2_msgs sensor_msgs roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
 
 ###########
 ## Build ##
 ###########
+find_package(PkgConfig)
+
+if (PKG_CONFIG_FOUND)
+  pkg_check_modules(GAZEBO gazebo)
+endif()
+
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
@@ -68,6 +73,8 @@ target_link_libraries(gazebo_interface
   ${catkin_LIBRARIES}
 )
 
+
+
 #############
 ## Install ##
 #############
@@ -88,4 +95,3 @@ install(DIRECTORY include/${PROJECT_NAME}/
   FILES_MATCHING PATTERN "*.h"
   PATTERN ".svn" EXCLUDE
 )
-

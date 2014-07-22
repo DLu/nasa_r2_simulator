@@ -4,9 +4,8 @@
   <gazebo>
     <!-- plugin name="gazebo_ros_controller_manager" filename="libgazebo_ros_controller_manager.so"> -->
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/r2</robotNamespace>
+      <robotNamespace>r2</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
     </plugin>
   </gazebo>
-
-
 </robot>
