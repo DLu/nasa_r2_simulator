@@ -4,6 +4,7 @@ project(gazebo_gripper)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  r2_msgs
   sensor_msgs
   std_msgs
 )
@@ -21,7 +22,7 @@ catkin_package(
 ###########
 ## Build ##
 ###########
-include(FindPkgConfig)
+find_package(PkgConfig)
 
 if (PKG_CONFIG_FOUND)
   pkg_check_modules(GAZEBO gazebo)
@@ -36,7 +37,7 @@ include_directories(include
 )
 
 ## Declare a cpp library
-add_library(gazebo_gripper src/GazeboGripper.cpp include/gazebo_gripper/GazeboGripper.h)
+add_library(gazebo_gripper src/gazebo_gripper/GazeboGripper.cpp include/gazebo_gripper/GazeboGripper.h)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(gazebo_gripper ${SDFormat_LIBRARIES} ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})

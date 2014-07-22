@@ -21,9 +21,10 @@
   <build_depend>rospy</build_depend>
   <build_depend>r2_msgs</build_depend>
   <build_depend>gazebo</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
 
   <export>
-    <gazebo plugin_path="${prefix}/lib" />
+    <gazebo plugin_path="${prefix}/lib"/>
   </export>
 </package>
-

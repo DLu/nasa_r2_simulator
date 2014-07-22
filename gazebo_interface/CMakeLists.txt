@@ -7,7 +7,6 @@ project(gazebo_interface)
 find_package(catkin REQUIRED COMPONENTS
   r2_msgs
   roscpp
-  rospy
   sensor_msgs
   std_msgs
   gazebo_ros
@@ -31,7 +30,7 @@ find_package(gazebo REQUIRED)
 catkin_package(
    INCLUDE_DIRS include
   LIBRARIES gazebo_interface
-  CATKIN_DEPENDS r2_msgs sensor_msgs roscpp rospy std_msgs
+  CATKIN_DEPENDS r2_msgs sensor_msgs roscpp std_msgs
 #  DEPENDS system_lib
 )
 
@@ -55,13 +54,13 @@ include_directories(include
 
 ## Declare a cpp library
 add_library(robot_controller
-  src/RobotController.cpp include/${PROJECT_NAME}/RobotController.h
+  src/${PROJECT_NAME}/RobotController.cpp include/${PROJECT_NAME}/RobotController.h
 )
 add_dependencies(robot_controller r2_msgs_gencpp)
 
 add_library(gazebo_interface
-  src/GazeboInterface.cpp include/${PROJECT_NAME}/GazeboInterface.h
-  src/JointController.cpp include/${PROJECT_NAME}/JointController.h
+  src/${PROJECT_NAME}/GazeboInterface.cpp include/${PROJECT_NAME}/GazeboInterface.h
+  src/${PROJECT_NAME}/JointController.cpp include/${PROJECT_NAME}/JointController.h
 )
 add_dependencies(gazebo_interface r2_msgs_gencpp)
 
@@ -83,7 +82,7 @@ target_link_libraries(gazebo_interface
 # See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
 
 ## Mark executables and/or libraries for installation
-install(TARGETS gazebo_interface 
+install(TARGETS gazebo_interface  robot_controller
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -95,3 +94,4 @@ install(DIRECTORY include/${PROJECT_NAME}/
   FILES_MATCHING PATTERN "*.h"
   PATTERN ".svn" EXCLUDE
 )
+
