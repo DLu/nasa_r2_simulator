@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>gazebo_gripper</name>
-  <version>0.5.4</version>
+  <version>0.5.5</version>
   <description>Gazebo plugin for R2 Gripper</description>
 
   <maintainer email="stephen.hart@nasa.gov">Stephen Hart</maintainer>

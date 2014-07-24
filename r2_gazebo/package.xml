@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>r2_gazebo</name>
-  <version>0.5.4</version>
+  <version>0.5.5</version>
   <description>Configurations for Simulating Robonaut2 in Gazebo</description>
   <author>Stephen Hart</author>
   <maintainer email="davidvlu@gmail.com">David V. Lu!!</maintainer>
