@@ -1,10 +1,10 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <package>
   <name>r2_gazebo</name>
   <version>0.5.4</version>
   <description>The r2_gazebo package</description>
   <author>Stephen Hart</author>
-  <maintainer email="davidvlu@gmail.com">David Lu!!</maintainer>
+  <maintainer email="davidvlu@gmail.com">David V. Lu!!</maintainer>
   <maintainer email="stephen.hart@nasa.gov">Stephen Hart</maintainer>
 
   <license>TODO</license>
