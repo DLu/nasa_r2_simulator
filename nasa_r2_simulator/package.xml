@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>nasa_r2_simulator</name>
-  <version>0.0.0</version>
+  <version>0.5.4</version>
   <description>Metapackage for simulating Robonaut2</description>
 
   <maintainer email="davidvlu@gmail.com">David V. Lu!!</maintainer>

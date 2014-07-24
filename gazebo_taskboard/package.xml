@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>gazebo_taskboard</name>
-  <version>0.5.3</version>
+  <version>0.5.4</version>
   <description>Gazebo Driver for Simulated ISS Taskboard</description>
 
   <maintainer email="stephen.hart@nasa.gov">Stephen Hart</maintainer>
