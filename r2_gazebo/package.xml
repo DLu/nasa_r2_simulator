@@ -2,7 +2,7 @@
 <package>
   <name>r2_gazebo</name>
   <version>0.5.4</version>
-  <description>The r2_gazebo package</description>
+  <description>Configurations for Simulating Robonaut2 in Gazebo</description>
   <author>Stephen Hart</author>
   <maintainer email="davidvlu@gmail.com">David V. Lu!!</maintainer>
   <maintainer email="stephen.hart@nasa.gov">Stephen Hart</maintainer>
@@ -45,7 +45,6 @@
   <run_depend>r2_description</run_depend>
   <run_depend>joint_trajectory_controller</run_depend>
   <run_depend>octomap_server</run_depend>
-  <run_depend>r2_dynamic_reconfigure</run_depend>
   <run_depend>topic_tools</run_depend>
 
   <export>

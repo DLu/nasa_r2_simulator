@@ -2,7 +2,7 @@
 <package>
   <name>gazebo_gripper</name>
   <version>0.5.3</version>
-  <description>The gazebo_gripper package</description>
+  <description>Gazebo plugin for R2 Gripper</description>
 
   <maintainer email="stephen.hart@nasa.gov">Stephen Hart</maintainer>
   <maintainer email="davidvlu@gmail.com">David V. Lu!!</maintainer>

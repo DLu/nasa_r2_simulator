@@ -2,7 +2,7 @@
 <package>
   <name>gazebo_interface</name>
   <version>0.0.0</version>
-  <description>The gazebo_interface package</description>
+  <description>Gazebo Driver for R2</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->

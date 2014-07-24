@@ -6,7 +6,7 @@ find_package(catkin REQUIRED COMPONENTS gazebo_msgs kdl_parser r2_msgs roscpp ro
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES r2_gazebo
-  CATKIN_DEPENDS r2_msgs
+  CATKIN_DEPENDS r2_msgs std_msgs gazebo_msgs sensor_msgs
 #  DEPENDS system_lib
 )
 
