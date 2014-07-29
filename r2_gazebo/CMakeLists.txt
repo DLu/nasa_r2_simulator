@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(r2_gazebo)
 
-find_package(catkin REQUIRED COMPONENTS gazebo_msgs kdl_parser r2_msgs roscpp rospy sensor_msgs std_msgs tf urdf)
+find_package(catkin REQUIRED COMPONENTS gazebo_msgs kdl_parser roscpp rospy sensor_msgs tf urdf)
 
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES r2_gazebo
-  CATKIN_DEPENDS r2_msgs std_msgs gazebo_msgs sensor_msgs
+  #CATKIN_DEPENDS
 #  DEPENDS system_lib
 )
 
