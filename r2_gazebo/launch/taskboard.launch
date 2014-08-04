@@ -5,6 +5,7 @@
 
   <node pkg="robot_state_publisher" type="state_publisher" name="task_state_pub" >
     <remap from="robot_description" to="taskboard_description" />
+    <remap from="joint_states" to="/taskboard/joint_states"/>
   </node>
 </launch>
 
