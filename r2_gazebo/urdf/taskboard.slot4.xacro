@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<robot name="slot4" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:std_mesh name="taskboard_slot4" mesh="tskbd_panel_assembly_slot4.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot4_panel" mesh="tskbd_panel_assembly_slot4_panel.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot4_labels" mesh="tskbd_panel_assembly_slot4_labels.dae" mass="5" />
+
+
+  <joint name="taskboard_lower/taskboard_slot4" type="fixed">
+    <parent link="taskboard_lower"/>
+    <child link="taskboard_slot4"/>
+    <origin rpy="0 0 0" xyz=".362 0.0 0"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot4_panel" type="fixed">
+    <parent link="taskboard_lower"/>
+    <child link="taskboard_slot4_panel"/>
+    <origin rpy="0 0 0" xyz=".362 0.0 0"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot4_labels" type="fixed">
+    <parent link="taskboard_lower"/>
+    <child link="taskboard_slot4_labels"/>
+    <origin rpy="0 0 0" xyz=".362 0.0 0"/>
+  </joint>
+
+</robot>

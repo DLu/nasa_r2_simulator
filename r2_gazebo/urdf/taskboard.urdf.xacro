@@ -1,12 +1,47 @@
 <?xml version="1.0" ?>
 
 <robot name="taskboard" xmlns:xacro="http://wiki.ros.org/xacro">
+    <xacro:macro name="std_mesh" params="name mesh mass">
+      <link name="${name}">
+        <visual>
+          <geometry>
+            <mesh filename="package://r2_gazebo/Media/models/taskboard/${mesh}"/>
+          </geometry> <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://r2_gazebo/Media/models/taskboard/${mesh}"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="${mass}"/>
+          <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+        </inertial>
+      </link>
+    </xacro:macro>
+    <xacro:macro name="mesh_no_collide" params="name mesh mass">
+      <link name="${name}">
+        <visual>
+          <geometry>
+            <mesh filename="package://r2_gazebo/Media/models/taskboard/${mesh}"/>
+          </geometry>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://r2_gazebo/Media/models/taskboard/${mesh}" scale="0 0 0"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="${mass}"/>
+          <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+        </inertial>
+      </link>
+    </xacro:macro>
 
 
   <xacro:include filename="$(find r2_gazebo)/urdf/taskboard.lower.xacro" />
-
-  <xacro:include filename="$(find r2_gazebo)/urdf/taskboard.B01.xacro" />
-  <xacro:include filename="$(find r2_gazebo)/urdf/taskboard.B05.xacro" />
 
   <xacro:include filename="$(find r2_gazebo)/urdf/gazebo_plugins/gazebo_interface.xacro" />
   <xacro:include filename="$(find r2_gazebo)/urdf/gazebo_plugins/taskboard.panel_a.controller.xacro" /> 
