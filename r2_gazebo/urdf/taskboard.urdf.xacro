@@ -5,7 +5,10 @@
 
   <xacro:include filename="$(find r2_gazebo)/urdf/taskboard.lower.xacro" />
 
+  <xacro:include filename="$(find r2_gazebo)/urdf/taskboard.B01.xacro" />
+  <xacro:include filename="$(find r2_gazebo)/urdf/taskboard.B05.xacro" />
+
   <xacro:include filename="$(find r2_gazebo)/urdf/gazebo_plugins/gazebo_interface.xacro" />
-  <xacro:include filename="$(find r2_gazebo)/urdf/gazebo_plugins/taskboard.panel_a.controller.xacro" />
+  <xacro:include filename="$(find r2_gazebo)/urdf/gazebo_plugins/taskboard.panel_a.controller.xacro" /> 
  
  </robot>
