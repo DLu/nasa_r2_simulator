@@ -4,8 +4,8 @@
   <gazebo>
     <plugin name="gazebo_interface" filename="libgazebo_interface.so">
       <paramsNamespace>r2_sim_params</paramsNamespace>
-      <jointCommandsTopic>joint_commands</jointCommandsTopic>
-      <jointStatesTopic>joint_states</jointStatesTopic>
+      <jointCommandsTopic>taskboard/joint_commands</jointCommandsTopic>
+      <jointStatesTopic>taskboard/joint_states</jointStatesTopic>
       <jointStatesRate>20.0</jointStatesRate> <!--Hz, omit for fastest possible-->
       <advancedMode>false</advancedMode>
       <!-- if advancedMode=false, joint brakes, etc are not simulated and the following parameters are ignored -->

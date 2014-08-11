@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<robot name="slot2" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:std_mesh name="taskboard_slot2" mesh="tskbd_panel_assembly_slot2.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot2_panel" mesh="tskbd_panel_assembly_slot1_panel.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot2_labels1" mesh="tskbd_panel_assembly_slot2_labels1.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot2_labels2" mesh="tskbd_panel_assembly_slot2_labels2.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot2_B06" mesh="tskbd_panel_assembly_slot2_b06.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot2_B06_Base" mesh="tskbd_panel_assembly_slot2_b06_base.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot2_B04" mesh="tskbd_panel_assembly_slot2_b04.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot2_B04_Base" mesh="tskbd_panel_assembly_slot2_b04_base.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot2_B04_Cap" mesh="tskbd_panel_assembly_slot2_b04_cap.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot2_B02" mesh="tskbd_panel_assembly_slot2_b02.dae" mass="5" />
+
+  <link name="taskboard_slot2_B02_Revolute">
+    <inertial>
+      <mass value="1" />
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+    </inertial>
+  </link>
+
+  <xacro:mesh_no_collide name="taskboard_slot2_B02_Base" mesh="tskbd_panel_assembly_slot2_b02_base.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot2_B01_Base" mesh="tskbd_panel_assembly_slot2_b01_base.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot2_B05_Base" mesh="tskbd_panel_assembly_slot2_b05_base.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot2_B03" mesh="tskbd_panel_assembly_slot2_b03.dae" mass=".1" />
+
+  <xacro:mesh_no_collide name="taskboard_slot2_B03_Base" mesh="tskbd_panel_assembly_slot2_b03_base.dae" mass="5" />
+
+  <link name="taskboard_slot2_B03_Prismatic">
+    <inertial>
+      <mass value=".01" />
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+    </inertial>
+  </link>
+
+  <xacro:mesh_no_collide name="taskboard_slot2_B03_Strip" mesh="tskbd_panel_assembly_slot2_b03_strip.dae" mass=".0001" />
+  
+    <joint name="taskboard_lower/taskboard_slot2" type="fixed">
+    <parent link="taskboard_lower"/>
+    <child link="taskboard_slot2"/>
+    <origin rpy="0 0 0" xyz="-0.121 0 0"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot2_panel" type="fixed">
+    <parent link="taskboard_lower"/>
+    <child link="taskboard_slot2_panel"/>
+    <origin rpy="0 0 0" xyz="-0.121 0 0"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot2_labels1" type="fixed">
+    <parent link="taskboard_lower"/>
+    <child link="taskboard_slot2_labels1"/>
+    <origin rpy="0 0 0" xyz="-0.121 0 0.005"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot2_labels2" type="fixed">
+    <parent link="taskboard_lower"/>
+    <child link="taskboard_slot2_labels2"/>
+    <origin rpy="0 0 0" xyz="-0.121 .002 0.000"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot2_B06" type="revolute">
+    <parent link="taskboard_slot2"/>
+    <child link="taskboard_slot2_B06"/>
+    <origin rpy="0 0 0" xyz=".057 -0.095 0.0145"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="0" effort="100" velocity="100" />
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot2_B06_Base" type="fixed">
+    <parent link="taskboard_slot2"/>
+    <child link="taskboard_slot2_B06_Base"/>
+    <origin rpy="0 0 0" xyz=".057 -0.095 0.0"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot2_B04" type="revolute">
+    <parent link="taskboard_slot2"/>
+    <child link="taskboard_slot2_B04"/>
+    <origin rpy="0 0 0" xyz="0.057 0 0.0198"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="100" />
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot2_B04_Base" type="fixed">
+    <parent link="taskboard_slot2"/>
+    <child link="taskboard_slot2_B04_Base"/>
+    <origin rpy="0 0 0" xyz=".057 0 0.0"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot2_B04_Cap" type="fixed">
+    <parent link="taskboard_slot2"/>
+    <child link="taskboard_slot2_B04_Cap"/>
+    <origin rpy="0 0 0" xyz=".057 0 0.0198"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot2_B02_Base" type="fixed">
+    <parent link="taskboard_slot2"/>
+    <child link="taskboard_slot2_B02_Base"/>
+    <origin rpy="0 0 0" xyz=".057 0.095 0"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot2_B02_Revolute" type="revolute">
+    <parent link="taskboard_slot2"/>
+    <child link="taskboard_slot2_B02_Revolute"/>
+    <origin rpy="0 0 0" xyz=".057 0.095 0.011"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="100" />
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot2_B02" type="revolute">
+    <parent link="taskboard_slot2_B02_Revolute"/>
+    <child link="taskboard_slot2_B02"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="0" upper="1.57" effort="100" velocity="100" />
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot2_B01_Base" type="fixed">
+    <parent link="taskboard_slot2"/>
+    <child link="taskboard_slot2_B01_Base"/>
+    <origin rpy="0 0 0" xyz="-.057 0.095 0"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot2_B05_Base" type="fixed">
+    <parent link="taskboard_slot2"/>
+    <child link="taskboard_slot2_B05_Base"/>
+    <origin rpy="0 0 0" xyz="-.057 -0.0953 .0008"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot2_B03_Base" type="fixed">
+    <parent link="taskboard_slot2"/>
+    <child link="taskboard_slot2_B03_Base"/>
+    <origin rpy="0 0 0" xyz="-0.0571 0 0"/>
+  </joint>
+
+  <joint name="taskboard_slot2_B03_Base/taskboard_slot2_B03_Prismatic" type="prismatic">
+    <parent link="taskboard_slot2_B03_Base"/>
+    <child link="taskboard_slot2_B03_Prismatic"/>
+    <origin rpy="0 0 0" xyz="0 0 0.0267"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-.02" upper="0" effort="100" velocity="100"/>
+  </joint>
+
+  <joint name="taskboard_slot2_B03_Prismatic/taskboard_slot2_B03" type="revolute">
+    <parent link="taskboard_slot2_B03_Prismatic"/>
+    <child link="taskboard_slot2_B03"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="100"/>
+  </joint>
+
+  <joint name="taskboard_slot2_B03/taskboard_slot2_B03_Strip" type="fixed">
+    <parent link="taskboard_slot2_B03"/>
+    <child link="taskboard_slot2_B03_Strip"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+  
+  
+  <xacro:include filename="$(find r2_gazebo)/urdf/taskboard.B01.xacro" />
+  <xacro:include filename="$(find r2_gazebo)/urdf/taskboard.B05.xacro" />
+</robot>
+

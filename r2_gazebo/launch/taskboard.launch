@@ -1,0 +1,11 @@
+<launch>
+  <!-- load taskboard -->
+  <param name="taskboard_description" command="$(find xacro)/xacro.py '$(find r2_gazebo)/urdf/taskboard.urdf.xacro'" />
+  <node name="spawn_taskboard" pkg="gazebo_ros" type="spawn_model" args="-urdf -param taskboard_description -model taskboard" respawn="false" output="screen" />
+
+  <node pkg="robot_state_publisher" type="state_publisher" name="task_state_pub" >
+    <remap from="robot_description" to="taskboard_description" />
+    <remap from="joint_states" to="/taskboard/joint_states"/>
+  </node>
+</launch>
+

@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<robot name="slot1" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:macro name="button" params="name lowercase">
+    <xacro:std_mesh name="taskboard_slot1_${name}" mesh="tskbd_panel_assembly_slot1_${lowercase}.dae" mass="0.5" />
+    <joint name="taskboard_lower/taskboard_slot1_${name}" type="prismatic">
+        <parent link="taskboard_slot1"/>
+        <child link="taskboard_slot1_${name}"/>
+        <axis xyz="0 0 1" />
+        <limit lower="-0.0005" upper="0.001" effort="100" velocity="100" />
+    </joint>
+  </xacro:macro>
+  
+  <xacro:macro name="pullout_switch" params="num x">
+      <link name="taskboard_slot1_switch${num}_pullout">
+        <inertial>
+          <mass value=".01" />
+          <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+        </inertial>
+      </link>
+
+      <xacro:std_mesh name="taskboard_slot1_switch${num}" mesh="tskbd_panel_assembly_slot1_switch${num}.dae" mass="0.5" />
+      <joint name="taskboard_lower/taskboard_slot1_switch${num}" type="revolute">
+        <parent link="taskboard_slot1"/>
+        <child link="taskboard_slot1_switch${num}_pullout"/>
+        <origin rpy=".47 0 0" xyz="${x} -.089 0.009"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="10000000.0" lower="-.94" upper="0" velocity="1000"/>
+      </joint>
+
+      <joint name="taskboard_lower/taskboard_slot1_switch${num}_pullout" type="prismatic">
+        <parent link="taskboard_slot1_switch${num}_pullout"/>
+        <child link="taskboard_slot1_switch${num}"/>
+        <axis xyz="0 0 1" />
+        <limit lower="-.002" upper="0.00" effort="100" velocity="100" />
+      </joint>
+  </xacro:macro>
+
+  <xacro:std_mesh name="taskboard_slot1" mesh="tskbd_panel_assembly_slot1.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot1_panel" mesh="tskbd_panel_assembly_slot1_panel.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot1_labels" mesh="tskbd_panel_assembly_slot1_labels.dae" mass="5" />
+
+  <xacro:std_mesh name="taskboard_slot1_blackplate" mesh="tskbd_panel_assembly_slot1_blackplate.dae" mass="5" />
+
+  <!-- South Switches -->
+  <xacro:pullout_switch num="2" x="-.0635"/>
+  <xacro:pullout_switch num="3" x=" .0005"/>
+  <xacro:pullout_switch num="4" x=" .0635"/>
+
+  <!-- West button set -->
+  <xacro:button name="A1" lowercase="a1"/>
+  <xacro:button name="A2" lowercase="a2"/>
+  <xacro:button name="A3" lowercase="a3"/>
+  <xacro:button name="B1" lowercase="b1"/>
+  <xacro:button name="B2" lowercase="b2"/>
+  <xacro:button name="B3" lowercase="b3"/>
+  <xacro:button name="C1" lowercase="c1"/>
+  <xacro:button name="C2" lowercase="c2"/>
+  <xacro:button name="C3" lowercase="c3"/>
+
+  <!-- Northeast switch -->
+  <xacro:std_mesh name="taskboard_slot1_switch1_cover" mesh="tskbd_panel_assembly_slot1_switch1_cover.dae" mass="0.5" />  
+  <xacro:std_mesh name="taskboard_slot1_switch1" mesh="tskbd_panel_assembly_slot1_switch1.dae" mass="0.5" />  
+  <xacro:std_mesh name="taskboard_slot1_guard" mesh="tskbd_panel_assembly_slot1_guard.dae" mass="5" />  
+
+  <!-- East rocker switch -->  
+  <xacro:std_mesh name="taskboard_slot1_switch" mesh="tskbd_panel_assembly_slot1_switch.dae" mass="0.5" />
+  
+  
+  
+  
+  
+  <joint name="taskboard_lower/taskboard_slot1" type="fixed">
+    <parent link="taskboard_lower"/>
+    <child link="taskboard_slot1"/>
+    <origin rpy="0 0 0" xyz="-.362 0.0 0"/>
+  </joint>
+
+
+  <joint name="taskboard_lower/taskboard_slot1_panel" type="fixed">
+    <parent link="taskboard_lower"/>
+    <child link="taskboard_slot1_panel"/>
+    <origin rpy="0 0 0" xyz="-.362 0.0 0"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot1_labels" type="fixed">
+    <parent link="taskboard_lower"/>
+    <child link="taskboard_slot1_labels"/>
+    <origin rpy="0 0 0" xyz="-.362 0.0 0"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot1_switch1" type="revolute">
+    <parent link="taskboard_slot1"/>
+    <child link="taskboard_slot1_switch1"/>
+    <origin rpy="0.419 0 0" xyz=".037 .111 0.005"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="10000000.0" lower="-0.84" upper="0" velocity="1000"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot1_switch1_cover" type="revolute">
+    <parent link="taskboard_slot1"/>
+    <child link="taskboard_slot1_switch1_cover"/>
+    <origin rpy="0 0 0" xyz="0.037 0.124 0.011"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="10000000.0" lower="-1.57" upper="0" velocity="1000"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot1_guard" type="fixed">
+    <parent link="taskboard_slot1"/>
+    <child link="taskboard_slot1_guard"/>
+    <origin rpy="0 0 0" xyz="0.037 0.124 0.011"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot1_blackplate" type="fixed">
+    <parent link="taskboard_slot1"/>
+    <child link="taskboard_slot1_blackplate"/>
+  </joint>
+
+  <joint name="taskboard_lower/taskboard_slot1_switch" type="revolute">
+    <parent link="taskboard_slot1"/>
+    <child link="taskboard_slot1_switch"/>
+    <origin rpy="0 0 0" xyz=".05 .01 .011"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-.5" upper=".5" effort="100" velocity="100" />
+  </joint>
+</robot>
