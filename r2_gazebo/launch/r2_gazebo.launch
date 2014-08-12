@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+  <env name="GAZEBO_MODEL_PATH" value="$(find nasa_valves)/Media/"/>
   <arg name="robot"     default="true" />
   <arg name="gui"       default="true" />
   <arg name="world"     default="r2_empty" /> <!-- r2_empty_no_gravity-->
@@ -8,6 +9,7 @@
   <arg name="octomap"   default="false" />
 
   <arg name="taskboard" default="false" />
+  <arg name="valve"     default="false" />
 
   <param name="/use_sim_time" value="true"/>
 
@@ -28,6 +30,7 @@
 
     
   <include file="$(find r2_gazebo)/launch/taskboard.launch" if="$(arg taskboard)" />  
+  <include file="$(find nasa_valves)/launch/test_valve.launch" if="$(arg valve)" />
 
   <!-- start gui -->
   <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen" if="$(arg gui)"/>
