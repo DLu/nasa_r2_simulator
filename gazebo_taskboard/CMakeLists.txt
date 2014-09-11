@@ -1,28 +1,75 @@
-cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+cmake_minimum_required(VERSION 2.8.3)
+project(gazebo_taskboard)
 
-# Set the build type.  Options are:
-#  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage
-#  Debug          : w/ debug symbols, w/o optimization
-#  Release        : w/o debug symbols, w/ optimization
-#  RelWithDebInfo : w/ debug symbols, w/ optimization
-#  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
-set(ROS_BUILD_TYPE RelWithDebInfo)
+find_package(catkin REQUIRED)
 
-rosbuild_init()
+find_package(catkin REQUIRED message_generation std_msgs)
+find_package(gazebo REQUIRED)
 
-#set the default path for built executables to the "bin" directory
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-#set the default path for built libraries to the "lib" directory
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+## Generate messages in the 'msg' folder
+add_message_files(
+  FILES
+  TaskboardPanelA.msg
+)
 
-rosbuild_genmsg()
-rosbuild_gensrv()
+# Generate services in the 'srv' folder
+add_service_files(
+  FILES
+  ManipulateNumPad.srv
+  ManipulatePowerCover.srv
+  ManipulatePowerSwitch.srv
+  ManipulateRockerSwitch.srv
+  ManipulateSafeToggle.srv
+)
 
-#common commands for building c++ executables and libraries
-rosbuild_add_library(gazebo_taskboard src/GazeboTaskboard.cpp)
-#target_link_libraries(${PROJECT_NAME} another_library)
-#rosbuild_add_boost_directories()
-#rosbuild_link_boost(${PROJECT_NAME} thread)
-#rosbuild_add_executable(example examples/example.cpp)
-#target_link_libraries(example ${PROJECT_NAME})
+
+## Generate added messages and services with any dependencies listed here
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
+
+###################################
+## catkin specific configuration ##
+###################################
+## The catkin_package macro generates cmake config files for your package
+## Declare things to be passed to dependent projects
+## INCLUDE_DIRS: uncomment this if you package contains header files
+## LIBRARIES: libraries you create in this project that dependent projects also need
+## CATKIN_DEPENDS: catkin_packages dependent projects also need
+## DEPENDS: system dependencies of this project that dependent projects also need
+catkin_package(
+   INCLUDE_DIRS include
+#  LIBRARIES r2_gazebo
+   CATKIN_DEPENDS std_msgs
+#  DEPENDS system_lib
+)
+
+###########
+## Build ##
+###########
+#//////////////////////////////////////////////////////////***Gazebo
+include(FindPkgConfig)
+
+if (PKG_CONFIG_FOUND)
+  pkg_check_modules(GAZEBO gazebo)
+endif()
+
+## Specify additional locations of header files
+## Your package locations should be listed before other locations
+# include_directories(include)
+include_directories(
+  include
+  ${GAZEBO_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
+)
+
+link_directories(
+  ${GAZEBO_LIBRARY_DIRS}
+)
+
+# Declare a cpp library
+add_library(gazebo_taskboard
+  src/${PROJECT_NAME}/GazeboTaskboard.cpp
+)
+
