@@ -28,14 +28,14 @@
         <collision name="ISS_Surface">
           <geometry>
             <mesh>
-              <uri>model://ISS/US_Lab_ISS4.dae</uri>
+              <uri>file://ISS/US_Lab_ISS4.dae</uri>
             </mesh>
           </geometry>
         </collision>
         <visual name="ISS_Visual">
           <geometry>
             <mesh>
-              <uri>model://ISS/US_Lab_ISS4.dae</uri>
+              <uri>file://ISS/US_Lab_ISS4.dae</uri>
             </mesh>
           </geometry>
         </visual>

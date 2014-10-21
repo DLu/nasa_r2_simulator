@@ -7,12 +7,9 @@
   <author>Stephen Hart</author>
   <maintainer email="davidvlu@gmail.com">David Lu!!</maintainer>
   <maintainer email="stephen.hart@nasa.gov">Stephen Hart</maintainer>
+  <maintainer email="allison.thackston@nasa.gov">Allison Thackston</maintainer>
 
-
-  <!-- One license tag required, multiple allowed, one license per tag -->
-  <!-- Commonly used license strings: -->
-  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-  <license>TODO</license>
+  <license>BSD</license>
 
   <url type="website">http://wiki.ros.org/r2_gazebo</url>
 
@@ -26,7 +23,7 @@
   <run_depend>rospy</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>std_msgs</run_depend>
-  <run_depend>gazebo</run_depend>
+  <run_depend>gazebo_ros</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>std_msgs</run_depend>
   <run_depend>r2_msgs</run_depend>
@@ -35,6 +32,6 @@
   <run_depend>joint_trajectory_controller</run_depend>
 
   <export>
-    <gazebo gazebo_media_path="${prefix}"/>
+    <gazebo_ros gazebo_media_path="${prefix}"/>
   </export>
 </package>

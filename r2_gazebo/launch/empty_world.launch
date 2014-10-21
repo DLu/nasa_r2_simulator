@@ -8,8 +8,8 @@
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
   <arg name="verbose" default="false"/>
-  <arg name="world_name" default="$(find r2_gazebo)/worlds/r2_ISS.world"/>
-  
+  <arg name="world_name" default="$(find r2_gazebo)/worlds/r2_empty.world"/>
+
   <!-- set use_sim_time flag -->
   <group if="$(arg use_sim_time)">
     <param name="/use_sim_time" value="true" />
